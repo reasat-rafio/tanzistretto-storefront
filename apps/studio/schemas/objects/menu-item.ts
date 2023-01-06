@@ -1,37 +1,49 @@
 import {MdLink} from 'react-icons/md'
+import {Rule} from 'sanity'
 
-const MenuItems = {
+export default {
   name: 'menuItem',
   title: 'Menu Item',
   type: 'object',
   icon: MdLink,
+  validation: (Rule: Rule) =>
+    Rule.custom((content: any) => {
+      const pageUrlAndExternalURlBothPresent = !!content?.pageUrl && !!content?.externalUrl
+      return pageUrlAndExternalURlBothPresent
+        ? {
+            message:
+              'There should be only one page url or external url set. Please remove the unwanted one',
+          }
+        : true
+    }),
   fields: [
-    {name: 'title', type: 'string'},
-    // {
-    //   name: "highLight",
-    //   description: "toggle to show to the primary navbar",
-    //   type: "boolean",
-    // },
     {
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-      },
+      name: 'title',
+      type: 'string',
+      validation: (Rule: Rule) => Rule.required(),
+    },
+    {name: 'pageUrl', type: 'string'},
+    {name: 'externalUrl', type: 'url'},
+    {name: 'highlight', type: 'boolean'},
+    {
+      name: 'submenu',
+      title: 'Submenu',
+      type: 'array',
+      of: [{type: 'menuItem'}],
     },
   ],
   preview: {
     select: {
       title: 'title',
-      slug: 'slug.current',
+      pageUrl: 'pageUrl',
+      externalUrl: 'externalUrl',
     },
-    prepare({title, slug}: any) {
+    prepare({title, pageUrl, externalUrl}: any) {
       return {
-        title: `${title}`,
-        subtitle: `${slug}`,
+        title,
+        subtitle: pageUrl || externalUrl,
+        icon: MdLink,
       }
     },
   },
 }
-
-export default MenuItems

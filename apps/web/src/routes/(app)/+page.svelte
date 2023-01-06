@@ -1,9 +1,10 @@
 <script lang="ts">
   import { enhance, type SubmitFunction } from "$app/forms";
   import { supabaseClient } from "$lib/supabase";
-  import type { PageData } from "./$types";
+  // import type { PageData } from "./$types";
 
-  export let data: PageData;
+  // export let data: PageData;
+  export let data: any;
 
   const submitLogout: SubmitFunction = async ({ cancel }) => {
     const { error } = await supabaseClient.auth.signOut();
@@ -16,6 +17,11 @@
 
 <main>
   <h1 class="text-9xl text-green-700">Tanzistretto!</h1>
+
+  {#each data.site.nav.menu as menu}
+    <li>{menu.title}</li>
+  {/each}
+
   {#if data.session}
     <p>Welcome, {data.session.user.email}</p>
     <form action="/auth/logout" method="POST" use:enhance={submitLogout}>

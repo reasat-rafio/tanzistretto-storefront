@@ -1,4 +1,6 @@
 <script lang="ts">
+  export const prerender = true;
+
   import { invalidateAll } from "$app/navigation";
   import { supabaseClient } from "$lib/supabase";
   import { onMount } from "svelte";

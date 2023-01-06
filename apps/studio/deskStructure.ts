@@ -2,6 +2,7 @@ import {StructureBuilder} from 'sanity/desk'
 import {GrEdit} from 'react-icons/gr'
 import {RiPagesLine} from 'react-icons/ri'
 import {PageItemProps} from './types'
+import {FaSitemap} from 'react-icons/fa'
 
 // function SitePreview() {
 //   if (!process.env.SANITY_STUDIO_PREVIEW_URL) {
@@ -17,6 +18,10 @@ import {PageItemProps} from './types'
 //     />
 //   )
 // }
+const singleItem = (S: StructureBuilder, {schemaType, id, title, icon}: PageItemProps) =>
+  S.listItem({schemaType, title, id, icon}).child(
+    S.editor().id(id).title(title).schemaType(schemaType)
+  )
 
 const pageItem = (
   S: StructureBuilder,
@@ -35,4 +40,35 @@ export const AppStructure = (S: StructureBuilder) =>
   S.list()
     .title('Content')
     .id('__root__')
-    .items([S.listItem().title('Pages').icon(RiPagesLine).child(S.list().title('Pages').items([]))])
+    .items([
+      S.listItem()
+        .title('Site')
+        .icon(FaSitemap)
+        .child(
+          S.list()
+            .title('Site')
+            .items([
+              singleItem(S, {
+                schemaType: 'site.logos',
+                id: 'siteLogos',
+                title: 'Logos',
+              }),
+              singleItem(S, {
+                schemaType: 'site.navbar',
+                id: 'siteNav',
+                title: 'Navigations',
+              }),
+              singleItem(S, {
+                schemaType: 'site.footer',
+                id: 'siteFooter',
+                title: 'Footer',
+              }),
+              singleItem(S, {
+                schemaType: 'social',
+                id: 'social',
+                title: 'Socials',
+              }),
+            ])
+        ),
+      S.listItem().title('Pages').icon(RiPagesLine).child(S.list().title('Pages').items([])),
+    ])

@@ -3,5 +3,5 @@ export interface PageItemProps {
   id: string
   title: string
   icon?: any
-  slug: string
+  slug?: string
 }

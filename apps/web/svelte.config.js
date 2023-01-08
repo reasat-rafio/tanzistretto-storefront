@@ -5,7 +5,7 @@ import adapter from "@sveltejs/adapter-cloudflare";
 const config = {
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors
-  preprocess: vitePreprocess(),
+  preprocess: vitePreprocess({ postcss: true }),
 
   kit: {
     adapter: adapter(),

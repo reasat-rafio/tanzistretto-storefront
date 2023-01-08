@@ -69,6 +69,6 @@
   }
 
   .navitem {
-    @apply text-base uppercase text-cinereous flex justify-center items-center;
+    @apply text-sm uppercase text-cinereous flex justify-center items-center;
   }
 </style>

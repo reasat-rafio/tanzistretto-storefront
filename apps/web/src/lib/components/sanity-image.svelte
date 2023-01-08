@@ -29,6 +29,7 @@
     {src}
     alt={alt || image.alt || ""}
     class:loaded
+    class={$$props.class}
     bind:this={imageRef}
     style="aspect-ratio: {aspectRatio};"
   />
@@ -36,11 +37,11 @@
 
 <!-- some optional effects to make image loading look nicer -->
 <style>
-  img {
+  /* img {
     opacity: 0;
     transition: opacity 500ms ease-out;
   }
   img.loaded {
     opacity: 1;
-  }
+  } */
 </style>

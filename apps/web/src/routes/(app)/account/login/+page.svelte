@@ -15,19 +15,27 @@
     <form
       action="?/login"
       method="POST"
-      class="flex flex-col | text-secondary | space-y-5 mt-10 | uppercase "
+      class="flex flex-col | text-secondary | space-y-3 mt-10 | uppercase "
     >
       <label for=""> Email </label>
       <input class="input_fild" type="text" name="email" />
       <label for=""> Password </label>
       <input class="input_fild" type="password" name="password" />
-      <button type="submit" class="btn btn-primary">Login</button>
+      <div class="form-control">
+        <label class="label !justify-start cursor-pointer">
+          <input type="checkbox" class="checkbox" />
+          <span class="label-text pl-5">Remember me</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-wide bg-secondary border-none"
+        >Login</button
+      >
     </form>
   </section>
 </main>
 
 <style lang="postcss">
   .input_fild {
-    @apply p-4 border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
+    @apply pb-4 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
   }
 </style>

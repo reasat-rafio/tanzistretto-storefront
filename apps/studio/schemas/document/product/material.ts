@@ -26,6 +26,19 @@ const Material = {
       type: 'text',
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'description',
+    },
+    prepare({title, subtitle}: any) {
+      return {
+        title,
+        subtitle,
+        icon: GiChemicalDrop,
+      }
+    },
+  },
 }
 
 export default Material

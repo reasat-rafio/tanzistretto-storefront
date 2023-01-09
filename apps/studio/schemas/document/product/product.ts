@@ -84,7 +84,7 @@ const Product = {
     select: {
       title: 'title',
       subtitle: 'body',
-      media: 'defaultProductVariant.images.0',
+      media: 'defaultProductVariant.images[0]',
     },
   },
 }

@@ -36,6 +36,19 @@ const Category = {
       ],
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'description',
+    },
+    prepare({title, subtitle}: any) {
+      return {
+        title,
+        subtitle,
+        icon: BiCategoryAlt,
+      }
+    },
+  },
 }
 
 export default Category

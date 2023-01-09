@@ -1,8 +1,12 @@
 import {Rule} from 'sanity'
+import {VscTypeHierarchySub} from 'react-icons/vsc'
+import {TiFlowChildren} from 'react-icons/ti'
+
 const ProductVariant = {
   title: 'Product variant',
   name: 'productVariant',
   type: 'object',
+  icon: VscTypeHierarchySub,
   fields: [
     {
       name: 'title',
@@ -25,6 +29,7 @@ const ProductVariant = {
           title: 'individual Item Price',
           description: 'Options',
           type: 'object',
+          icon: TiFlowChildren,
           fields: [
             {
               name: 'name',
@@ -37,6 +42,19 @@ const ProductVariant = {
               validation: (Rule: Rule) => Rule.required(),
             },
           ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'price',
+            },
+            prepare({title, subtitle}: any) {
+              return {
+                title,
+                subtitle,
+                icon: TiFlowChildren,
+              }
+            },
+          },
         },
       ],
     },
@@ -81,7 +99,7 @@ const ProductVariant = {
     select: {
       title: 'title',
       subtitle: 'price',
-      media: 'images.0',
+      media: 'images[0]',
     },
   },
 }

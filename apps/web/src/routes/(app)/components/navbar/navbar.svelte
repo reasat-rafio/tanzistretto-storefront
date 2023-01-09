@@ -3,6 +3,7 @@
   import SanityImage from "$lib/components/sanity-image.svelte";
   import { secondaryNavData } from "./data";
   import { Motion } from "svelte-motion";
+  import { NavbarVariants } from "$lib/animations/navbar";
 
   export let site: Site;
   export let clientHeight: number;
@@ -13,29 +14,34 @@
   } = site;
   let scrollY: number;
 
-  $: scrolled = scrollY > 0;
+  $: scrolled = scrollY > 600;
 </script>
 
-<nav
-  bind:clientHeight
-  id="navbar"
-  class:navbar_static={!scrolled}
-  class:navbar_scroll={scrolled}
-  class="fixed top-0 left-0 w-screen | bg-transparent | p-3"
+<Motion
+  let:motion
+  initial="initial"
+  animate={scrolled ? "animate" : "initial"}
+  variants={NavbarVariants}
 >
-  <div class="container | grid grid-cols-3 | mx-auto">
-    <ul class="navitems_container justify-start">
-      {#each menu as { _key, title, pageUrl } (_key)}
-        <li class="navitem">
-          <a href={pageUrl}>
-            {title}
-          </a>
-        </li>
-      {/each}
-    </ul>
-    <div class="flex justify-center items-center">
-      <Motion animate={{ scale: scrolled ? 0.85 : 1 }} let:motion>
-        <a use:motion href="/">
+  <nav
+    bind:clientHeight
+    use:motion
+    id="navbar"
+    class="fixed top-0 left-0 w-screen | transition-all {scrolled &&
+      'shadow-xl'}"
+  >
+    <div class="container | grid grid-cols-3 | mx-auto">
+      <ul class="navitems_container justify-start">
+        {#each menu as { _key, title, pageUrl } (_key)}
+          <li class="navitem">
+            <a href={pageUrl}>
+              {title}
+            </a>
+          </li>
+        {/each}
+      </ul>
+      <div class="flex justify-center items-center">
+        <a href="/">
           <figure>
             <SanityImage
               class="max-h-16 object-contain h-full w-full"
@@ -47,17 +53,18 @@
             {/if}
           </figure>
         </a>
-      </Motion>
+      </div>
+      <ul class="navitems_container justify-end">
+        {#each secondaryNavData as { _id, title, url } (_id)}
+          <li class="navitem">
+            <a href={url}>{title}</a>
+          </li>
+        {/each}
+      </ul>
     </div>
-    <ul class="navitems_container justify-end">
-      {#each secondaryNavData as { _id, title, url } (_id)}
-        <li class="navitem">
-          <a href={url}>{title}</a>
-        </li>
-      {/each}
-    </ul>
-  </div>
-</nav>
+  </nav>
+</Motion>
+
 <svelte:window bind:scrollY />
 
 <style lang="postcss">

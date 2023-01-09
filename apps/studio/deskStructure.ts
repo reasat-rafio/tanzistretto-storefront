@@ -3,6 +3,7 @@ import {GrEdit} from 'react-icons/gr'
 import {RiPagesLine} from 'react-icons/ri'
 import {PageItemProps} from './types'
 import {FaSitemap} from 'react-icons/fa'
+import {GiLargeDress} from 'react-icons/gi'
 
 // function SitePreview() {
 //   if (!process.env.SANITY_STUDIO_PREVIEW_URL) {
@@ -71,4 +72,17 @@ export const AppStructure = (S: StructureBuilder) =>
             ])
         ),
       S.listItem().title('Pages').icon(RiPagesLine).child(S.list().title('Pages').items([])),
+      S.divider(),
+      S.listItem()
+        .title('Products')
+        .icon(GiLargeDress)
+        .child(
+          S.list()
+            .title('Products')
+            .items([
+              S.documentTypeListItem('product').title('Products'),
+              S.documentTypeListItem('material').title('Materials'),
+              S.documentTypeListItem('category').title('Categories'),
+            ])
+        ),
     ])

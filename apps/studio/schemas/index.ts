@@ -8,4 +8,23 @@ import Social from './document/site/social'
 import Menu from './objects/menu'
 import MenuItems from './objects/menu-item'
 
-export const schemaTypes = [SEO, CTA, Logos, Nav, Footer, Social, Menu, MenuItems]
+import Product from './document/product/product'
+import ProductVariant from './document/product/variant'
+import Category from './document/product/category'
+import Material from './document/product/material'
+
+export const schemaTypes = [
+  SEO,
+  CTA,
+  Logos,
+  Nav,
+  Footer,
+  Social,
+  Menu,
+  MenuItems,
+
+  Product,
+  ProductVariant,
+  Category,
+  Material,
+]

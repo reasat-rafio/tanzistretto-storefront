@@ -3,6 +3,7 @@ import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 import {AppStructure} from './deskStructure'
+import {colorInput} from '@sanity/color-input'
 
 export default defineConfig({
   name: 'default',
@@ -16,6 +17,7 @@ export default defineConfig({
       structure: AppStructure,
     }),
     visionTool(),
+    colorInput(),
   ],
 
   schema: {

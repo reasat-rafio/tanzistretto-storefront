@@ -9,6 +9,6 @@ export const secondaryNavData = [
   {
     _id: uuid(),
     title: "Account",
-    url: "",
+    url: "/account/login",
   },
 ];

@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { enhance, type SubmitFunction } from "$app/forms";
+  export let form;
+
+  const formAction: SubmitFunction = async ({ cancel }) => {
+    cancel();
+  };
 </script>
 
 <main class="container mx-auto my-40">
@@ -13,17 +19,18 @@
   <section class="mt-20">
     <h2 class="font-title | text-5xl font-thin">Login</h2>
     <form
+      use:enhance={formAction}
       action="?/login"
       method="POST"
       class="flex flex-col | text-secondary | space-y-3 mt-10 | uppercase "
     >
-      <label for=""> Email </label>
+      <label for="email"> Email </label>
       <input class="input_fild" type="text" name="email" />
-      <label for=""> Password </label>
+      <label for="password"> Password </label>
       <input class="input_fild" type="password" name="password" />
       <div class="form-control">
         <label class="label !justify-start cursor-pointer">
-          <input type="checkbox" class="checkbox" />
+          <input name="remember_me" type="checkbox" class="checkbox" />
           <span class="label-text pl-5">Remember me</span>
         </label>
       </div>
@@ -36,6 +43,6 @@
 
 <style lang="postcss">
   .input_fild {
-    @apply pb-4 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
+    @apply py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
   }
 </style>

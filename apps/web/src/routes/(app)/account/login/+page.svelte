@@ -2,8 +2,13 @@
   import { enhance, type SubmitFunction } from "$app/forms";
   export let form;
 
-  const formAction: SubmitFunction = async ({ cancel }) => {
-    cancel();
+  const formAction: SubmitFunction = async ({ form }) => {
+    return async ({ result, update }) => {
+      if (result.type === "success") {
+        form.reset();
+      }
+      update();
+    };
   };
 </script>
 
@@ -19,9 +24,9 @@
   <section class="mt-20">
     <h2 class="font-title | text-5xl font-thin">Login</h2>
     <form
-      use:enhance={formAction}
       action="?/login"
       method="POST"
+      use:enhance={formAction}
       class="flex flex-col | text-secondary | space-y-3 mt-10 | uppercase "
     >
       <label for="email"> Email </label>

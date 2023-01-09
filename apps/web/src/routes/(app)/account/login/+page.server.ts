@@ -29,10 +29,11 @@ export const actions: Actions = {
     } catch (err) {
       const { fieldErrors: errors } = err.flatten();
 
-      return {
-        data: formData,
+      return fail(400, {
+        message: "Validation error",
         errors,
-      };
+        data: formData,
+      });
     }
   },
 };

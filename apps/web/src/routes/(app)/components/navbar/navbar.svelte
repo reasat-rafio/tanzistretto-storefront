@@ -5,6 +5,8 @@
   import { Motion } from "svelte-motion";
 
   export let site: Site;
+  export let clientHeight: number;
+
   const {
     logos: { logo },
     nav: { menu },
@@ -15,6 +17,7 @@
 </script>
 
 <nav
+  bind:clientHeight
   id="navbar"
   class:navbar_static={!scrolled}
   class:navbar_scroll={scrolled}

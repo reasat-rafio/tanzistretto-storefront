@@ -6,14 +6,10 @@
 
   export let data: PageData;
   const site = data.site;
-  $: navbarHeight = 0;
-
-  onMount(() => {
-    navbarHeight = document.getElementById("navbar")?.clientHeight ?? 0;
-  });
+  let navbarHeight: number;
 </script>
 
-<Navbar {site} />
-<main style="margin-top: {navbarHeight}px;">
+<Navbar bind:clientHeight={navbarHeight} {site} />
+<main style="padding-top: {navbarHeight ?? 88}px;">
   <slot />
 </main>

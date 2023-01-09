@@ -13,7 +13,6 @@
 
   export let form: ActionData;
   let formError: IFormError;
-
   $: termsError = form?.errors?.terms ?? formError?.terms;
 
   const formAction: SubmitFunction = async ({
@@ -31,7 +30,7 @@
         options: { data: { username } },
       });
       if (err) console.log(err);
-      goto("/");
+      else goto("/");
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = err.flatten();

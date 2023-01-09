@@ -2,6 +2,7 @@ import { AuthApiError } from "@supabase/supabase-js";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { LoginSchema } from "$lib/validations/login";
+import { z } from "zod";
 
 export const actions: Actions = {
   login: async ({ request, locals }) => {
@@ -15,6 +16,9 @@ export const actions: Actions = {
       });
 
       if (err) {
+        console.log("====================================");
+        console.log(err);
+        console.log("====================================");
         if (err instanceof AuthApiError && err.status === 400) {
           return fail(400, {
             error: "Invalid credentials",
@@ -25,15 +29,17 @@ export const actions: Actions = {
         });
       }
 
-      throw redirect(303, "/");
+      throw redirect(307, "/");
     } catch (err) {
-      const { fieldErrors: errors } = err.flatten();
+      if (err instanceof z.ZodError) {
+        const { fieldErrors: errors } = err.flatten();
 
-      return fail(400, {
-        message: "Validation error",
-        errors,
-        data: formData,
-      });
+        return fail(400, {
+          message: "Validation error",
+          errors,
+          data: formData,
+        });
+      }
     }
   },
 };

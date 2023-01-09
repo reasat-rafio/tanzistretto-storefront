@@ -1,8 +1,4 @@
-import type {
-  SanityAsset,
-  SanityImageObject,
-  SanityImageSource,
-} from "@sanity/image-url/lib/types/types";
+import type { SanityAsset } from "@sanity/image-url/lib/types/types";
 
 export interface PageData {
   session: import("@supabase/supabase-js").Session | null;
@@ -51,4 +47,10 @@ export interface Menu {
   pageUrl: string;
   title: string;
   highlight?: boolean;
+}
+
+export interface IFormError {
+  [x: string]: string[] | undefined;
+  [x: number]: string[] | undefined;
+  [x: symbol]: string[] | undefined;
 }

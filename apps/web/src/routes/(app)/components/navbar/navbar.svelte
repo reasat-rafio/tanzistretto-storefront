@@ -50,7 +50,8 @@
       {#each secondaryNavData as { _id, title, url } (_id)}
         <li class="navitem">
           <a href={url}>{title}</a>
-        </li>{/each}
+        </li>
+      {/each}
     </ul>
   </div>
 </nav>

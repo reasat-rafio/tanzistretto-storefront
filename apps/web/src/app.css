@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  body {
     @apply font-body bg-alabaster text-primary;
   }
 }

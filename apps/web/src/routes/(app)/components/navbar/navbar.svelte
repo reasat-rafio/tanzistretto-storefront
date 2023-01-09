@@ -14,7 +14,7 @@
   } = site;
   let scrollY: number;
 
-  $: scrolled = scrollY > 600;
+  $: scrolled = scrollY > 300;
 </script>
 
 <Motion
@@ -27,8 +27,7 @@
     bind:clientHeight
     use:motion
     id="navbar"
-    class="fixed top-0 left-0 w-screen | transition-all {scrolled &&
-      'shadow-xl'}"
+    class="fixed top-0 left-0 w-screen"
   >
     <div class="container | grid grid-cols-3 | mx-auto">
       <ul class="navitems_container justify-start">

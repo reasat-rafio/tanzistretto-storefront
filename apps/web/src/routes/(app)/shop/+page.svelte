@@ -10,7 +10,10 @@
 
 <main class="container mx-auto">
   <header>
-    <h1>SHOP</h1>
+    <h1 class="flex flex-col | text-7xl | uppercase">
+      <span class="ml-10 | font-light text-black">Our</span>
+      <span class="font-title font-thin ">Product</span>
+    </h1>
   </header>
   <div class="grid grid-cols-12">
     <section class="col-span-2">

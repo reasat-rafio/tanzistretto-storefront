@@ -5,12 +5,40 @@ export const NavbarVariants: Variants = {
     backgroundColor: "#edece9",
     paddingTop: "1rem",
     paddingBottom: "1rem",
-    transition: { type: "spring", duration: 0.3 },
+    boxShadow: "",
+    transition: {
+      paddingTop: {
+        duration: 0.35,
+        ease: [0.445, 0.05, 0.55, 0.95],
+      },
+      paddingBottom: {
+        duration: 0.35,
+        ease: [0.445, 0.05, 0.55, 0.95],
+      },
+      backgroundColor: {
+        duration: 0.7,
+        ease: "easeIn",
+      },
+    },
   },
   animate: {
+    boxShadow: "rgb(0 0 0 / 20%) 0px 0px 20px",
     backgroundColor: "#eeeeee",
     paddingTop: ".5rem",
     paddingBottom: ".5rem",
-    transition: { type: "spring", duration: 0.2 },
+    transition: {
+      paddingTop: {
+        duration: 0.35,
+        ease: [0.445, 0.05, 0.55, 0.95],
+      },
+      paddingBottom: {
+        duration: 0.35,
+        ease: [0.445, 0.05, 0.55, 0.95],
+      },
+      backgroundColor: {
+        duration: 0.7,
+        ease: "easeIn",
+      },
+    },
   },
 };

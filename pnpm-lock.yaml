@@ -14,6 +14,7 @@ importers:
 
   apps/studio:
     specifiers:
+      '@sanity/cli': ^3.1.4
       '@sanity/color-input': ^3.0.2
       '@sanity/eslint-config-studio': ^2.0.1
       '@sanity/vision': ^3.0.0
@@ -27,6 +28,7 @@ importers:
       styled-components: ^5.2.0
       typescript: ^4.0.0
     dependencies:
+      '@sanity/cli': 3.1.4
       '@sanity/color-input': 3.0.2_m6pti3pxb3lwyhln2l5767ymzi
       '@sanity/vision': 3.1.4_23mhwjhnzfjwvdn7ol54k26zom
       react: 18.2.0

@@ -1,4 +1,4 @@
-import { client } from "$lib/sanity-client";
+import { sanity_client } from "$lib/sanity-client";
 import groq from "groq";
 import { error } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";

@@ -22,10 +22,12 @@
       selection = selection.filter(({ current }) => current !== slug.current);
 
     const newUrl = new URL($page.url);
-    newUrl?.searchParams?.set(
-      "materials",
-      selection.map(({ current }) => current).join(",")
-    );
+    if (!!selection.length)
+      newUrl?.searchParams?.set(
+        "materials",
+        selection.map(({ current }) => current).join(",")
+      );
+    else newUrl?.searchParams?.delete("materials");
 
     goto(newUrl.toString().replace(/%2C/g, ","), {
       replaceState: true,

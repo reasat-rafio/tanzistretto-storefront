@@ -2,7 +2,6 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import type { Category, Slug } from "$lib/@types/shop.types";
-  import { replaceStateWithQuery } from "$lib/helpers/global.helper";
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
@@ -21,10 +20,13 @@
       selection = selection.filter(({ current }) => current !== slug.current);
 
     const url = new URL($page.url);
-    url?.searchParams?.set(
-      "categories",
-      selection.map(({ current }) => current).join(",")
-    );
+    if (!!selection.length)
+      url?.searchParams?.set(
+        "categories",
+        selection.map(({ current }) => current).join(",")
+      );
+    else url?.searchParams?.delete("categories");
+
     goto(url.toString().replace(/%2C/g, ","), {
       replaceState: true,
       noScroll: true,

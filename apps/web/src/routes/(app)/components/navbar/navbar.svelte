@@ -4,9 +4,9 @@
   import { secondaryNavData } from "./data";
   import { Motion } from "svelte-motion";
   import { NavbarVariants } from "$lib/animations/navbar";
+  import { navbarHeight } from "$lib/stores/global.store";
 
   export let site: Site;
-  export let clientHeight: number;
 
   const {
     logos: { logo },
@@ -24,10 +24,10 @@
   variants={NavbarVariants}
 >
   <nav
-    bind:clientHeight
+    bind:clientHeight={$navbarHeight}
     use:motion
     id="navbar"
-    class="fixed top-0 left-0 w-screen"
+    class="fixed top-0 left-0 w-screen z-40"
   >
     <div class="container | grid grid-cols-3 | mx-auto">
       <ul class="navitems_container justify-start">

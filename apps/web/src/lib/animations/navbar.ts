@@ -5,7 +5,7 @@ export const NavbarVariants: Variants = {
     backgroundColor: "#edece9",
     paddingTop: "1rem",
     paddingBottom: "1rem",
-    boxShadow: "",
+
     transition: {
       paddingTop: {
         duration: 0.35,
@@ -19,10 +19,15 @@ export const NavbarVariants: Variants = {
         duration: 0.7,
         ease: "linear",
       },
+      boxShadow: {
+        duration: 0.35,
+        ease: "linear",
+      },
     },
   },
   animate: {
-    boxShadow: "rgb(0 0 0 / 20%) 0px 0px 20px",
+    boxShadow:
+      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
     backgroundColor: "#eeeeee",
     paddingTop: ".5rem",
     paddingBottom: ".5rem",
@@ -37,6 +42,10 @@ export const NavbarVariants: Variants = {
       },
       backgroundColor: {
         duration: 0.7,
+        ease: "easeIn",
+      },
+      boxShadow: {
+        duration: 0.35,
         ease: "easeIn",
       },
     },

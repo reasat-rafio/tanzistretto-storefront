@@ -13,7 +13,7 @@
   setContext("materials", materials);
 </script>
 
-<main class="container | my-20 mx-auto">
+<main class="container | my-20 mx-auto relative z-10">
   <header>
     <h1
       class="flex flex-col | uppercase text-[80px] leading-none tracking-tighter w-fit font-title"
@@ -22,7 +22,7 @@
       <span class="font-thin">Product</span>
     </h1>
   </header>
-  <div class="grid grid-cols-12 gap-x-5">
+  <div class="grid grid-cols-12 gap-x-5 mt-20">
     <section class="col-span-3">
       <Filters />
     </section>

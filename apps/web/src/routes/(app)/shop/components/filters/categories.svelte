@@ -34,7 +34,7 @@
     class="flex cursor-pointer w-full py-2 border-b border-cinereous"
     on:click={() => (expend = !expend)}
   >
-    <h3 class="flex-1">Categories</h3>
+    <h3 class="flex-1 uppercase text-xl">Categories</h3>
     <ExpendIcon {expend} />
   </div>
 

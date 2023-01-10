@@ -3,8 +3,7 @@
   import Material from "./material.svelte";
 </script>
 
-<aside>
-  Filters
+<aside class="flex flex-col space-y-2">
   <Categories />
   <Material />
 </aside>

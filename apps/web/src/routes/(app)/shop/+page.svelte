@@ -22,11 +22,11 @@
       <span class="font-thin">Product</span>
     </h1>
   </header>
-  <div class="grid grid-cols-12">
-    <section class="col-span-2">
+  <div class="grid grid-cols-12 gap-x-5">
+    <section class="col-span-3">
       <Filters />
     </section>
-    <section class="col-span-8">
+    <section class="col-span-9">
       <SortBy />
       <Products />
     </section>

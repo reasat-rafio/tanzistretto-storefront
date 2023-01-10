@@ -27,7 +27,10 @@
       selection.map(({ current }) => current).join(",")
     );
 
-    goto(newUrl.toString().replace(/%2C/g, ","));
+    goto(newUrl.toString().replace(/%2C/g, ","), {
+      replaceState: true,
+      noScroll: true,
+    });
   }
 </script>
 

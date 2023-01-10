@@ -19,7 +19,7 @@ const query = groq`{
       slug
     },
     defaultProductVariant {
-        fullSetPrice,
+        priceDetails,
         color,
         "images": images[0],
     },

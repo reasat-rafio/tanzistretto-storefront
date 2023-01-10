@@ -13,16 +13,29 @@ const ProductVariant = {
       type: 'string',
       validation: (Rule: Rule) => Rule.required(),
     },
-
     {
-      name: 'fullSetPrice',
-      type: 'number',
+      name: 'sizes',
+      type: 'array',
       validation: (Rule: Rule) => Rule.required(),
+      of: [
+        {
+          type: 'string',
+        },
+      ],
+      options: {
+        layout: 'tags',
+      },
     },
     {
-      name: 'individualPrices',
-      title: 'individual Item Prices',
+      title: 'Price Details',
+      name: 'priceDetails',
       type: 'array',
+      validation: (Rule: Rule) =>
+        Rule.required().custom((item: {name: string; price: number; isFullSet?: boolean}[]) => {
+          const fullsetArr = item.filter((e) => e.isFullSet)
+          if (fullsetArr.length !== 1) return 'Please Select 1 item as fullset'
+          return true
+        }),
       of: [
         {
           name: 'individualPrice',
@@ -32,24 +45,33 @@ const ProductVariant = {
           icon: TiFlowChildren,
           fields: [
             {
-              name: 'name',
-              type: 'string',
+              name: 'names',
+              type: 'array',
               validation: (Rule: Rule) => Rule.required(),
+              of: [
+                {
+                  type: 'string',
+                },
+              ],
+              options: {
+                layout: 'tags',
+              },
             },
             {
               name: 'price',
               type: 'number',
               validation: (Rule: Rule) => Rule.required(),
             },
+            {name: 'isFullSet', type: 'boolean'},
           ],
           preview: {
             select: {
-              title: 'name',
+              names: 'names',
               subtitle: 'price',
             },
-            prepare({title, subtitle}: any) {
+            prepare({names, subtitle}: any) {
               return {
-                title,
+                title: JSON.stringify(names),
                 subtitle,
                 icon: TiFlowChildren,
               }

@@ -17,7 +17,7 @@ export const NavbarVariants: Variants = {
       },
       backgroundColor: {
         duration: 0.7,
-        ease: "easeIn",
+        ease: "linear",
       },
     },
   },

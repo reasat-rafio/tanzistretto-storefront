@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "$lib/@types/globa.types";
 
-  export let data: PageData;
+  export let data: PageData<void>;
 </script>
 
 <main>

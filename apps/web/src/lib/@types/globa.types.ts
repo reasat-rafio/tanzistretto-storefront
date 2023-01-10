@@ -1,8 +1,9 @@
 import type { SanityAsset } from "@sanity/image-url/lib/types/types";
 
-export interface PageData {
+export interface PageData<T> {
   session: import("@supabase/supabase-js").Session | null;
   site: Site;
+  data: T;
 }
 
 export interface Site {

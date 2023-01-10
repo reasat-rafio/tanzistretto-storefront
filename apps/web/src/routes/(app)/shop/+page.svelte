@@ -1,18 +1,25 @@
 <script lang="ts">
+  import type { PageData } from "$lib/@types/globa.types";
+  import type { ShopPageProps } from "$lib/@types/shop.types";
+  import { setContext } from "svelte";
   import Filters from "./components/filters/filters.svelte";
   import Products from "./components/products.svelte";
   import SortBy from "./components/sort-by.svelte";
 
-  export let data;
-  //   let { data } = data.data;
-  console.log(data);
+  export let data: PageData<ShopPageProps>;
+  const { categories, materials, products } = data.data;
+
+  setContext("categories", categories);
+  setContext("materials", materials);
 </script>
 
-<main class="container mx-auto">
+<main class="container | my-20 mx-auto">
   <header>
-    <h1 class="flex flex-col | text-7xl | uppercase">
-      <span class="ml-10 | font-light text-black">Our</span>
-      <span class="font-title font-thin ">Product</span>
+    <h1
+      class="flex flex-col | uppercase text-[80px] leading-none tracking-tighter w-fit font-title"
+    >
+      <span class="ml-[15%] font-extralight italic text-black">Our</span>
+      <span class="font-thin">Product</span>
     </h1>
   </header>
   <div class="grid grid-cols-12">

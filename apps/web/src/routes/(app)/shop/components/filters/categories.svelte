@@ -1,29 +1,32 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
   import type { Category, Slug } from "$lib/@types/shop.types";
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
   import ExpendIcon from "../icons/expend-icon.svelte";
-  import { page } from "$app/stores";
 
   const categories = getContext("categories") as Category[];
   let expend = true;
   let selection: Slug[] = [];
 
-  $: {
-    console.log($page.url.searchParams.getAll("category"));
-  }
-
-  function selectCategoryAction(slug: Slug) {
+  const selectCategoryAction = (slug: Slug) => {
     const slugAlreadySelected = selection.find(
       ({ current }) => current === slug.current
     );
     if (!slugAlreadySelected) selection = [...selection, slug];
     else
       selection = selection.filter(({ current }) => current !== slug.current);
-    goto(`?category=${selection.map(({ current }) => current).join(",")}`);
-  }
+
+    const newUrl = new URL($page.url);
+    newUrl?.searchParams?.set(
+      "categories",
+      selection.map(({ current }) => current).join(",")
+    );
+
+    goto(newUrl.toString().replace(/%2C/g, ","));
+  };
 </script>
 
 <div>

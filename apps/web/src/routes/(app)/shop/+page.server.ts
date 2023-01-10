@@ -21,7 +21,7 @@ const query = groq`{
     defaultProductVariant {
         priceDetails,
         color,
-        "images": images[0],
+        images,
     },
     variants[]{
         _id,

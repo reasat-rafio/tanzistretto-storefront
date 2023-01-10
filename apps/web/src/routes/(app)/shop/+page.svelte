@@ -26,9 +26,9 @@
     <section class="col-span-3">
       <Filters />
     </section>
-    <section class="col-span-9">
+    <section class="col-span-9 px-10">
       <SortBy />
-      <Products />
+      <Products {products} />
     </section>
   </div>
 </main>

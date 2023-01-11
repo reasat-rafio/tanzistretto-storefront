@@ -33,7 +33,7 @@
     bind:clientHeight={$navbarHeight}
     use:motion
     id="navbar"
-    class="fixed top-0 left-0 w-screen z-40"
+    class="fixed top-0 left-0 w-screen z-30"
   >
     <div class="container | flex | mx-auto">
       <div class=" | flex justify-center items-center">

@@ -8,6 +8,7 @@
   import { cart, removeFormCart } from "$lib/stores/cart.store";
   import XCircleIcon from "$lib/components/icons/x-circle-icon.svelte";
   import SanityImage from "$lib/components/sanity-image.svelte";
+  import Backdrop from "$lib/components/backdrop.svelte";
 
   const closeCartAction = () => ($showCart = false);
   const removeItemFromCartAction = (_id: string) => removeFormCart(_id);
@@ -17,6 +18,7 @@
   );
 </script>
 
+<Backdrop show={$showCart} />
 <AnimatePresence show={$showCart}>
   <Motion
     initial={{ x: "100%" }}

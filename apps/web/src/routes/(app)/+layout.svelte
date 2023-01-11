@@ -10,23 +10,8 @@
   const site = data.site;
 </script>
 
+<Navbar {site} />
 <CartSidebar />
-<Motion
-  let:motion
-  initial={{ x: 0, filter: "blur(0px)" }}
-  animate={{
-    x: $showCart ? -100 : 0,
-    filter: $showCart ? "blur(8px)" : "blur(0px)",
-  }}
-  transition={{ ease: EASE, duration: 0.65 }}
->
-  <div
-    class={$showCart ? "pointer-events-none" : "pointer-events-auto"}
-    use:motion
-  >
-    <Navbar {site} />
-    <main style="padding-top: {$navbarHeight}px;">
-      <slot />
-    </main>
-  </div>
-</Motion>
+<main style="padding-top: {$navbarHeight}px;">
+  <slot />
+</main>

@@ -9,7 +9,7 @@
   import SearchIcon from "$lib/components/icons/search-icon.svelte";
   import UserIcon from "$lib/components/icons/user-icon.svelte";
   import CartIcon from "$lib/components/icons/cart-icon.svelte";
-  import { showCart } from "$lib/stores/global.store";
+  import { showCart, showQuickSearchDropdown } from "$lib/stores/global.store";
   import { cart } from "$lib/stores/cart.store";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
 
@@ -21,6 +21,7 @@
   let scrollY: number;
   $: scrolled = scrollY > 300;
   const showCartAction = () => ($showCart = true);
+  const showQuickSearchAction = () => ($showQuickSearchDropdown = true);
 </script>
 
 <Motion
@@ -62,7 +63,10 @@
       </ul>
 
       <div class="navitems_container justify-end">
-        <button class="navitem">
+        <button
+          on:click|stopPropagation={showQuickSearchAction}
+          class="navitem"
+        >
           <SearchIcon class="t-6 w-6 cursor-pointer" />
         </button>
         <button class="navitem">

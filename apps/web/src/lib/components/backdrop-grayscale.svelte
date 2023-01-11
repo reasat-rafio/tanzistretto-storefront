@@ -10,16 +10,18 @@
 <AnimatePresence {show}>
   <Motion
     let:motion
-    initial={{ backdropFilter: "blur(0px)" }}
-    animate={{
-      backdropFilter: "blur(6px)",
+    initial={{
+      opacity: 0,
     }}
-    exit={{ backdropFilter: "blur(0px)" }}
+    animate={{
+      opacity: 0.7,
+    }}
+    exit={{ opacity: 0 }}
     transition={{ ease: EASE, duration: 0.35 }}
   >
     <div
       use:motion
-      class="h-screen w-screen fixed top-0 left-0 z-30 bg-white/20"
+      class="h-screen w-screen fixed top-0 left-0 z-30 bg-black"
     />
   </Motion>
 </AnimatePresence>

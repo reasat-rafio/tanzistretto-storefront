@@ -11,10 +11,10 @@ interface ProductProps {
 }
 
 // Get the value out of storage on load.
-const stored = browser && JSON.parse(localStorage?.cart);
+const stored = browser && localStorage?.cart;
 
 // Set the stored value or a sane default.
-export const cart = writable<ProductProps[]>(stored || []);
+export const cart = writable<ProductProps[]>(stored ? JSON.parse(stored) : []);
 
 // Anytime the store changes, update the local storage value.
 cart.subscribe((value) => {

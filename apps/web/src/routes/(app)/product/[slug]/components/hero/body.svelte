@@ -6,12 +6,16 @@
   import { navbarHeight } from "$lib/stores/global.store";
   import { addToCart, cart } from "$lib/stores/cart.store";
 
-  const { _id, title, body }: ProductProps = getContext("product");
+  const {
+    _id,
+    title,
+    body,
+    defaultProductVariant: { images },
+  }: ProductProps = getContext("product");
   $: console.log($cart);
 
-  const addToTheCart = () => {
-    // addToCart({ _id: "asd", price: 12, quantity: 1 });
-  };
+  const addToTheCart = () =>
+    addToCart({ _id, price: 12, title, image: images[0] });
 </script>
 
 <section

@@ -1,25 +1,35 @@
+import { browser } from "$app/environment";
 import type { SanityAsset } from "@sanity/image-url/lib/types/types";
 import { writable } from "svelte/store";
 
 interface ProductProps {
   _id: string;
-  title: number;
+  title: string;
   price: number;
   image: SanityAsset;
-  quantity: number;
+  quantity?: number;
 }
 
-export const cart = writable<ProductProps[]>([]);
+// Get the value out of storage on load.
+const stored = browser && JSON.parse(localStorage?.cart);
+
+// Set the stored value or a sane default.
+export const cart = writable<ProductProps[]>(stored || []);
+
+// Anytime the store changes, update the local storage value.
+cart.subscribe((value) => {
+  if (browser) localStorage.cart = JSON.stringify(value);
+});
 
 // add a item to the cart
 export const addToCart = (product: ProductProps) => {
   cart.update((items) => {
     for (const item of items) {
       if (item._id === product._id) {
-        item.quantity += 1;
+        if (item?.quantity) item.quantity += 1;
         return items;
       }
     }
-    return [...items, product];
+    return [...items, { ...product, quantity: 1 }];
   });
 };

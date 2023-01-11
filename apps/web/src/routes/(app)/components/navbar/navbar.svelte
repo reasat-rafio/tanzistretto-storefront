@@ -10,6 +10,8 @@
   import UserIcon from "$lib/components/icons/user-icon.svelte";
   import CartIcon from "$lib/components/icons/cart-icon.svelte";
   import { showCart } from "$lib/stores/global.store";
+  import { cart } from "$lib/stores/cart.store";
+  import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
 
   export let site: Site;
 
@@ -22,6 +24,8 @@
   $: scrolled = scrollY > 300;
 
   const showCartAction = () => ($showCart = true);
+
+  $: console.log(cart);
 </script>
 
 <Motion
@@ -69,14 +73,31 @@
         <button class="navitem">
           <UserIcon class="h-6 w-6 cursor-pointer" />
         </button>
-        <button on:click|stopPropagation={showCartAction} class="navitem">
+        <button
+          on:click|stopPropagation={showCartAction}
+          class="navitem relative"
+        >
           <CartIcon class="h-6 w-6 cursor-pointer" />
+          <AnimatePresence show={!!$cart.length}>
+            <Motion
+              let:motion
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div
+                use:motion
+                class="avatar placeholder absolute top-0 translate-y-1/2 -right-3 font-body leading-none tracking-tighter"
+              >
+                <div
+                  class="bg-neutral-focus text-neutral-content rounded-full w-5"
+                >
+                  <span class="text-xs">{$cart.length}</span>
+                </div>
+              </div>
+            </Motion>
+          </AnimatePresence>
         </button>
-        <!-- {#each secondaryNavData as { _id, title, url } (_id)}
-          <li class="navitem">
-            <a href={url}>{title}</a>
-          </li>
-        {/each} -->
       </div>
     </div>
   </nav>

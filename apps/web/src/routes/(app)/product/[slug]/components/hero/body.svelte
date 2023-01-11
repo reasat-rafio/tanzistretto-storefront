@@ -4,8 +4,14 @@
   import { PortableText } from "@portabletext/svelte";
   import HeartIcon from "$lib/components/icons/heart-icon.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
+  import { addToCart, cart } from "$lib/stores/cart.store";
 
-  const { title, body }: ProductProps = getContext("product");
+  const { _id, title, body }: ProductProps = getContext("product");
+  $: console.log($cart);
+
+  const addToTheCart = () => {
+    // addToCart({ _id: "asd", price: 12, quantity: 1 });
+  };
 </script>
 
 <section
@@ -19,6 +25,7 @@
 
   <div class="flex justify-between items-center py-5 w-full">
     <button
+      on:click={addToTheCart}
       class="btn btn-wide btn-outline | !border-secondary hover:!bg-secondary text-secondary | font-body font-light text-base | duration-700"
       >Add to the cart</button
     >

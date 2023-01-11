@@ -55,3 +55,33 @@ export interface IFormError {
   [x: number]: string[] | undefined;
   [x: symbol]: string[] | undefined;
 }
+
+export interface Slug {
+  _type: string;
+  current: string;
+}
+export interface Color {
+  _type: string;
+  alpha: number;
+  hex: string;
+  hsl: Hsl;
+  hsv: Hsl;
+  rgb: RGB;
+}
+
+export interface Hsl {
+  _type: string;
+  a: number;
+  h: number;
+  l?: number;
+  s: number;
+  v?: number;
+}
+
+export interface RGB {
+  _type: string;
+  a: number;
+  b: number;
+  g: number;
+  r: number;
+}

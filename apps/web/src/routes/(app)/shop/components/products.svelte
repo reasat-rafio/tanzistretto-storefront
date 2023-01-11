@@ -17,9 +17,6 @@
               maxWidth={500}
               image={images[0]}
             />
-            {#if images[0]?.caption}
-              <figcaption>{images[0].caption}</figcaption>
-            {/if}
           </figure>
 
           <section class="flex flex-col">

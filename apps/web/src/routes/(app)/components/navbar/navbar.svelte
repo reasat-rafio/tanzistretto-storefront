@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Site } from "$lib/@types/globa.types";
+  import type { Site } from "$lib/@types/global.types";
   import SanityImage from "$lib/components/sanity-image.svelte";
   import { secondaryNavData } from "./data";
   import { Motion } from "svelte-motion";

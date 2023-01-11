@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Site } from "$lib/@types/globa.types";
+  import type { Site } from "$lib/@types/global.types";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
   import Navbar from "./components/navbar/navbar.svelte";

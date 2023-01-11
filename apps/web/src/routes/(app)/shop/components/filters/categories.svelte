@@ -35,13 +35,13 @@
 </script>
 
 <div>
-  <div
-    class="flex cursor-pointer w-full py-2 border-b border-cinereous"
+  <button
+    class="flex cursor-pointer w-full py-2 border-b border-cinereous text-left"
     on:click={() => (expend = !expend)}
   >
     <h3 class="flex-1 uppercase text-xl">Categories</h3>
     <ExpendIcon {expend} />
-  </div>
+  </button>
 
   <AnimatePresence show={expend}>
     <Motion
@@ -57,10 +57,9 @@
     >
       <ul class="flex flex-col | space-y-2" use:motion>
         {#each categories as { _id, slug, title } (_id)}
-          <label
+          <button
             on:click={() => selectCategoryAction(slug)}
             class="flex items-center | space-x-2"
-            for="categories_check_box"
           >
             <input
               bind:group={selection}
@@ -72,7 +71,7 @@
             <span>
               {title}
             </span>
-          </label>
+          </button>
         {/each}
       </ul>
     </Motion>

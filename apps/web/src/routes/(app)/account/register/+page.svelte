@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance, type SubmitFunction } from "$app/forms";
   import { goto } from "$app/navigation";
-  import type { IFormError } from "$lib/@types/globa.types";
+  import type { IFormError } from "$lib/@types/global.types";
   import Input from "$lib/components/ui/input.svelte";
   import { supabaseClient } from "$lib/supabase";
   import {

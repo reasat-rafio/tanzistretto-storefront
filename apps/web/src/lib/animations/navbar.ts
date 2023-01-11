@@ -1,3 +1,4 @@
+import { EASE } from "$lib/helpers/constants";
 import type { Variants } from "svelte-motion";
 
 export const NavbarVariants: Variants = {
@@ -9,11 +10,11 @@ export const NavbarVariants: Variants = {
     transition: {
       paddingTop: {
         duration: 0.35,
-        ease: [0.445, 0.05, 0.55, 0.95],
+        ease: EASE,
       },
       paddingBottom: {
         duration: 0.35,
-        ease: [0.445, 0.05, 0.55, 0.95],
+        ease: EASE,
       },
       backgroundColor: {
         duration: 0.7,
@@ -34,11 +35,11 @@ export const NavbarVariants: Variants = {
     transition: {
       paddingTop: {
         duration: 0.35,
-        ease: [0.445, 0.05, 0.55, 0.95],
+        ease: EASE,
       },
       paddingBottom: {
         duration: 0.35,
-        ease: [0.445, 0.05, 0.55, 0.95],
+        ease: EASE,
       },
       backgroundColor: {
         duration: 0.7,

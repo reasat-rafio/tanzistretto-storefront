@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PageData } from "$lib/@types/globa.types";
+  import type { PageData } from "$lib/@types/global.types";
 
   export let data: PageData<void>;
 </script>

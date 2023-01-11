@@ -1,4 +1,5 @@
 import type { SanityAsset } from "@sanity/image-url/lib/types/types";
+import type { Color, Slug } from "./global.types";
 
 export interface ShopPageProps {
   categories: Category[];
@@ -10,11 +11,6 @@ export interface Category {
   _id: string;
   slug: Slug;
   title: string;
-}
-
-export interface Slug {
-  _type: string;
-  current: string;
 }
 
 export interface Product {
@@ -39,31 +35,6 @@ export interface PriceDetailsProps {
   isFullSet?: boolean;
   names: string[];
   price: number;
-}
-export interface Color {
-  _type: string;
-  alpha: number;
-  hex: string;
-  hsl: Hsl;
-  hsv: Hsl;
-  rgb: RGB;
-}
-
-export interface Hsl {
-  _type: string;
-  a: number;
-  h: number;
-  l?: number;
-  s: number;
-  v?: number;
-}
-
-export interface RGB {
-  _type: string;
-  a: number;
-  b: number;
-  g: number;
-  r: number;
 }
 
 export interface Asset {

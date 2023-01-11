@@ -10,12 +10,12 @@
     _id,
     title,
     body,
-    defaultProductVariant: { images },
+    defaultProductVariant: { images, priceDetails },
   }: ProductProps = getContext("product");
   $: console.log($cart);
 
   const addToTheCart = () =>
-    addToCart({ _id, price: 12, title, image: images[0] });
+    addToCart({ _id, price: priceDetails[0].price, title, image: images[0] });
 </script>
 
 <section
@@ -30,7 +30,7 @@
   <div class="flex justify-between items-center py-5 w-full">
     <button
       on:click={addToTheCart}
-      class="btn btn-wide btn-outline | !border-secondary hover:!bg-secondary text-secondary | font-body font-light text-base | duration-700"
+      class="btn btn-wide border-secondary bg-secondary  font-body text-base duration-700"
       >Add to the cart</button
     >
     <HeartIcon class="h-9 w-9" />

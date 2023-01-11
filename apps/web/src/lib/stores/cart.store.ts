@@ -33,3 +33,19 @@ export const addToCart = (product: ProductProps) => {
     return [...items, { ...product, quantity: 1 }];
   });
 };
+
+// remove a item to the cart
+export const removeFormCart = (_id: string) => {
+  cart.update((items) => {
+    for (const item of items) {
+      if (item._id === _id) {
+        if (item?.quantity && item.quantity > 1) {
+          item.quantity -= 1;
+          return items;
+        }
+      }
+    }
+
+    return items.filter((cartItem) => cartItem._id != _id);
+  });
+};

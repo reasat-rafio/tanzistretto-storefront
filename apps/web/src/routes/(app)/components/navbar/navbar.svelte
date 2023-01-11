@@ -14,18 +14,13 @@
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
 
   export let site: Site;
-
   const {
     logos: { logo },
     nav: { menu },
   } = site;
   let scrollY: number;
-
   $: scrolled = scrollY > 300;
-
   const showCartAction = () => ($showCart = true);
-
-  $: console.log(cart);
 </script>
 
 <Motion

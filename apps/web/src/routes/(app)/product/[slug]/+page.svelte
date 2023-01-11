@@ -1,8 +1,13 @@
 <script lang="ts">
+  import { setContext } from "svelte";
+  import Hero from "./components/hero/hero.svelte";
+
   export let data;
-  console.log("====================================");
-  console.log(data.data);
-  console.log("====================================");
+  const { product } = data.data;
+
+  setContext("product", product);
 </script>
 
-Hello
+<main>
+  <Hero />
+</main>

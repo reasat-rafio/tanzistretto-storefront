@@ -1,8 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import type { Slug } from "$lib/@types/global.types";
   // TODO change the slug types to global.types
-  import type { Category, Slug } from "$lib/@types/shop.types";
+  import type { Category } from "$lib/@types/shop.types";
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
@@ -37,13 +38,14 @@
 </script>
 
 <div>
-  <div
+  <button
     class="flex cursor-pointer w-full py-2 border-b border-cinereous"
     on:click={() => (expend = !expend)}
   >
-    <h3 class="flex-1 uppercase text-xl">Materials</h3>
+    <!-- TODO make sure this is ligal -->
+    <h3 class="flex-1 uppercase text-xl text-left">Materials</h3>
     <ExpendIcon {expend} />
-  </div>
+  </button>
 
   <AnimatePresence show={expend}>
     <Motion
@@ -59,10 +61,9 @@
     >
       <ul class="flex flex-col | space-y-2" use:motion>
         {#each materials as { _id, slug, title } (_id)}
-          <label
+          <button
             on:click={() => selectMaterialAction(slug)}
             class="flex items-center | space-x-2"
-            for="material_check_box"
           >
             <input
               bind:group={selection}
@@ -74,7 +75,7 @@
             <span>
               {title}
             </span>
-          </label>
+          </button>
         {/each}
       </ul>
     </Motion>

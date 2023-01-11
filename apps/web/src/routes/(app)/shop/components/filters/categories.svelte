@@ -1,7 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import type { Category, Slug } from "$lib/@types/shop.types";
+  import type { Slug } from "$lib/@types/global.types";
+  import type { Category } from "$lib/@types/shop.types";
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";

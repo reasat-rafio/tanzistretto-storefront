@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Product } from "$lib/@types/shop.types";
+  import HeartIcon from "$lib/components/icons/heart-icon.svelte";
   import SanityImage from "$lib/components/sanity-image.svelte";
-  import HeartIcon from "./icons/heart-icon.svelte";
+  import { TAKA_SYMBOL } from "$lib/helpers/constants";
 
   export let products: Product[];
 </script>
@@ -26,14 +27,16 @@
               {title}
             </h3>
             <span class="text-xl"
-              >{priceDetails.filter((e) => e?.isFullSet)[0].price} ৳</span
+              >{priceDetails.filter((e) => e?.isFullSet)[0].price}
+              {TAKA_SYMBOL}</span
             >
             <div class="flex justify-between items-center py-5">
+              <!-- TODO add common button variant -->
               <button
                 class="btn btn-wide btn-outline | !border-secondary hover:!bg-secondary text-secondary | font-body font-light text-base | duration-700"
                 >View Product</button
               >
-              <HeartIcon />
+              <HeartIcon class="h-7 w-7" />
             </div>
           </section>
         </a>

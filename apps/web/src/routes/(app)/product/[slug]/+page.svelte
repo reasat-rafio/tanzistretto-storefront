@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { makeOpenGraphImages } from "$lib/helpers/global.helper";
   import { setContext } from "svelte";
+  import SvelteSeo from "svelte-seo";
   import Hero from "./components/hero/hero.svelte";
 
   export let data;
@@ -8,6 +10,13 @@
   setContext("product", product);
 </script>
 
+<SvelteSeo
+  title={product.seo.title}
+  description={product.seo.description}
+  openGraph={{
+    images: makeOpenGraphImages(product.seo.ogImage, product.seo.title),
+  }}
+/>
 <main>
   <Hero />
 </main>

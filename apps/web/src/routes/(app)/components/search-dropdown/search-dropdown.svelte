@@ -13,7 +13,6 @@
 
 <!-- <BackdropGrayscale show={$showQuickSearchDropdown} /> -->
 <BackdropBlur show={$showQuickSearchDropdown} />
-
 <AnimatePresence show={$showQuickSearchDropdown}>
   <Motion
     initial={{ y: "-100%" }}

@@ -13,9 +13,6 @@ const query = (slug: string) => groq`{
 
 export const load = (async ({ params }) => {
   const data = await sanity_client.fetch(query(params.slug));
-  console.log("====================================");
-  console.log(data);
-  console.log("====================================");
   if (!data?.product) {
     throw error(404, {
       message: "Not found",

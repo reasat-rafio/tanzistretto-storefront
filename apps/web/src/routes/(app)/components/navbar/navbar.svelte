@@ -69,9 +69,9 @@
         >
           <SearchIcon class="t-6 w-6 cursor-pointer" />
         </button>
-        <button class="navitem">
+        <a class="navitem" href="/my-account">
           <UserIcon class="h-6 w-6 cursor-pointer" />
-        </button>
+        </a>
         <button
           on:click|stopPropagation={showCartAction}
           class="navitem relative"

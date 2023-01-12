@@ -1,15 +1,32 @@
-import { AuthApiError } from "@supabase/supabase-js";
+import { AuthApiError, type Provider } from "@supabase/supabase-js";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { RegisterSchema } from "$lib/validations/register";
 import { z } from "zod";
 
+const OAUTH_PRVIDERS = ["google", "facebook"];
 export const actions: Actions = {
-  register: async ({ request, locals }) => {
+  register: async ({ request, locals, url }) => {
     const formData = Object.fromEntries(await request.formData());
+    const provider = url.searchParams.get("provider") as Provider;
 
     try {
       const { email, password, username } = RegisterSchema.parse(formData);
+      if (provider && OAUTH_PRVIDERS.includes(provider)) {
+        const { data, error: err } = await locals.sb.auth.signInWithOAuth({
+          provider: provider,
+        });
+
+        if (err) {
+          console.log(err);
+          return fail(400, {
+            message: "something went wrong",
+          });
+        }
+
+        throw redirect(303, data.url);
+      }
+
       const { data, error: err } = await locals.sb.auth.signUp({
         email,
         password,

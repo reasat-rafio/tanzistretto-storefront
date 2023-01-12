@@ -2,18 +2,42 @@
   import { enhance, type SubmitFunction } from "$app/forms";
   import { goto } from "$app/navigation";
   import type { IFormError } from "$lib/@types/global.types";
+  import FacebookIcon from "$lib/components/icons/facebook-icon.svelte";
+  import GoogleIcon from "$lib/components/icons/google-icon.svelte";
   import Input from "$lib/components/ui/input.svelte";
+  import { navbarHeight } from "$lib/stores/global.store";
   import { supabaseClient } from "$lib/supabase";
   import {
     RegisterSchema,
     type IRegisterSchema,
   } from "$lib/validations/register";
+  import type { Provider } from "@supabase/supabase-js";
   import { z } from "zod";
   import type { ActionData } from "./$types";
 
   export let form: ActionData;
   let formError: IFormError;
   $: termsError = form?.errors?.terms ?? formError?.terms;
+
+  const signInWithProvider = async (provider: Provider) => {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: provider,
+    });
+  };
+
+  const submitSocialLogin: SubmitFunction = async ({ action, cancel }) => {
+    switch (action.searchParams.get("provider")) {
+      case "google":
+        await signInWithProvider("google");
+        break;
+      case "facebook":
+        await signInWithProvider("facebook");
+        break;
+      default:
+        break;
+    }
+    cancel();
+  };
 
   const formAction: SubmitFunction = async ({
     form: formNode,
@@ -41,7 +65,10 @@
   };
 </script>
 
-<main class="container mx-auto my-40">
+<main
+  style="min-height: calc(100vh - {$navbarHeight}px);"
+  class="container mx-auto pt-20"
+>
   <section>
     <header>
       <h1 class="flex flex-col | text-7xl | uppercase">
@@ -94,6 +121,26 @@
       <button type="submit" class="btn btn-wide bg-secondary border-none"
         >Register</button
       >
+    </form>
+
+    <form
+      class="flex space-x-5 py-5"
+      method="POST"
+      use:enhance={submitSocialLogin}
+    >
+      <button
+        formaction="?/register&provider=facebook"
+        class="btn btn-wide bg-secondary border-none flex space-x-2"
+      >
+        <FacebookIcon />
+      </button>
+      <button
+        formaction="?/register&provider=google"
+        class="btn btn-wide bg-secondary border-none flex space-x-2"
+      >
+        <GoogleIcon />
+      </button>
+      <button />
     </form>
   </section>
 </main>

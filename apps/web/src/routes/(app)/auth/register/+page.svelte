@@ -15,7 +15,8 @@
   import { z } from "zod";
   import type { ActionData } from "./$types";
 
-  export let form: ActionData;
+  // TODO add types
+  export let form: any;
   let formError: IFormError;
   $: termsError = form?.errors?.terms ?? formError?.terms;
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-  export let erros: string[] | null = null;
+  export let error: string[] | null = null;
+  export let type: string = "text";
   export let name: string;
   export let placeholder: string | undefined = undefined;
 </script>
@@ -9,8 +10,8 @@
     <slot />
   </label>
   <textarea class="input_fild" {placeholder} {name} cols="30" rows="2" />
-  {#if erros}
-    {#each erros as err}
+  {#if error}
+    {#each error as err}
       <span class="error_msg">{err}</span>
     {/each}
   {/if}

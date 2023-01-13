@@ -38,4 +38,13 @@
       </tbody>
     </table>
   </div>
+
+  <div class="mt-10">
+    <button
+      type="submit"
+      class="btn btn-wide bg-secondary border-none block ml-auto"
+    >
+      Place Order
+    </button>
+  </div>
 </div>

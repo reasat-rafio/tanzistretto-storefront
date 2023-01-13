@@ -89,18 +89,18 @@
       <Input
         type="text"
         name="username"
-        erros={form?.errors?.username || formError?.username}>Username</Input
+        error={form?.errors?.username || formError?.username}>Username</Input
       >
-      <Input type="email" name="email" erros={form?.errors?.email}>Email</Input>
+      <Input type="email" name="email" error={form?.errors?.email}>Email</Input>
       <Input
         type="password"
         name="password"
-        erros={form?.errors?.password || formError?.password}>Password</Input
+        error={form?.errors?.password || formError?.password}>Password</Input
       >
       <Input
         type="password"
         name="passwordConfirm"
-        erros={form?.errors?.passwordConfirm || formError?.passwordConfirm}
+        error={form?.errors?.passwordConfirm || formError?.passwordConfirm}
         >Confirm Password</Input
       >
       <div class="form-control">

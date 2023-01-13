@@ -21,7 +21,7 @@
   </section>
 
   <section class="grid grid-cols-12 | mt-20 gap-x-10">
-    <BillingDetails class="col-span-7" />
-    <YourOrder class="col-span-5" />
+    <BillingDetails class="col-span-6" />
+    <YourOrder class="col-span-6" />
   </section>
 </main>

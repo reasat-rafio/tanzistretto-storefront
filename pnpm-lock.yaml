@@ -46,6 +46,7 @@ importers:
   apps/web:
     specifiers:
       '@portabletext/svelte': ^1.0.1
+      '@rgossiaux/svelte-headlessui': ^1.0.2
       '@sanity/client': ^4.0.0
       '@sanity/image-url': ^1.0.1
       '@supabase/auth-helpers-sveltekit': ^0.8.6
@@ -81,6 +82,7 @@ importers:
       zod: 3.20.2
     devDependencies:
       '@portabletext/svelte': 1.0.1_svelte@3.55.0
+      '@rgossiaux/svelte-headlessui': 1.0.2_svelte@3.55.0
       '@supabase/auth-helpers-sveltekit': 0.8.6_qtvf6mjfeick7xf5purdyuznsu
       '@supabase/supabase-js': 2.2.3
       '@svelte-put/clickoutside': 1.2.0
@@ -2084,6 +2086,14 @@ packages:
       react-lifecycles-compat: 3.0.4
       react-style-proptype: 3.2.2
     dev: false
+
+  /@rgossiaux/svelte-headlessui/1.0.2_svelte@3.55.0:
+    resolution: {integrity: sha512-sauopYTSivhzXe1kAvgawkhyYJcQlK8Li3p0d2OtcCIVprOzdbard5lbqWB4xHDv83zAobt2mR08oizO2poHLQ==}
+    peerDependencies:
+      svelte: ^3.44.0
+    dependencies:
+      svelte: 3.55.0
+    dev: true
 
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}

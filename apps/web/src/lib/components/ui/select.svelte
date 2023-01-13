@@ -1,20 +1,20 @@
 <script lang="ts">
-  export let erros: string[] | null = null;
   export let type: string = "text";
   export let name: string;
   export let placeholder: string | undefined = undefined;
+  export let data: { name: string }[];
 </script>
 
-<div class="input_wrapper">
+<div class="input_wrapper relative">
   <label for={name}>
     <slot />
   </label>
-  <input {placeholder} class="input_fild" {type} {name} />
-  {#if erros}
-    {#each erros as err}
-      <span class="error_msg">{err}</span>
+  <select {name} class="select input_fild">
+    {#each data as { name }}
+      <option>{name}</option>
     {/each}
-  {/if}
+  </select>
+  <span class="absolute bottom-0 bg-primary h-[1px] w-full" />
 </div>
 
 <style lang="postcss">
@@ -23,7 +23,7 @@
   }
 
   .input_fild {
-    @apply py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
+    @apply !py-3 !px-0 !text-sm focus:outline-none bg-transparent appearance-none !text-primary;
   }
 
   .error_msg {

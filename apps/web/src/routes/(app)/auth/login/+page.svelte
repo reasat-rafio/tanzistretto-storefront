@@ -7,7 +7,7 @@
   export let form;
 
   const signInWithProvider = async (provider: Provider) => {
-    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+    const { data, error } = await supabaseClientww.auth.signInWithOAuth({
       provider: provider,
     });
   };

@@ -90,7 +90,7 @@
           </div>
           <div>
             <button class="__btn">View Cart</button>
-            <button class="__btn">Chcekout</button>
+            <a href="/checkout" class="__btn">Chcekout</a>
           </div>
         </section>
       {:else}

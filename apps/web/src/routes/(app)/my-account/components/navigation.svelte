@@ -2,9 +2,12 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { navbarHeight } from "$lib/stores/global.store";
+  import type { User } from "@supabase/supabase-js";
   import { NavigationData } from "./data";
+  export let user: User | undefined;
 
   $: activeNavigation = $page.url.searchParams.get("render");
+  $: avater = user?.user_metadata?.avatar_url;
 
   const selectNavigationAction = (slug: string) => {
     const url = new URL($page.url);
@@ -22,7 +25,12 @@
 >
   <div class="avatar placeholder">
     <div class="bg-neutral-focus text-neutral-content rounded-full w-24">
-      <span class="text-3xl">K</span>
+      <img
+        class="h-full w-full object-cover"
+        src={avater}
+        alt="img"
+        referrerpolicy="no-referrer"
+      />
     </div>
   </div>
 

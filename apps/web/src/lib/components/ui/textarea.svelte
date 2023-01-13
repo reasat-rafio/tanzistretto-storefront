@@ -1,6 +1,5 @@
 <script lang="ts">
   export let erros: string[] | null = null;
-  export let type: string = "text";
   export let name: string;
   export let placeholder: string | undefined = undefined;
 </script>
@@ -9,7 +8,7 @@
   <label for={name}>
     <slot />
   </label>
-  <input {placeholder} class="input_fild" {type} {name} />
+  <textarea class="input_fild" {placeholder} {name} cols="30" rows="2" />
   {#if erros}
     {#each erros as err}
       <span class="error_msg">{err}</span>

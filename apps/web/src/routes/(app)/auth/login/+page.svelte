@@ -1,6 +1,30 @@
 <script lang="ts">
   import { enhance, type SubmitFunction } from "$app/forms";
+  import FacebookIcon from "$lib/components/icons/facebook-icon.svelte";
+  import GoogleIcon from "$lib/components/icons/google-icon.svelte";
+  import { supabaseClient } from "$lib/supabase";
+  import type { Provider } from "@supabase/supabase-js";
   export let form;
+
+  const signInWithProvider = async (provider: Provider) => {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: provider,
+    });
+  };
+
+  const submitSocialLogin: SubmitFunction = async ({ action, cancel }) => {
+    switch (action.searchParams.get("provider")) {
+      case "google":
+        await signInWithProvider("google");
+        break;
+      case "facebook":
+        await signInWithProvider("facebook");
+        break;
+      default:
+        break;
+    }
+    cancel();
+  };
 
   const formAction: SubmitFunction = async ({ form }) => {
     return async ({ result, update }) => {
@@ -42,6 +66,26 @@
       <button type="submit" class="btn btn-wide bg-secondary border-none"
         >Login</button
       >
+    </form>
+
+    <form
+      class="flex space-x-5 py-5"
+      method="POST"
+      use:enhance={submitSocialLogin}
+    >
+      <button
+        formaction="?/register&provider=facebook"
+        class="btn btn-wide bg-secondary border-none flex space-x-2"
+      >
+        <FacebookIcon />
+      </button>
+      <button
+        formaction="?/register&provider=google"
+        class="btn btn-wide bg-secondary border-none flex space-x-2"
+      >
+        <GoogleIcon />
+      </button>
+      <button />
     </form>
   </section>
 </main>

@@ -13,6 +13,9 @@ import ProductVariant from './document/product/variant'
 import Category from './document/product/category'
 import Material from './document/product/material'
 
+import HomePage from './document/pages/home'
+import HomePageHero from './objects/pages/home/hero'
+
 export const schemaTypes = [
   SEO,
   CTA,
@@ -27,4 +30,7 @@ export const schemaTypes = [
   ProductVariant,
   Category,
   Material,
+
+  HomePage,
+  HomePageHero,
 ]

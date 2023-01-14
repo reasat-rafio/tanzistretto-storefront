@@ -3,7 +3,7 @@ import type { SanityAsset } from "@sanity/image-url/lib/types/types";
 export interface PageData<T> {
   session: import("@supabase/supabase-js").Session | null;
   site: Site;
-  data: T;
+  page: T;
 }
 
 export interface Site {

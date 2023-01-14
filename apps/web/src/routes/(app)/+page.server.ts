@@ -3,15 +3,15 @@ import groq from "groq";
 import { error } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 
-const query = groq`*[_id == "page"][0]`;
+const query = groq`*[_id == "homePage"][0]`;
 
 export const load: LayoutServerLoad = async () => {
-  // const data = await client.fetch(query);
-  // if (!data) {
-  //   throw error(404, {
-  //     message: "Not found",
-  //   });
-  // }
+  const data = await sanity_client.fetch(query);
+  if (!data) {
+    throw error(404, {
+      message: "Not found",
+    });
+  }
 
-  return { data: "hello" };
+  return { page: data };
 };

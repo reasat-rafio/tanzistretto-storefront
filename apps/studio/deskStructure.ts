@@ -4,6 +4,7 @@ import {RiPagesLine} from 'react-icons/ri'
 import {PageItemProps} from './types'
 import {FaSitemap} from 'react-icons/fa'
 import {GiLargeDress} from 'react-icons/gi'
+import {BiHomeHeart} from 'react-icons/bi'
 
 // function SitePreview() {
 //   if (!process.env.SANITY_STUDIO_PREVIEW_URL) {
@@ -71,7 +72,22 @@ export const AppStructure = (S: StructureBuilder) =>
               }),
             ])
         ),
-      S.listItem().title('Pages').icon(RiPagesLine).child(S.list().title('Pages').items([])),
+      S.listItem()
+        .title('Pages')
+        .icon(RiPagesLine)
+        .child(
+          S.list()
+            .title('Pages')
+            .items([
+              pageItem(S, {
+                schemaType: 'homePage',
+                icon: BiHomeHeart,
+                id: 'homePage',
+                title: 'Home',
+                slug: '',
+              }),
+            ])
+        ),
       S.divider(),
       S.listItem()
         .title('Products')

@@ -29,6 +29,14 @@ export default defineConfig({
           : originalAction
       ),
   },
+  // document: {
+  //   actions: (prev) =>
+  //     prev.map((originalAction) =>
+  //       originalAction.action === 'publish'
+  //         ? (onProductPublishSavePIdToTheSupabaseAction(originalAction) as any)
+  //         : originalAction
+  //     ),
+  // },
   schema: {
     types: schemaTypes,
   },

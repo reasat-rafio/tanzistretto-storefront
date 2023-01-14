@@ -1,16 +1,28 @@
 import {DocumentActionComponent} from 'sanity'
+import {supabase} from '../utils/supabaseClient'
 
 export function onProductPublishSavePIdToTheSupabaseAction(
   originalPublishAction: DocumentActionComponent
 ) {
-  const BetterAction = async (props: any) => {
+  const BetterAction = (props: any) => {
     const originalResult = originalPublishAction(props)
     return {
       ...originalResult,
-      onHandle: () => {
+      onHandle: async () => {
         const {id} = props
+        let {data: product, error: getErr} = await supabase
+          .from('product')
+          .select('id')
+          .eq('sanity_product_id', id)
 
-        if (originalResult?.onHandle) originalResult.onHandle()
+        if (!product?.length) {
+          const {data, error: insertErr} = await supabase
+            .from('product')
+            .insert([{sanity_product_id: id}])
+          console.log({data})
+        }
+
+        if (!!originalResult?.onHandle) originalResult.onHandle()
       },
     }
   }

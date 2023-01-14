@@ -21,6 +21,18 @@ const HomePageHero = {
               validation: (Rule: Rule) => Rule.required().max(3),
               of: [{type: 'string'}],
             },
+            {
+              name: 'textColor',
+              type: 'string',
+              initialValue: 'dark',
+              validation: (Rule: Rule) => Rule.required(),
+              options: {
+                list: [
+                  {title: 'Dark', value: 'dark'},
+                  {title: 'Light', value: 'light'},
+                ],
+              },
+            },
             {name: 'cta', type: 'cta'},
             {
               name: 'image',

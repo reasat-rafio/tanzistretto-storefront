@@ -70,6 +70,7 @@ importers:
       svelte-check: ^2.9.2
       svelte-motion: ^0.11.5
       svelte-seo: ^1.4.1
+      swiper: ^8.4.5
       tailwindcss: ^3.2.4
       tslib: ^2.4.1
       typescript: ^4.9.3
@@ -103,6 +104,7 @@ importers:
       svelte-check: 2.10.3_qs7rgzvahok4cbkjoy5bgypde4
       svelte-motion: 0.11.5_svelte@3.55.0
       svelte-seo: 1.4.1_typescript@4.9.4
+      swiper: 8.4.5
       tailwindcss: 3.2.4_postcss@8.4.20
       tslib: 2.4.1
       typescript: 4.9.4
@@ -3915,6 +3917,12 @@ packages:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==}
     dev: false
 
+  /dom7/4.0.4:
+    resolution: {integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==}
+    dependencies:
+      ssr-window: 4.0.2
+    dev: true
+
   /domexception/4.0.0:
     resolution: {integrity: sha512-A2is4PLG+eeSfoTMA95/s4pvAoSo2mKtiM5jlHkAVewmiO8ISFTFKZjH7UAM1Atli/OT/7JHOrJRJiMKUZKYBw==}
     engines: {node: '>=12'}
@@ -7589,6 +7597,10 @@ packages:
   /sprintf-js/1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
+  /ssr-window/4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
+    dev: true
+
   /stream-each/1.2.3:
     resolution: {integrity: sha512-vlMC2f8I2u/bZGqkdfLQW/13Zihpej/7PmSiMQsbYddxuTsJp8vRe2x2FvVExZg7FaOds43ROAuFJwPR4MTZLw==}
     dependencies:
@@ -7853,6 +7865,15 @@ packages:
   /svelte/3.55.0:
     resolution: {integrity: sha512-uGu2FVMlOuey4JoKHKrpZFkoYyj0VLjJdz47zX5+gVK5odxHM40RVhar9/iK2YFRVxvfg9FkhfVlR0sjeIrOiA==}
     engines: {node: '>= 8'}
+    dev: true
+
+  /swiper/8.4.5:
+    resolution: {integrity: sha512-zveyEFBBv4q1sVkbJHnuH4xCtarKieavJ4SxP0QEHvdpPLJRuD7j/Xg38IVVLbp7Db6qrPsLUePvxohYx39Agw==}
+    engines: {node: '>= 4.7.0'}
+    requiresBuild: true
+    dependencies:
+      dom7: 4.0.4
+      ssr-window: 4.0.2
     dev: true
 
   /symbol-tree/3.2.4:

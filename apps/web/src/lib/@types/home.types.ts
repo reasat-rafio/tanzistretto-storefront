@@ -9,4 +9,5 @@ export interface Highlight {
   _type: string;
   image: SanityAsset;
   title: string[];
+  textColor: "dark" | "light";
 }

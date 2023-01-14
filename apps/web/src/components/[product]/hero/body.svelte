@@ -2,7 +2,7 @@
   import type { ProductProps } from "$lib/@types/product.types";
   import { getContext } from "svelte";
   import { PortableText } from "@portabletext/svelte";
-  import HeartIcon from "$lib/components/icons/heart-icon.svelte";
+  import HeartIcon from "$components/icons/heart-icon.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
   import { addToCart, cart } from "$lib/stores/cart.store";
 

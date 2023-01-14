@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { IFormError } from "$lib/@types/global.types";
-  import Input from "$lib/components/ui/input.svelte";
-  import Select from "$lib/components/ui/select.svelte";
-  import Textarea from "$lib/components/ui/textarea.svelte";
+  import Input from "$components/ui/input.svelte";
+  import Select from "$components/ui/select.svelte";
+  import Textarea from "$components/ui/textarea.svelte";
   import districtData from "$lib/bd-districs.json";
 
   const { districts } = districtData;

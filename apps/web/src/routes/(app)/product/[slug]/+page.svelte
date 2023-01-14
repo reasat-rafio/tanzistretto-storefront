@@ -2,7 +2,7 @@
   import { makeOpenGraphImages } from "$lib/helpers/global.helper";
   import { setContext } from "svelte";
   import SvelteSeo from "svelte-seo";
-  import Hero from "./components/hero/hero.svelte";
+  import Hero from "../../../../components/[product]/hero/hero.svelte";
 
   export let data;
   const { product } = data.data;

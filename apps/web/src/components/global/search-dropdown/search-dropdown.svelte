@@ -1,6 +1,6 @@
 <!-- <Backdrop show={$showCart} /> -->
 <script lang="ts">
-  import BackdropBlur from "$lib/components/backdrop-blur.svelte";
+  import BackdropBlur from "$components/backdrop-blur.svelte";
   //   import BackdropGrayscale from "$lib/components/backdrop-grayscale.svelte";
   import { EASE } from "$lib/helpers/constants";
   import { showQuickSearchDropdown } from "$lib/stores/global.store";

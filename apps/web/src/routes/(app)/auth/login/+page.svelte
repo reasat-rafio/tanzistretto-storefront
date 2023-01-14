@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance, type SubmitFunction } from "$app/forms";
-  import FacebookIcon from "$lib/components/icons/facebook-icon.svelte";
-  import GoogleIcon from "$lib/components/icons/google-icon.svelte";
+  import FacebookIcon from "$components/icons/facebook-icon.svelte";
+  import GoogleIcon from "$components/icons/google-icon.svelte";
   import { supabaseClient } from "$lib/supabase";
   import type { Provider } from "@supabase/supabase-js";
   export let form;

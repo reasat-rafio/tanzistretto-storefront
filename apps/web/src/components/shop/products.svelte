@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Product } from "$lib/@types/shop.types";
-  import HeartIcon from "$lib/components/icons/heart-icon.svelte";
-  import SanityImage from "$lib/components/sanity-image.svelte";
+  import HeartIcon from "$components/icons/heart-icon.svelte";
+  import SanityImage from "$components/sanity-image.svelte";
   import { TAKA_SYMBOL } from "$lib/helpers/constants";
 
   export let products: Product[];

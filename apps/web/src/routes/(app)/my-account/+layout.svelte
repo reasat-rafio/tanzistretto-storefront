@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import Navigation from "./components/navigation.svelte";
+  import Navigation from "../../../components/my-account/navigation.svelte";
 
   export let data: PageData;
 </script>

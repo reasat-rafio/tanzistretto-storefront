@@ -1,14 +1,14 @@
 <script lang="ts">
-  import XIcon from "$lib/components/icons/x-icon.svelte";
+  import XIcon from "$components/icons/x-icon.svelte";
   import { EASE, TAKA_SYMBOL } from "$lib/helpers/constants";
   import { showCart } from "$lib/stores/global.store";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
   import { clickoutside } from "@svelte-put/clickoutside";
   import { cart, removeFormCart } from "$lib/stores/cart.store";
-  import XCircleIcon from "$lib/components/icons/x-circle-icon.svelte";
-  import SanityImage from "$lib/components/sanity-image.svelte";
-  import BackdropBlur from "$lib/components/backdrop-blur.svelte";
+  import XCircleIcon from "$components/icons/x-circle-icon.svelte";
+  import SanityImage from "$components/sanity-image.svelte";
+  import BackdropBlur from "$components/backdrop-blur.svelte";
 
   const closeCartAction = () => ($showCart = false);
   const removeItemFromCartAction = (_id: string) => removeFormCart(_id);

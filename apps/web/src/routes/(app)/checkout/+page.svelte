@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import { navbarHeight } from "$lib/stores/global.store";
-  import BillingDetails from "./components/billing-details.svelte";
-  import YourOrder from "./components/your-order.svelte";
+  import BillingDetails from "../../../components/checkout/billing-details.svelte";
+  import YourOrder from "../../../components/checkout/your-order.svelte";
   import { enhance, type SubmitFunction } from "$app/forms";
   import {
     PlaceOrderSchema,

@@ -2,9 +2,9 @@
   import { enhance, type SubmitFunction } from "$app/forms";
   import { goto } from "$app/navigation";
   import type { IFormError } from "$lib/@types/global.types";
-  import FacebookIcon from "$lib/components/icons/facebook-icon.svelte";
-  import GoogleIcon from "$lib/components/icons/google-icon.svelte";
-  import Input from "$lib/components/ui/input.svelte";
+  import FacebookIcon from "$components/icons/facebook-icon.svelte";
+  import GoogleIcon from "$components/icons/google-icon.svelte";
+  import Input from "$components/ui/input.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
   import { supabaseClient } from "$lib/supabase";
   import {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ProductProps } from "$lib/@types/product.types";
-  import SanityImage from "$lib/components/sanity-image.svelte";
+  import SanityImage from "$components/sanity-image.svelte";
   import { getContext } from "svelte";
 
   const { defaultProductVariant, variants } = getContext(

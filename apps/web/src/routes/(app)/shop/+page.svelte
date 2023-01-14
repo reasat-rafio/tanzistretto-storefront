@@ -3,8 +3,8 @@
   import type { ShopPageProps } from "$lib/@types/shop.types";
   import { setContext } from "svelte";
   import Filters from "./components/filters/filters.svelte";
-  import Products from "./components/products.svelte";
-  import SortBy from "./components/sort-by.svelte";
+  import Products from "../../../components/shop/products.svelte";
+  import SortBy from "../../../components/shop/sort-by.svelte";
   import { Motion } from "svelte-motion";
   import { EASE } from "$lib/helpers/constants";
 

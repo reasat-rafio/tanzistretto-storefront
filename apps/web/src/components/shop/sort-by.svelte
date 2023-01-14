@@ -1,5 +1,5 @@
 <script>
-  import ExpendIcon from "./icons/expend-icon.svelte";
+  import ExpendIcon from "../icons/expend-icon.svelte";
 
   let expend = true;
 </script>

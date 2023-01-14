@@ -1,14 +1,14 @@
 <script lang="ts">
   import type { Site } from "$lib/@types/global.types";
-  import SanityImage from "$lib/components/sanity-image.svelte";
+  import SanityImage from "$components/sanity-image.svelte";
   // TODO remove this data file and this import
   import { secondaryNavData } from "./data";
   import { Motion } from "svelte-motion";
   import { NavbarVariants } from "$lib/animations/navbar";
   import { navbarHeight } from "$lib/stores/global.store";
-  import SearchIcon from "$lib/components/icons/search-icon.svelte";
-  import UserIcon from "$lib/components/icons/user-icon.svelte";
-  import CartIcon from "$lib/components/icons/cart-icon.svelte";
+  import SearchIcon from "$components/icons/search-icon.svelte";
+  import UserIcon from "$components/icons/user-icon.svelte";
+  import CartIcon from "$components/icons/cart-icon.svelte";
   import { showCart, showQuickSearchDropdown } from "$lib/stores/global.store";
   import { cart } from "$lib/stores/cart.store";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";

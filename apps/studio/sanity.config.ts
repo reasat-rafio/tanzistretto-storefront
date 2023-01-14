@@ -1,9 +1,10 @@
-import {defineConfig} from 'sanity'
+import {DocumentActionComponent, defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 import {AppStructure} from './deskStructure'
 import {colorInput} from '@sanity/color-input'
+import {onProductPublishSavePIdToTheSupabaseAction} from './actions/action'
 
 export default defineConfig({
   name: 'default',
@@ -20,6 +21,14 @@ export default defineConfig({
     colorInput(),
   ],
 
+  document: {
+    actions: (prev) =>
+      prev.map((originalAction) =>
+        originalAction.action === 'publish'
+          ? (onProductPublishSavePIdToTheSupabaseAction(originalAction) as DocumentActionComponent)
+          : originalAction
+      ),
+  },
   schema: {
     types: schemaTypes,
   },

@@ -18,6 +18,7 @@ export const PlaceOrderSchema = z.object({
   address: z
     .string({ required_error: "Address is required" })
     .min(1, { message: "Firstname is required" }),
+  // TODO add right regix
   phone_number: z.string({ required_error: "Phone number is required" }).trim(),
   email_address: z
     .string({ required_error: "Email is required" })

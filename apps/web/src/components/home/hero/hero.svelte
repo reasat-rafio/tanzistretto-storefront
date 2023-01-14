@@ -34,7 +34,17 @@
 
   <!-- Text -->
   <Motion let:motion initial={{}} animate={{}}>
-    <div use:motion class="">Test</div>
+    <div
+      use:motion
+      class="absolute h-full w-full top-0 mx-auto | flex flex-col justify-center"
+    >
+      <header class="container mx-auto text-alabaster">
+        <h1 class="flex flex-col | text-7xl | uppercase">
+          <span class="ml-10 | font-light">{highlights[0].title[0]}</span>
+          <span class="font-title font-thin ">{highlights[0].title[1]}</span>
+        </h1>
+      </header>
+    </div>
   </Motion>
 
   <!-- Backdrop -->

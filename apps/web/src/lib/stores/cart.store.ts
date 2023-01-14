@@ -49,3 +49,6 @@ export const removeFormCart = (_id: string) => {
     return items.filter((cartItem) => cartItem._id != _id);
   });
 };
+
+// clear cart
+export const clearCart = () => cart.set([]);

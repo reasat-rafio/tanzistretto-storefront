@@ -1,28 +1,56 @@
 <script lang="ts">
-  export let props;
+  import type { HeroProps } from "$lib/@types/home.types";
+  import SanityImage from "$components/sanity-image.svelte";
+  import { navbarHeight } from "$lib/stores/global.store";
+  import { Motion, type Variant, type Variants } from "svelte-motion";
+  import { EASE } from "$lib/helpers/constants";
 
-  console.log({ props });
+  export let props: HeroProps;
+  const { highlights } = props;
+
+  const item: Variants = {
+    hidden: { y: 0 },
+
+    show: (index: number) => ({
+      y: "100%",
+      transition: { ease: EASE, duration: 0.7, delay: index * 0.1 },
+    }),
+  };
 </script>
 
-<div>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sit sequi, nihil
-  esse natus delectus asperiores aliquid eaque ullam, aut in officia suscipit
-  doloribus ipsum laudantium nemo eligendi amet sint magni corrupti. Deserunt
-  corporis, minus asperiores quaerat modi facilis consequatur. Ipsum, incidunt
-  aut? Eos laborum provident rerum sapiente? Expedita adipisci quis distinctio
-  perferendis? Dolor, itaque inventore? At sequi ut cum quae facilis, minima
-  fuga delectus! Iusto magni, dolorem possimus labore sequi, alias numquam qui
-  sapiente deserunt hic recusandae esse voluptatem tempore? Accusamus molestiae
-  culpa obcaecati consequatur possimus libero accusantium consectetur modi?
-  Deserunt iure ratione similique possimus. Delectus dignissimos dolore
-  consectetur facilis impedit quisquam ad quos non, totam, maxime hic
-  perspiciatis, aliquid quod aspernatur fugiat. Incidunt sequi id odit delectus
-  ducimus. Modi corrupti delectus illum voluptatem eveniet corporis autem fugit
-  non magni adipisci placeat amet, vel fugiat aperiam hic excepturi assumenda
-  inventore accusantium. Totam at molestiae quo vero. Voluptate est, reiciendis
-  sapiente placeat, saepe dignissimos earum modi impedit perferendis officiis
-  labore delectus accusantium culpa animi deserunt illo eaque cupiditate velit
-  corporis iure vitae quod. Amet in quam id quisquam exercitationem voluptatibus
-  quas dolores sit, libero ipsum distinctio consequuntur ad nihil? Fugit,
-  aliquid voluptates quas temporibus esse dignissimos minima aperiam a veniam.
-</div>
+<section
+  style="height: calc(100vh - {$navbarHeight}px);"
+  class="w-full relative overflow-hidden"
+>
+  <!-- Background Image -->
+  <figure class="h-full w-full">
+    <SanityImage
+      class="w-full h-full object-cover"
+      maxWidth={1500}
+      image={highlights[0].image}
+      alt={highlights[0].image?.alt}
+    />
+  </figure>
+
+  <!-- Text -->
+  <Motion let:motion initial={{}} animate={{}}>
+    <div use:motion class="">Test</div>
+  </Motion>
+
+  <!-- Backdrop -->
+  <div
+    class="absolute bottom-0 left-0 w-full h-full | grid grid-cols-6 | pointer-events-none"
+  >
+    {#each Array.from({ length: 6 }) as e, index}
+      <Motion
+        custom={index}
+        let:motion
+        variants={item}
+        initial="hidden"
+        animate="show"
+      >
+        <div use:motion class="col-span-1 bg-alabaster" />
+      </Motion>
+    {/each}
+  </div>
+</section>

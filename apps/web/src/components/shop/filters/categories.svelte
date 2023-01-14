@@ -6,7 +6,7 @@
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
-  import ExpendIcon from "../icons/expend-icon.svelte";
+  import ExpendIcon from "$components/icons/expend-icon.svelte";
 
   const categories = getContext("categories") as Category[];
   let expend = true;

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
-  import AccountSettings from "../../../components/my-account/account-settings.svelte";
-  import SignOut from "./components/sign-out.svelte";
+  import AccountSettings from "$components/my-account/account-settings.svelte";
+  import SignOut from "$components/my-account/sign-out.svelte";
   import YourOrders from "$components/my-account/your-orders.svelte";
   export let data: PageData;
 

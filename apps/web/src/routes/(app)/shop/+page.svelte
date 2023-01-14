@@ -2,14 +2,14 @@
   import type { PageData } from "$lib/@types/global.types";
   import type { ShopPageProps } from "$lib/@types/shop.types";
   import { setContext } from "svelte";
-  import Filters from "./components/filters/filters.svelte";
-  import Products from "../../../components/shop/products.svelte";
-  import SortBy from "../../../components/shop/sort-by.svelte";
+  import Filters from "$components/shop/filters/filters.svelte";
+  import Products from "$components/shop/products.svelte";
+  import SortBy from "$components/shop/sort-by.svelte";
   import { Motion } from "svelte-motion";
   import { EASE } from "$lib/helpers/constants";
 
   export let data: PageData<ShopPageProps>;
-  const { categories, materials, products } = data.data;
+  const { categories, materials, products } = data?.data;
 
   setContext("categories", categories);
   setContext("materials", materials);

@@ -7,7 +7,7 @@
   import { getContext } from "svelte";
   import { Motion } from "svelte-motion";
   import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
-  import ExpendIcon from "../icons/expend-icon.svelte";
+  import ExpendIcon from "$components/icons/expend-icon.svelte";
 
   //  materila and category have same types
   const materials = getContext("materials") as Category[];

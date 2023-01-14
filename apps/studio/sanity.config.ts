@@ -4,7 +4,10 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 import {AppStructure} from './deskStructure'
 import {colorInput} from '@sanity/color-input'
-import {onProductPublishSavePIdToTheSupabaseAction} from './actions/action'
+import {
+  onDeleteRemoveTheRowInSupabaseAction,
+  onProductPublishSavePIdToTheSupabaseAction,
+} from './actions/action'
 
 export default defineConfig({
   name: 'default',
@@ -22,21 +25,20 @@ export default defineConfig({
   ],
 
   document: {
-    actions: (prev) =>
-      prev.map((originalAction) =>
-        originalAction.action === 'publish'
-          ? (onProductPublishSavePIdToTheSupabaseAction(originalAction) as DocumentActionComponent)
-          : originalAction
-      ),
+    actions: (prev, contex) =>
+      contex.schemaType === 'product'
+        ? prev.map((originalAction) =>
+            originalAction.action === 'publish'
+              ? (onProductPublishSavePIdToTheSupabaseAction(
+                  originalAction
+                ) as DocumentActionComponent)
+              : originalAction.action === 'delete'
+              ? (onDeleteRemoveTheRowInSupabaseAction(originalAction) as DocumentActionComponent)
+              : originalAction
+          )
+        : prev,
   },
-  // document: {
-  //   actions: (prev) =>
-  //     prev.map((originalAction) =>
-  //       originalAction.action === 'publish'
-  //         ? (onProductPublishSavePIdToTheSupabaseAction(originalAction) as any)
-  //         : originalAction
-  //     ),
-  // },
+
   schema: {
     types: schemaTypes,
   },

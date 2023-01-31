@@ -23,8 +23,6 @@
 
     onPageLoadAnim.add(headerBottomUpAndBlurAnim).add(backdropBottomUpAnime);
   });
-
-  // onMount(() => {});
 </script>
 
 <section

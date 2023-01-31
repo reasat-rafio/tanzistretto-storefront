@@ -10,13 +10,14 @@ export const headerTextColorAnime = {
   targets: "#hero_header",
   color: "#edece9",
   duration: 50,
+  opacity: [0.8, 1],
   easing: "easeInOutQuad",
 };
 export const backdropBottomUpAnime = {
   targets: "#hero_backdrop",
   translateY: "-100%",
   update: (anim: anime.AnimeInstance) => {
-    if (anim.progress >= 50) {
+    if (anim.progress >= 40) {
       anime(headerTextColorAnime);
     }
   },

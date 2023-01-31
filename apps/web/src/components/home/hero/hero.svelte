@@ -8,42 +8,23 @@
   import "swiper/css";
   import "swiper/css/effect-fade";
   import { onMount } from "svelte";
+  import {
+    backdropBottomUpAnime,
+    headerBottomUpAndBlurAnim,
+  } from "./animations";
 
   export let props: HeroProps;
   const { highlights } = props;
-
-  const headerBottomUpAndBlurAnim = {
-    targets: "#hero_header",
-    translateY: ["100%", 0],
-    filter: ["blur(20px)", "blur(0px)"],
-  };
-
-  const headerTextColorAnime = {
-    targets: "#hero_header",
-    color: "#edece9",
-    duration: 50,
-    easing: "easeInOutQuad",
-  };
-  const backdropBottomUpAnime = {
-    targets: "#hero_backdrop",
-    translateY: "-100%",
-    update: (anim: anime.AnimeInstance) => {
-      if (anim.progress >= 50) {
-        anime(headerTextColorAnime);
-      }
-    },
-  };
-
   onMount(() => {
-    const onPageLoadAnimation = anime.timeline({
+    const onPageLoadAnim = anime.timeline({
       duration: 1000,
       easing: "easeInOutQuad",
     });
 
-    onPageLoadAnimation
-      .add(headerBottomUpAndBlurAnim)
-      .add(backdropBottomUpAnime);
+    onPageLoadAnim.add(headerBottomUpAndBlurAnim).add(backdropBottomUpAnime);
   });
+
+  // onMount(() => {});
 </script>
 
 <section
@@ -56,11 +37,10 @@
     effect="fade"
     slidesPerView={1}
     speed={700}
-    on:slideChange={() => console.log("slide change")}
-    on:swiper={(e) => console.log(e)}
+    on:slideChange={(swiper) => console.log(swiper)}
   >
     {#each highlights as { image, title, textColor, _key } (_key)}
-      <SwiperSlide>
+      <SwiperSlide let:data={{ isActive }}>
         <figure class="h-full w-full">
           <SanityImage
             class="w-full h-full object-cover"

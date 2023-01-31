@@ -2,24 +2,48 @@
   import type { HeroProps } from "$lib/@types/home.types";
   import SanityImage from "$components/sanity-image.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
-  import { Motion, type Variant, type Variants } from "svelte-motion";
-  import { EASE } from "$lib/helpers/constants";
+  import anime from "animejs";
   import { Swiper, SwiperSlide } from "swiper/svelte";
   import { EffectFade } from "swiper";
   import "swiper/css";
   import "swiper/css/effect-fade";
+  import { onMount } from "svelte";
 
   export let props: HeroProps;
   const { highlights } = props;
 
-  const item: Variants = {
-    hidden: { y: 0 },
-
-    show: (index: number) => ({
-      y: "100%",
-      transition: { ease: EASE, duration: 0.7, delay: index * 0.1 },
-    }),
+  const headerBottomUpAndBlurAnim = {
+    targets: "#hero_header",
+    translateY: ["100%", 0],
+    filter: ["blur(20px)", "blur(0px)"],
   };
+
+  const headerTextColorAnime = {
+    targets: "#hero_header",
+    color: "#edece9",
+    duration: 50,
+    easing: "easeInOutQuad",
+  };
+  const backdropBottomUpAnime = {
+    targets: "#hero_backdrop",
+    translateY: "-100%",
+    update: (anim: anime.AnimeInstance) => {
+      if (anim.progress >= 50) {
+        anime(headerTextColorAnime);
+      }
+    },
+  };
+
+  onMount(() => {
+    const onPageLoadAnimation = anime.timeline({
+      duration: 1000,
+      easing: "easeInOutQuad",
+    });
+
+    onPageLoadAnimation
+      .add(headerBottomUpAndBlurAnim)
+      .add(backdropBottomUpAnime);
+  });
 </script>
 
 <section
@@ -45,39 +69,24 @@
             alt={image?.alt}
           />
         </figure>
-        <Motion let:motion initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <div
-            use:motion
-            class="absolute h-full w-full top-0 mx-auto | flex flex-col justify-center"
-            class:text-secondary={textColor === "dark"}
-            class:text-alabaster={textColor === "light"}
-          >
-            <header class="container mx-auto">
-              <h1 class="flex flex-col | text-7xl | uppercase">
-                <span class="ml-10 | font-light drop-shadow">{title[0]}</span>
-                <span class="font-title font-thin drop-shadow">{title[1]}</span>
-              </h1>
-            </header>
-          </div>
-        </Motion>
       </SwiperSlide>
     {/each}
   </Swiper>
 
+  <div
+    class="absolute h-full w-full top-0 mx-auto | flex flex-col justify-center"
+  >
+    <header id="hero_header" class="container mx-auto relative z-20">
+      <h1 class="flex flex-col | text-7xl | uppercase w-fit">
+        <span class="ml-10 | font-light drop-shadow">Passion</span>
+        <span class="font-title font-thin drop-shadow">For Quality</span>
+      </h1>
+    </header>
+  </div>
+
   <!-- Backdrop -->
   <div
-    class="absolute bottom-0 left-0 w-full h-full | grid grid-cols-6 | pointer-events-none z-10"
-  >
-    {#each Array.from({ length: 6 }) as e, index}
-      <Motion
-        custom={index}
-        let:motion
-        variants={item}
-        initial="hidden"
-        animate="show"
-      >
-        <div use:motion class="col-span-1 bg-alabaster" />
-      </Motion>
-    {/each}
-  </div>
+    id="hero_backdrop"
+    class="absolute bottom-0 left-0 w-full h-full | pointer-events-none z-10 bg-alabaster"
+  />
 </section>

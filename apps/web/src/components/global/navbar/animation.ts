@@ -10,7 +10,7 @@ export const navScrolledAnim = {
 export const navNotScrolledAnim = {
   targets: "#navbar",
   backgroundColor: "#edece9",
-  padding: "0rem",
+  padding: "1rem",
   duration: 300,
   easing: "easeInOutQuad",
   boxShadow: "0 0 0 transparent",

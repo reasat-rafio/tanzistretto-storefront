@@ -4,14 +4,15 @@
   import type { Slug } from "$lib/@types/global.types";
   import type { Category } from "$lib/@types/shop.types";
   import { getContext } from "svelte";
-  import { Motion } from "svelte-motion";
-  import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
   import ExpendIcon from "$components/icons/expend-icon.svelte";
+  import { browser } from "$app/environment";
+  import anime from "animejs";
 
   const categories = getContext("categories") as Category[];
   let expend = true;
   let selection: Slug[] = [];
 
+  let categoryListEl: HTMLUListElement;
   const selectCategoryAction = (slug: Slug) => {
     const slugAlreadySelected = selection.find(
       ({ current }) => current === slug.current
@@ -33,6 +34,28 @@
       noScroll: true,
     });
   };
+
+  // TODO fix this animation to be smooth
+  $: if (browser) {
+    expend
+      ? anime({
+          targets: "#category_list",
+          opacity: 1,
+          height: [0, "auto"],
+          easing: "easeInOutQuad",
+          duration: 400,
+          begin: () => (categoryListEl.style.display = "flex"),
+        })
+      : anime({
+          targets: "#category_list",
+          opacity: 0,
+          height: [0, "auto"],
+
+          easing: "easeInOutQuad",
+          duration: 200,
+          complete: () => (categoryListEl.style.display = "none"),
+        });
+  }
 </script>
 
 <div>
@@ -44,7 +67,7 @@
     <ExpendIcon {expend} />
   </button>
 
-  <AnimatePresence show={expend}>
+  <!-- <AnimatePresence show={expend}>
     <Motion
       let:motion
       initial={{ height: 0, opacity: 0, marginTop: 0 }}
@@ -55,26 +78,52 @@
       }}
       exit={{ height: 0, opacity: 0, marginTop: 0 }}
       transition={{ ease: [0.445, 0.05, 0.55, 0.95], duration: 0.4 }}
-    >
-      <ul class="flex flex-col | space-y-2" use:motion>
-        {#each categories as { _id, slug, title } (_id)}
-          <button
-            on:click={() => selectCategoryAction(slug)}
-            class="flex items-center | space-x-2"
-          >
-            <input
-              bind:group={selection}
-              value={slug}
-              name="categories_check_box"
-              type="checkbox"
-              class="checkbox checkbox-sm"
-            />
-            <span>
-              {title}
-            </span>
-          </button>
-        {/each}
-      </ul>
-    </Motion>
-  </AnimatePresence>
+    > -->
+  <ul
+    id="category_list"
+    bind:this={categoryListEl}
+    class="hidden flex-col | space-y-2 h-auto"
+  >
+    {#each categories as { _id, slug, title } (_id)}
+      <button
+        on:click={() => selectCategoryAction(slug)}
+        class="flex items-center | space-x-2"
+      >
+        <input
+          bind:group={selection}
+          value={slug}
+          name="categories_check_box"
+          type="checkbox"
+          class="checkbox checkbox-sm"
+        />
+        <span>
+          {title}
+        </span>
+      </button>
+    {/each}
+  </ul>
+  <!-- </Motion>
+  </AnimatePresence> -->
 </div>
+
+<!-- CHAT GPT REF TO DO IT IN ANIME JS WAY -->
+<!-- const multiLevelList = document.querySelector('.multi-level-list');
+const listItems = multiLevelList.querySelectorAll('li');
+
+listItems.forEach(listItem => {
+  listItem.addEventListener('click', function() {
+    const nestedList = this.querySelector('ul');
+    if (nestedList) {
+      anime({
+        targets: nestedList,
+        height: [0, 'auto'],
+        opacity: [0, 1],
+        easing: 'easeOutQuint',
+        duration: 400,
+        complete: function(anim) {
+          nestedList.style.height = 'auto';
+        }
+      });
+    }
+  });
+}); -->

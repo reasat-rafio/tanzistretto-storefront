@@ -1,13 +1,19 @@
 <script lang="ts">
-  import { navbarHeight } from "$lib/stores/global.store";
-  import Categories from "./categories.svelte";
-  import Material from "./material.svelte";
+	import { navbarHeight } from '$lib/stores/global.store'
+	import { onMount } from 'svelte'
+	import Categories from './categories.svelte'
+	import Material from './material.svelte'
+	let topPosition = 0
+
+	onMount(() => {
+		topPosition = $navbarHeight
+	})
 </script>
 
 <aside
-  class="flex flex-col space-y-2 sticky left-0"
-  style="top:{$navbarHeight + 20}px"
+	style="top:{topPosition + 20}px"
+	class="flex flex-col space-y-2 sticky left-0"
 >
-  <Categories />
-  <Material />
+	<Categories />
+	<Material />
 </aside>

@@ -16,8 +16,9 @@ module.exports = {
         secondary: "#a18565",
       },
       fontFamily: {
-        body: ["Montserrat", "sans-serif"],
-        title: ["Spectral", "serif"],
+    
+        "body": ["Basis Grotesque Pro Light", "sans-serif"],
+        title: ["Canela Web", "Spectral", "serif"],
       },
     },
   },

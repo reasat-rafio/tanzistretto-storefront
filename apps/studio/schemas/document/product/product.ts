@@ -47,9 +47,9 @@ const Product = {
       name: 'priceDetails',
       type: 'array',
       validation: (Rule: Rule) =>
-        Rule.required().custom((item: {name: string; price: number; isFullSet?: boolean}[]) => {
-          const fullsetArr = item.filter((e) => e.isFullSet)
-          if (fullsetArr.length !== 1) return 'Please Select 1 item as fullset'
+        Rule.required().custom((item: {name: string; price: number; isDefault?: boolean}[]) => {
+          const isDefaultArr = item.filter((e) => e.isDefault)
+          if (isDefaultArr.length !== 1) return 'Please Select 1 item as default'
           return true
         }),
       of: [
@@ -78,17 +78,18 @@ const Product = {
               type: 'number',
               validation: (Rule: Rule) => Rule.required(),
             },
-            {name: 'isFullSet', type: 'boolean'},
+            {name: 'isDefault', type: 'boolean'},
           ],
           preview: {
             select: {
               names: 'names',
               subtitle: 'price',
+              isDefault: 'isDefault',
             },
-            prepare({names, subtitle}: any) {
+            prepare({names, subtitle, isDefault}: any) {
               return {
                 title: `${names.map((e: string) => e)}`,
-                subtitle,
+                subtitle: isDefault ? `${subtitle} | default price` : subtitle,
                 icon: TiFlowChildren,
               }
             },
@@ -183,8 +184,9 @@ const Product = {
     select: {
       title: 'title',
       subtitle: 'body',
-      media: 'defaultProductVariant.images[0]',
+      media: 'images',
     },
+    prepare: ({title, subtitle, media}: any) => ({title, subtitle, media: media[0]}),
   },
 }
 

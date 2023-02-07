@@ -16,11 +16,17 @@ export interface Category {
 export interface Product {
   _id: string;
   categories: Category[];
-  defaultProductVariant: DefaultProductVariant;
+  color: Color;
+  priceDetails: PriceDetailsProps[];
+  images: SanityAsset[];
   materials: Category[];
   slug: Slug;
   title: string;
-  variants?: DefaultProductVariant[];
+  variants?: {
+    _id: string;
+    slug: Slug;
+    color: Color;
+  }[];
 }
 
 export interface DefaultProductVariant {
@@ -32,7 +38,7 @@ export interface DefaultProductVariant {
 export interface PriceDetailsProps {
   _key: string;
   _type: string;
-  isFullSet?: boolean;
+  isDefault?: boolean;
   names: string[];
   price: number;
 }

@@ -18,16 +18,13 @@ const query = groq`{
       title,
       slug
     },
-    defaultProductVariant {
-        priceDetails,
-        color,
-        images,
-    },
-    variants[]{
-        _id,
-        fullSetPrice,
-        color,
-        "images": images[0],
+    priceDetails,
+    color,
+    images,
+    variants[]->{
+      _id,
+      slug,
+      color,
     }
   },
   "categories": *[_type == "category"][]{

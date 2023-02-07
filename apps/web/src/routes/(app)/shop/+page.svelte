@@ -3,9 +3,9 @@
   import type { ShopPageProps } from "$lib/@types/shop.types";
   import { setContext } from "svelte";
   import Filters from "$components/shop/filters/filters.svelte";
-  import Products from "$components/shop/products.svelte";
   import SortBy from "$components/shop/sort-by.svelte";
   import Title from "$components/ui/title.svelte";
+  import Product from "$components/shop/product.svelte";
 
   export let data: PageData<ShopPageProps>;
   const { categories, materials, products } = data?.data;
@@ -23,7 +23,13 @@
     </section>
     <section class="md:col-span-9 col-span-12">
       <SortBy />
-      <Products {products} />
+      <section>
+        <ul class="grid lg:grid-cols-2 grid-cols-1 lg:gap-20 gap-10">
+          {#each products as product}
+            <Product {product} />
+          {/each}
+        </ul>
+      </section>
     </section>
   </div>
 </main>

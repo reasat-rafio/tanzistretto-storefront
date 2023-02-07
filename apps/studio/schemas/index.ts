@@ -9,7 +9,6 @@ import Menu from './objects/menu'
 import MenuItems from './objects/menu-item'
 
 import Product from './document/product/product'
-import ProductVariant from './document/product/variant'
 import Category from './document/product/category'
 import Material from './document/product/material'
 
@@ -27,7 +26,6 @@ export const schemaTypes = [
   MenuItems,
 
   Product,
-  ProductVariant,
   Category,
   Material,
 

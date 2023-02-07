@@ -17,7 +17,9 @@ module.exports = {
       },
       fontSize: {
         "heading-1": "80px",
+        "heading-3": "33px",
         "heading-1-sm": "45px",
+        "heading-3-sm": "30px",
       },
       fontFamily: {
         body: ["Basis Grotesque Pro Light", "sans-serif"],

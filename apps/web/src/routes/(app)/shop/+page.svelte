@@ -17,11 +17,11 @@
 <main class="container | my-20 mx-auto relative z-10">
   <Title texts={["Our", "Products"]} />
 
-  <div class="grid grid-cols-12 gap-x-5 ">
-    <section class="col-span-3">
+  <div class="grid grid-cols-12 gap-x-5 lg:mt-20 mt-10">
+    <section class="col-span-12 md:col-span-3">
       <Filters />
     </section>
-    <section class="col-span-9 px-10">
+    <section class="md:col-span-9 col-span-12">
       <SortBy />
       <Products {products} />
     </section>

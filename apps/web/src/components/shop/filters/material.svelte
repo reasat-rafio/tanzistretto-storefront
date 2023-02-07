@@ -2,12 +2,11 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import type { Slug } from "$lib/@types/global.types";
-  // TODO change the slug types to global.types
   import type { Category } from "$lib/@types/shop.types";
   import { getContext } from "svelte";
-  import { Motion } from "svelte-motion";
-  import AnimatePresence from "svelte-motion/src/components/AnimatePresence/AnimatePresence.svelte";
   import ExpendIcon from "$components/icons/expend-icon.svelte";
+  import anime from "animejs";
+  import { browser } from "$app/environment";
 
   //  materila and category have same types
   const materials = getContext("materials") as Category[];
@@ -35,49 +34,59 @@
       noScroll: true,
     });
   }
+
+  let materialListEl: HTMLUListElement;
+  $: if (browser) {
+    expend
+      ? anime({
+          targets: "#material_list",
+          opacity: 1,
+          height: [0, "auto"],
+          easing: "easeInOutQuad",
+          duration: 400,
+          begin: () => (materialListEl.style.display = "flex"),
+        })
+      : anime({
+          targets: "#material_list",
+          opacity: 0,
+          height: [0, "auto"],
+          easing: "easeInOutQuad",
+          duration: 200,
+          complete: () => (materialListEl.style.display = "none"),
+        });
+  }
 </script>
 
 <div>
   <button
-    class="flex cursor-pointer w-full py-2 border-b border-cinereous"
+    class="flex cursor-pointer w-full py-2 border-b border-cinereous outline-none"
     on:click={() => (expend = !expend)}
   >
-    <!-- TODO make sure this is ligal -->
-    <h3 class="flex-1 uppercase text-xl text-left">Materials</h3>
+    <h3 class="flex-1 uppercase sm:text-xl text-lg text-left">Material</h3>
     <ExpendIcon {expend} />
   </button>
 
-  <AnimatePresence show={expend}>
-    <Motion
-      let:motion
-      initial={{ height: 0, opacity: 0, marginTop: 0 }}
-      animate={{
-        height: "auto",
-        opacity: 1,
-        marginTop: "1.25rem",
-      }}
-      exit={{ height: 0, opacity: 0, marginTop: 0 }}
-      transition={{ ease: [0.445, 0.05, 0.55, 0.95], duration: 0.4 }}
-    >
-      <ul class="flex flex-col | space-y-2" use:motion>
-        {#each materials as { _id, slug, title } (_id)}
-          <button
-            on:click={() => selectMaterialAction(slug)}
-            class="flex items-center | space-x-2"
-          >
-            <input
-              bind:group={selection}
-              value={slug}
-              name="material_check_box"
-              type="checkbox"
-              class="checkbox checkbox-sm"
-            />
-            <span>
-              {title}
-            </span>
-          </button>
-        {/each}
-      </ul>
-    </Motion>
-  </AnimatePresence>
+  <ul
+    bind:this={materialListEl}
+    id="material_list"
+    class="flex flex-col | space-y-2 h-auto mt-2"
+  >
+    {#each materials as { slug, title }}
+      <button
+        on:click={() => selectMaterialAction(slug)}
+        class="flex items-center | space-x-2"
+      >
+        <input
+          bind:group={selection}
+          value={slug}
+          name="material_check_box"
+          type="checkbox"
+          class="checkbox checkbox-sm"
+        />
+        <span>
+          {title}
+        </span>
+      </button>
+    {/each}
+  </ul>
 </div>

@@ -8,7 +8,7 @@
 </script>
 
 <section>
-  <ul class="grid grid-cols-2 gap-20">
+  <ul class="grid lg:grid-cols-2 grid-cols-1 gap-20">
     {#each products as { _id, title, defaultProductVariant: { images, priceDetails }, slug } (_id)}
       <li class="odd:mt-10">
         <a href="/product/{slug.current}">

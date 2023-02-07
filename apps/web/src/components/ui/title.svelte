@@ -2,7 +2,7 @@
   import anime from "animejs";
   import { onMount } from "svelte";
 
-  type TextProps = string[];
+  type TextProps = [string, string] | [string];
   export let texts: TextProps;
 
   onMount(() => {
@@ -21,7 +21,7 @@
   class="uppercase lg:text-heading-1 sm:text-7xl text-heading-1-sm flex flex-col leading-none text-primary w-fit"
 >
   {#if texts.length === 2}
-    <span class="sm:ml-[20%] sm:text-left text-center">{texts[0]}</span>
+    <span class="md:ml-[20%] md:text-left text-center">{texts[0]}</span>
     <span class="font-title">{texts[1]}</span>
   {/if}
 </h1>

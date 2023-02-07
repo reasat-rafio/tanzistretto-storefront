@@ -35,7 +35,6 @@
     });
   };
 
-  // TODO fix this animation to be smooth
   $: if (browser) {
     expend
       ? anime({
@@ -50,7 +49,6 @@
           targets: "#category_list",
           opacity: 0,
           height: [0, "auto"],
-
           easing: "easeInOutQuad",
           duration: 200,
           complete: () => (categoryListEl.style.display = "none"),
@@ -60,31 +58,19 @@
 
 <div>
   <button
-    class="flex cursor-pointer w-full py-2 border-b border-cinereous text-left"
+    class="flex cursor-pointer w-full py-2 border-b border-cinereous text-left outline-none"
     on:click={() => (expend = !expend)}
   >
-    <h3 class="flex-1 uppercase text-xl">Categories</h3>
+    <h3 class="flex-1 uppercase sm:text-xl text-lg">Category</h3>
     <ExpendIcon {expend} />
   </button>
 
-  <!-- <AnimatePresence show={expend}>
-    <Motion
-      let:motion
-      initial={{ height: 0, opacity: 0, marginTop: 0 }}
-      animate={{
-        height: "auto",
-        opacity: 1,
-        marginTop: "1.25rem",
-      }}
-      exit={{ height: 0, opacity: 0, marginTop: 0 }}
-      transition={{ ease: [0.445, 0.05, 0.55, 0.95], duration: 0.4 }}
-    > -->
   <ul
     id="category_list"
     bind:this={categoryListEl}
-    class="hidden flex-col | space-y-2 h-auto"
+    class="hidden flex-col | space-y-2 h-auto mt-2"
   >
-    {#each categories as { _id, slug, title } (_id)}
+    {#each categories as { slug, title }}
       <button
         on:click={() => selectCategoryAction(slug)}
         class="flex items-center | space-x-2"
@@ -102,28 +88,4 @@
       </button>
     {/each}
   </ul>
-  <!-- </Motion>
-  </AnimatePresence> -->
 </div>
-
-<!-- CHAT GPT REF TO DO IT IN ANIME JS WAY -->
-<!-- const multiLevelList = document.querySelector('.multi-level-list');
-const listItems = multiLevelList.querySelectorAll('li');
-
-listItems.forEach(listItem => {
-  listItem.addEventListener('click', function() {
-    const nestedList = this.querySelector('ul');
-    if (nestedList) {
-      anime({
-        targets: nestedList,
-        height: [0, 'auto'],
-        opacity: [0, 1],
-        easing: 'easeOutQuint',
-        duration: 400,
-        complete: function(anim) {
-          nestedList.style.height = 'auto';
-        }
-      });
-    }
-  });
-}); -->

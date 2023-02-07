@@ -15,9 +15,12 @@ module.exports = {
         primary: "#1c1c1c",
         secondary: "#a18565",
       },
+      fontSize: {
+        "heading-1": "80px",
+        "heading-1-sm": "45px",
+      },
       fontFamily: {
-    
-        "body": ["Basis Grotesque Pro Light", "sans-serif"],
+        body: ["Basis Grotesque Pro Light", "sans-serif"],
         title: ["Canela Web", "Spectral", "serif"],
       },
     },

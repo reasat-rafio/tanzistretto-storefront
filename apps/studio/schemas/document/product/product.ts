@@ -56,7 +56,6 @@ const Product = {
         {
           name: 'individualPrice',
           title: 'individual Item Price',
-          description: 'Options',
           type: 'object',
           icon: TiFlowChildren,
           fields: [

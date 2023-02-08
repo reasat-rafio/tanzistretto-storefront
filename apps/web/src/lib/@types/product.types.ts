@@ -7,15 +7,18 @@ export interface ProductProps {
   _rev: string;
   _type: string;
   _updatedAt: Date;
-  body: any[];
   categories: Category[];
-  defaultProductVariant: DefaultProductVariant;
+  color: Color;
+  images: SanityAsset[];
   materials: Category[];
+  priceDetails: PriceDetail[];
   seo: SEO;
+  sizes: string[];
   slug: Slug;
   tags: string[];
   title: string;
-  variants: DefaultProductVariant[];
+  variants?: Variant[];
+  description?: any[];
 }
 
 export interface Category {
@@ -49,5 +52,12 @@ export interface SEO {
   _type: string;
   description: string;
   ogImage: SanityAsset;
+  title: string;
+}
+
+export interface Variant {
+  _id: string;
+  images: SanityAsset[];
+  slug: Slug;
   title: string;
 }

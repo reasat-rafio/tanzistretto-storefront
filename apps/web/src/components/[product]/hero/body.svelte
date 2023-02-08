@@ -6,13 +6,9 @@
   import { navbarHeight } from "$lib/stores/global.store";
   import { addToCart, cart } from "$lib/stores/cart.store";
 
-  const {
-    _id,
-    title,
-    body,
-    defaultProductVariant: { images, priceDetails },
-  }: ProductProps = getContext("product");
-  $: console.log($cart);
+  const { _id, title, description, images, priceDetails } = getContext(
+    "product"
+  ) as ProductProps;
 
   const addToTheCart = () =>
     addToCart({ _id, price: priceDetails[0].price, title, image: images[0] });
@@ -23,9 +19,11 @@
   class="max-w-3xl w-full | sticky self-start | flex flex-col justify-center items-center | space-y-5 px-5 mx-auto"
 >
   <h1 class="text-7xl">{title}</h1>
-  <div>
-    <PortableText value={body} />
-  </div>
+  {#if !!description?.length}
+    <div class="prose">
+      <PortableText value={description} />
+    </div>
+  {/if}
 
   <div class="flex justify-between items-center py-5 w-full">
     <button

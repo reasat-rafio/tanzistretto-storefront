@@ -8,6 +8,12 @@ const query = (slug: string) => groq`{
     ...,
     categories[]->,
     materials[]->,
+    variants[]->{
+      _id,
+      images,
+      slug,
+      title,
+    },
   }
 }`;
 

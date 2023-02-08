@@ -40,7 +40,7 @@
             />
             {#if selectedColor._id === color._id}
               <span
-                class="w-full h-1 rounded-lg bg-primary absolute bottom-0 left-0"
+                class="w-full h-1 rounded-lg bg-secondary absolute bottom-0 left-0"
               />
             {/if}
           </li>

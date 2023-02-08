@@ -29,12 +29,6 @@ export interface Product {
   }[];
 }
 
-export interface DefaultProductVariant {
-  color: Color;
-  priceDetails: PriceDetailsProps[];
-  images: SanityAsset[];
-}
-
 export interface PriceDetailsProps {
   _key: string;
   _type: string;

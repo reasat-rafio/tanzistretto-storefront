@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ProductProps } from "$lib/@types/product.types";
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { PortableText } from "@portabletext/svelte";
   import HeartIcon from "$components/icons/heart-icon.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
@@ -19,11 +19,11 @@
   class="max-w-3xl w-full | sticky self-start | flex flex-col justify-center items-center | space-y-5 px-5 mx-auto"
 >
   <h1 class="text-7xl">{title}</h1>
-  {#if !!description?.length}
-    <div class="prose">
-      <PortableText value={description} />
-    </div>
-  {/if}
+  <!-- {#if !!description?.length} -->
+  <div class="prose">
+    <PortableText value={description} />
+  </div>
+  <!-- {/if} -->
 
   <div class="flex justify-between items-center py-5 w-full">
     <button

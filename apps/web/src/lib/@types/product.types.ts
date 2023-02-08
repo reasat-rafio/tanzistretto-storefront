@@ -18,7 +18,7 @@ export interface ProductProps {
   tags: string[];
   title: string;
   variants?: Variant[];
-  description?: any[];
+  description: any[];
 }
 
 export interface Category {
@@ -28,15 +28,6 @@ export interface Category {
   _type: string;
   _updatedAt: Date;
   slug: Slug;
-  title: string;
-}
-
-export interface DefaultProductVariant {
-  _type: string;
-  color: Color;
-  images: SanityAsset[];
-  priceDetails: PriceDetail[];
-  sizes: string[];
   title: string;
 }
 

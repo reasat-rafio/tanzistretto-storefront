@@ -115,7 +115,7 @@
         </label>
         {#if termsError}
           {#each termsError as err}
-            <span class="error_msg">{err}</span>
+            <span class="text-xs text-error mt-1 lowercase">{err}</span>
           {/each}
         {/if}
       </div>
@@ -147,7 +147,7 @@
 </main>
 
 <style lang="postcss">
-  .error_msg {
+  .text-xs text-error mt-1 lowercase {
     @apply text-xs text-error mt-1 lowercase;
   }
 </style>

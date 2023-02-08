@@ -5,28 +5,20 @@
   export let placeholder: string | undefined = undefined;
 </script>
 
-<div class="input_wrapper">
+<div class="w-full flex flex-col">
   <label for={name}>
     <slot />
   </label>
-  <textarea class="input_fild" {placeholder} {name} cols="30" rows="2" />
+  <textarea
+    class="py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary"
+    {placeholder}
+    {name}
+    cols="30"
+    rows="2"
+  />
   {#if error}
     {#each error as err}
-      <span class="error_msg">{err}</span>
+      <span class="text-xs text-error mt-1 lowercase">{err}</span>
     {/each}
   {/if}
 </div>
-
-<style lang="postcss">
-  .input_wrapper {
-    @apply w-full flex flex-col;
-  }
-
-  .input_fild {
-    @apply py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
-  }
-
-  .error_msg {
-    @apply text-xs text-error mt-1 lowercase;
-  }
-</style>

@@ -54,9 +54,17 @@
       class="flex flex-col | text-secondary | space-y-3 mt-10 | uppercase "
     >
       <label for="email"> Email </label>
-      <input class="input_fild" type="text" name="email" />
+      <input
+        class="py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary"
+        type="text"
+        name="email"
+      />
       <label for="password"> Password </label>
-      <input class="input_fild" type="password" name="password" />
+      <input
+        class="py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary"
+        type="password"
+        name="password"
+      />
       <div class="form-control">
         <label class="label !justify-start cursor-pointer">
           <input name="remember_me" type="checkbox" class="checkbox" />
@@ -89,9 +97,3 @@
     </form>
   </section>
 </main>
-
-<style lang="postcss">
-  .input_fild {
-    @apply py-3 text-sm border-b border-primary focus:outline-none bg-transparent appearance-none text-primary;
-  }
-</style>

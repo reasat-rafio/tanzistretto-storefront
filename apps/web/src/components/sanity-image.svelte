@@ -34,14 +34,3 @@
     style="aspect-ratio: {aspectRatio};"
   />
 {/if}
-
-<!-- some optional effects to make image loading look nicer -->
-<style>
-  /* img {
-    opacity: 0;
-    transition: opacity 500ms ease-out;
-  }
-  img.loaded {
-    opacity: 1;
-  } */
-</style>

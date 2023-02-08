@@ -103,8 +103,15 @@
         <span class="text-2xl">{subTotal} {TAKA_SYMBOL}</span>
       </div>
       <div>
-        <button class="__btn">View Cart</button>
-        <a href="/checkout" class="__btn">Chcekout</a>
+        <button
+          class="btn px-10 py-2 border-secondary bg-secondary font-body text-sm duration-700"
+          >View Cart</button
+        >
+        <a
+          href="/checkout"
+          class="btn px-10 py-2 border-secondary bg-secondary font-body text-sm duration-700"
+          >Chcekout</a
+        >
       </div>
     </section>
   {:else}
@@ -120,13 +127,10 @@
         <img use:motion src="/images/meditating.png" alt="" />
       </Motion>
       <h6 class="text-3xl mt-10">Cart is Empty</h6>
-      <a class="__btn mt-5" href="/shop">Let's Shop!</a>
+      <a
+        class="btn px-10 py-2 border-secondary bg-secondary font-body text-sm duration-700 mt-5"
+        href="/shop">Let's Shop!</a
+      >
     </section>
   {/if}
 </aside>
-
-<style lang="postcss">
-  .__btn {
-    @apply btn px-10 py-2 border-secondary bg-secondary font-body text-sm duration-700;
-  }
-</style>

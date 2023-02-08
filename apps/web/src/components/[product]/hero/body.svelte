@@ -1,11 +1,10 @@
 <script lang="ts">
   import { PortableText } from "@portabletext/svelte";
   import type { ProductProps } from "$lib/@types/product.types";
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import HeartIcon from "$components/icons/heart-icon.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
   import { addToCart } from "$lib/stores/cart.store";
-  import { browser } from "$app/environment";
 
   const { _id, title, body, images, priceDetails } = getContext(
     "product"
@@ -13,10 +12,17 @@
 
   const addToTheCart = () =>
     addToCart({ _id, price: priceDetails[0].price, title, image: images[0] });
+
+  const browser = import.meta.env?.SSR ?? typeof window !== "undefined";
+
+  let top = 0;
+  onMount(() => {
+    top = $navbarHeight;
+  });
 </script>
 
 <section
-  style="top: {$navbarHeight + 20}px; height: calc(100vh - {$navbarHeight}px);"
+  style="top: {top + 20}px; height: calc(100vh - {top}px);"
   class="max-w-3xl w-full | sticky self-start | flex flex-col justify-center items-center | space-y-5 px-5 mx-auto"
 >
   <h1 class="text-7xl">{title}</h1>

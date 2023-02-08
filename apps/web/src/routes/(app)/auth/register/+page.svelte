@@ -145,9 +145,3 @@
     </form>
   </section>
 </main>
-
-<style lang="postcss">
-  .text-xs text-error mt-1 lowercase {
-    @apply text-xs text-error mt-1 lowercase;
-  }
-</style>

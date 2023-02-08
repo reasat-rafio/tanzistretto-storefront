@@ -19,7 +19,6 @@ export function onProductPublishSavePIdToTheSupabaseAction(
           const {data, error: insertErr} = await supabase
             .from('product')
             .insert([{sanity_product_id: id}])
-          console.log({data})
         }
 
         if (!!originalResult?.onHandle) originalResult.onHandle()

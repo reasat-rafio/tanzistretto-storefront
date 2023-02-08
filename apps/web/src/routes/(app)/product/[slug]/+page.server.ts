@@ -2,6 +2,7 @@ import { error } from "@sveltejs/kit";
 import groq from "groq";
 import type { PageServerLoad } from "./$types";
 import { sanity_client } from "$lib/sanity-client";
+// export const ssr = false;
 
 const query = (slug: string) => groq`{
  "product" : *[_type == "product" && slug.current == "${slug}"][0]{

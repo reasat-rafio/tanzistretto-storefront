@@ -174,7 +174,7 @@ const Product = {
       ],
     },
     {
-      name: 'description',
+      name: 'body',
       type: 'array',
       of: [{type: 'block'}],
     },
@@ -182,7 +182,6 @@ const Product = {
   preview: {
     select: {
       title: 'title',
-      subtitle: 'body',
       media: 'images',
     },
     prepare: ({title, subtitle, media}: any) => ({title, subtitle, media: media[0]}),

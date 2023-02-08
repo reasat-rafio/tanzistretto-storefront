@@ -1,12 +1,13 @@
 <script lang="ts">
-  import type { ProductProps } from "$lib/@types/product.types";
-  import { getContext, onMount } from "svelte";
   import { PortableText } from "@portabletext/svelte";
+  import type { ProductProps } from "$lib/@types/product.types";
+  import { getContext } from "svelte";
   import HeartIcon from "$components/icons/heart-icon.svelte";
   import { navbarHeight } from "$lib/stores/global.store";
-  import { addToCart, cart } from "$lib/stores/cart.store";
+  import { addToCart } from "$lib/stores/cart.store";
+  import { browser } from "$app/environment";
 
-  const { _id, title, description, images, priceDetails } = getContext(
+  const { _id, title, body, images, priceDetails } = getContext(
     "product"
   ) as ProductProps;
 
@@ -19,11 +20,13 @@
   class="max-w-3xl w-full | sticky self-start | flex flex-col justify-center items-center | space-y-5 px-5 mx-auto"
 >
   <h1 class="text-7xl">{title}</h1>
-  <!-- {#if !!description?.length} -->
-  <div class="prose">
-    <PortableText value={description} />
+  <div>
+    {#if !!body?.length && browser}
+      <div class="prose">
+        <PortableText value={body} />
+      </div>
+    {/if}
   </div>
-  <!-- {/if} -->
 
   <div class="flex justify-between items-center py-5 w-full">
     <button

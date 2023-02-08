@@ -18,7 +18,7 @@ export interface ProductProps {
   tags: string[];
   title: string;
   variants?: Variant[];
-  description: any[];
+  body?: any[];
 }
 
 export interface Category {

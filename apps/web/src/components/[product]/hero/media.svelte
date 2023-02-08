@@ -6,7 +6,7 @@
   const { images } = getContext("product") as ProductProps;
 </script>
 
-<section class="bg-red-300">
+<section class="">
   {#each images as image}
     <figure>
       <SanityImage

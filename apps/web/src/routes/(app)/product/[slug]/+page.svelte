@@ -7,7 +7,6 @@
 
   export let data;
   const { product } = data.data;
-  console.log(product);
 
   setContext("product", product as ProductProps);
 </script>

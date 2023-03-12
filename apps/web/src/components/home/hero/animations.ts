@@ -13,6 +13,7 @@ export const headerTextColorAnime = {
   opacity: [0.8, 1],
   easing: "easeInOutQuad",
 };
+
 export const backdropBottomUpAnime = {
   targets: "#hero_backdrop",
   translateY: "-100%",

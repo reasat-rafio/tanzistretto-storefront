@@ -51,7 +51,6 @@
     slidesPerView={1}
     speed={700}
   >
-    <!-- on:slideChange={(swiper) => console.log(swiper)} -->
     {#each highlights as { image, title, textColor, _key } (_key)}
       <SwiperSlide let:data={{ isActive }}>
         <figure class="h-full w-full">

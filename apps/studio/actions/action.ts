@@ -11,13 +11,13 @@ export function onProductPublishSavePIdToTheSupabaseAction(
       onHandle: async () => {
         const {id} = props
         let {data: product, error: getErr} = await supabase
-          .from('product')
+          .from('products')
           .select('id')
           .eq('sanity_product_id', id)
 
         if (!product?.length) {
           const {data, error: insertErr} = await supabase
-            .from('product')
+            .from('products')
             .insert([{sanity_product_id: id}])
         }
 

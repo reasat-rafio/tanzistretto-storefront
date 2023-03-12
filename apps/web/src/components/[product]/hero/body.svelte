@@ -13,8 +13,6 @@
   const addToTheCart = () =>
     addToCart({ _id, price: priceDetails[0].price, title, image: images[0] });
 
-  const browser = import.meta.env?.SSR ?? typeof window !== "undefined";
-
   let top = 0;
   onMount(() => {
     top = $navbarHeight;
@@ -27,7 +25,7 @@
 >
   <h1 class="text-7xl">{title}</h1>
   <div>
-    {#if !!body?.length && browser}
+    {#if !!body?.length}
       <div class="prose">
         <PortableText value={body} />
       </div>

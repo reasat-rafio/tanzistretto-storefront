@@ -15,6 +15,18 @@
 
   export let props: HeroProps;
   const { highlights } = props;
+
+  let showCustomCursor = false;
+  let mousePosition = {
+    x: 0,
+    y: 0,
+  };
+
+  const mouseMoveAction = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
+    mousePosition = { x: clientX, y: clientY };
+  };
+
   onMount(() => {
     const onPageLoadAnim = anime.timeline({
       duration: 1000,
@@ -26,6 +38,9 @@
 </script>
 
 <section
+  on:mouseenter={() => (showCustomCursor = true)}
+  on:mouseleave={() => (showCustomCursor = false)}
+  on:mousemove={mouseMoveAction}
   style="height: calc(100vh - {$navbarHeight}px);"
   class="w-full relative overflow-hidden"
 >

@@ -16,3 +16,10 @@ export function delay(ms: number) {
 export function zeroPad(num: number, places: number) {
   return String(num).padStart(places, '0');
 }
+
+export function formatPrice(price: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(price / 100);
+}

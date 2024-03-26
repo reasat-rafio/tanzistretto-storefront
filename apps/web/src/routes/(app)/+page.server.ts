@@ -4,6 +4,7 @@ import type { LandingPageProps } from '$lib/types/landing.types';
 import { error } from '@sveltejs/kit';
 import groq from 'groq';
 import type { PageServerLoad } from './$types';
+import medusa from '$lib/server/medusa';
 
 const query = groq`
 	*[_id == "landingPage"][0]{
@@ -17,7 +18,11 @@ const query = groq`
 
 export const load: PageServerLoad = async () => {
   const data: LandingPageProps = await sanityClient.fetch(query);
-  if (!data) throw error(404, { message: 'Not found' });
+  const products = await medusa.getProducts();
+
+  console.log(products);
+
+  //   if (!data) throw error(404, { message: 'Not found' });
 
   return { page: data };
 };

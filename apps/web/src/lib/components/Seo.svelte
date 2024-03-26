@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SvelteSeo from 'svelte-seo';
+  import { MetaTags } from 'svelte-meta-tags';
   import { urlFor } from '$lib/sanity/sanity-client';
   import type { SanityAsset } from '@sanity/image-url/lib/types/types';
   import type { SeoProps } from '$lib/types/common.types';
@@ -26,20 +26,21 @@
     : [];
 </script>
 
-<SvelteSeo
+<MetaTags
   {title}
   {description}
-  canonical="https://www.edistys.dev"
+  canonical="https://www.tanzistretto.com"
   openGraph={{
     type: 'website',
     title,
     description,
-    url: 'https://www.edistys.dev',
+    url: 'https://www.tanzistretto.com',
     images: openGraphImages,
   }}
   twitter={{
-    card: 'summary_large_image',
     title,
+    cardType: 'summary_large_image',
     description,
     image: urlFor(ogImage).width(600).height(400).auto('format').url(),
+    imageAlt: 'Twitter image alt',
   }} />

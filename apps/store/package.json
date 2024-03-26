@@ -44,6 +44,7 @@
     "medusa-payment-stripe": "^6.0.7",
     "medusa-plugin-auth": "^1.10.3",
     "medusa-plugin-resend": "^1.1.0",
+    "medusa-plugin-variant-images": "^1.0.5",
     "prism-react-renderer": "^2.0.4",
     "typeorm": "^0.3.16"
   },

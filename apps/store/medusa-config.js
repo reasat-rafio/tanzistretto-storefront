@@ -31,8 +31,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 const BACKEND_URL = process.env.BACKEND_URL || "localhost:9000";
 const ADMIN_URL = process.env.ADMIN_URL || "localhost:7000";
 const STORE_URL = process.env.STORE_URL || "http://localhost:5173";
-const DATABASE_URL =
-  process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
+const DATABASE_URL = process.env.DATABASE_URL || "";
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
 const GoogleClientId = process.env.GOOGLE_CLIENT_ID || "";
@@ -43,12 +42,6 @@ const FacebookClientSecret = process.env.FACEBOOK_CLIENT_SECRET || "";
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
-  // {
-  //   resolve: `@medusajs/file-local`,
-  //   options: {
-  //     upload_dir: "uploads",
-  //   },
-  // },
   {
     resolve: `medusa-file-cloudinary`,
     options: {
@@ -58,6 +51,7 @@ const plugins = [
       secure: true,
     },
   },
+
   {
     resolve: "@medusajs/admin",
     /** @type {import('@medusajs/admin').PluginOptions} */
@@ -168,19 +162,25 @@ const plugins = [
       },
     ],
   },
+  {
+    resolve: "medusa-plugin-variant-images",
+    options: {
+      enableUI: true,
+    },
+  },
 ];
 
 const modules = {
   /*eventBus: {
     resolve: "@medusajs/event-bus-redis",
     options: {
-      redisUrl: REDIS_URL
+      // redisUrl: REDIS_URL
     }
   },
   cacheService: {
     resolve: "@medusajs/cache-redis",
     options: {
-      redisUrl: REDIS_URL
+      // redisUrl: REDIS_URL
     }
   },*/
 };
@@ -193,7 +193,7 @@ const projectConfig = {
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
   // Uncomment the following lines to enable REDIS
-  // redis_url: REDIS_URL
+  // redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */

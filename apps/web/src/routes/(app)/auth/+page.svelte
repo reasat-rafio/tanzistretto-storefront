@@ -84,7 +84,7 @@
   href="http://localhost:9000/store/auth/google"
   class="mb-2 mr-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55">
   <svg
-    class="-ml-1 mr-2 h-4 w-4"
+    class="w-4 h-4 mr-2 -ml-1"
     aria-hidden="true"
     focusable="false"
     data-prefix="fab"
@@ -99,10 +99,16 @@
   </svg>
   Sign in with Google
 </a>
+<a
+  type="button"
+  href="http://localhost:9000/store/auth/facebook"
+  class="mb-2 mr-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55">
+  Sign in with Facebook
+</a>
 
 {#if state === 'signin'}
   <h3
-    class="font-heading mb-4 text-center text-3xl font-semibold text-gray-900">
+    class="mb-4 text-3xl font-semibold text-center text-gray-900 font-heading">
     Sign In to Your Account
   </h3>
   <p class="mb-10 text-lg text-gray-500">
@@ -142,7 +148,7 @@
       </div>{/if}
     <button type="submit" class="button">Login</button>
     <!-- <SocialProviders /> -->
-    <div class="pt-6 text-center text-sm font-medium">
+    <div class="pt-6 text-sm font-medium text-center">
       <span>Don't have an account?&nbsp;&nbsp;</span>
       <button
         type="button"
@@ -153,7 +159,7 @@
         Sign Up
       </button>
     </div>
-    <div class="text-center text-sm font-medium">
+    <div class="text-sm font-medium text-center">
       <button
         type="button"
         on:click={() => {
@@ -166,7 +172,7 @@
   </form>
 {:else if state === 'signup'}
   <h3
-    class="font-heading mb-4 text-center text-3xl font-semibold text-gray-900">
+    class="mb-4 text-3xl font-semibold text-center text-gray-900 font-heading">
     Create an Account
   </h3>
   <p class="mb-10 text-lg text-gray-500">
@@ -246,7 +252,7 @@
       </div>{/if}
     <button type="submit" class="button">Create Account</button>
     <!-- <SocialProviders /> -->
-    <div class="pt-6 text-center text-sm font-medium">
+    <div class="pt-6 text-sm font-medium text-center">
       <span>Already have an account?&nbsp;&nbsp;</span>
       <button
         type="button"
@@ -264,7 +270,7 @@
       {$forgotMessage}
     </div>
   {:else}
-    <p class="my-4 text-center font-medium">Enter your email address</p>
+    <p class="my-4 font-medium text-center">Enter your email address</p>
     <form action="?/forgot" method="POST" use:forgotEnhance>
       <input type="hidden" name="rurl" value={$forgotForm.rurl} />
       <!-- <input type="hidden" name="token" bind:value={$forgotForm.token} /> -->
@@ -285,7 +291,7 @@
     </form>
   {/if}
 {:else if state === 'reset'}
-  <p class="my-4 text-center font-medium">Choose a new password</p>
+  <p class="my-4 font-medium text-center">Choose a new password</p>
   <form action="?/reset" method="POST" use:resetEnhance>
     <input type="hidden" name="rurl" value={$resetForm.rurl} />
     <!-- <input type="hidden" name="token" bind:value={$resetForm.token} /> -->

@@ -30,7 +30,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
 const BACKEND_URL = process.env.BACKEND_URL || "localhost:9000";
 const ADMIN_URL = process.env.ADMIN_URL || "localhost:7000";
-const STORE_URL = process.env.STORE_URL || "localhost:8000";
+const STORE_URL = process.env.STORE_URL || "http://localhost:5173";
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";

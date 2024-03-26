@@ -15,9 +15,9 @@ export const load: PageServerLoad = async ({ locals, url }) => {
   const rurl = url.searchParams.get('rurl') || '';
   const code = url.searchParams.get('code') || '';
 
-  if (locals.user) {
-    throw redirect(302, `/${rurl}`);
-  }
+  // if (locals.user) {
+  //   throw redirect(302, `/${rurl}`);
+  // }
 
   const loginForm = await superValidate(zod(loginPostReq), { id: 'login' });
   const registerForm = await superValidate(zod(registerPostReq), {

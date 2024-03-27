@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
   const code = url.searchParams.get('token') || '';
   const rurl = url.searchParams.get('rurl') || '';
 
-  if (locals.user) throw redirect(302, `/${rurl}`);
+  // if (locals.user) throw redirect(302, `/${rurl}`);
 
   const signInForm = await superValidate(zod(signInReq), { id: 'signIn' });
   const signUpForm = await superValidate(zod(signUpReq), { id: 'signUp' });

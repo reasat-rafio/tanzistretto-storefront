@@ -102,6 +102,8 @@ export enum AssetType {
 }
 
 export type AuthenticationInput = {
+  facebook?: InputMaybe<FacebookAuthInput>;
+  google?: InputMaybe<GoogleAuthInput>;
   native?: InputMaybe<NativeAuthInput>;
 };
 
@@ -928,6 +930,10 @@ export type ErrorResult = {
   message: Scalars['String']['output'];
 };
 
+export type FacebookAuthInput = {
+  token: Scalars['String']['input'];
+};
+
 export type Facet = Node & {
   __typename?: 'Facet';
   code: Scalars['String']['output'];
@@ -1121,6 +1127,10 @@ export enum GlobalFlag {
   Inherit = 'INHERIT',
   True = 'TRUE'
 }
+
+export type GoogleAuthInput = {
+  token: Scalars['String']['input'];
+};
 
 /** Returned when attempting to set the Customer on a guest checkout when the configured GuestCheckoutStrategy does not allow it. */
 export type GuestCheckoutError = ErrorResult & {

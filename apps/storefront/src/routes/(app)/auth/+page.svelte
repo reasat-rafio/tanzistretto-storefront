@@ -38,7 +38,7 @@
       if (result.type === 'success') {
         handleSignIn();
       } else {
-        token = '';
+        // token = '';
         processing = false;
       }
     },
@@ -48,7 +48,7 @@
     enhance: signInEnhance,
     message: signInMessage,
   } = signInForm;
-  $: $signInFormData.token = token;
+  //   $: $signInFormData.token = token;
 
   const signUpForm = superForm(data.signUpForm, {
     validators: zodClient(signUpReq),
@@ -58,7 +58,7 @@
     onResult: ({ result }) => {
       console.log(result);
       if (result.type === 'success') {
-        // handleSignIn()
+        handleSignIn();
         // verify email
       } else {
         token = '';
@@ -71,7 +71,7 @@
     enhance: signUpEnhance,
     message: signUpMessage,
   } = signUpForm;
-  $: $signUpFormData.token = token;
+  //   $: $signUpFormData.token = token;
 
   const forgotForm = superForm(data.forgotForm, {
     validators: zodClient(forgotReq),
@@ -88,7 +88,7 @@
     enhance: forgotEnhance,
     message: forgotMessage,
   } = forgotForm;
-  $: $forgotFormData.token = token;
+  //   $: $forgotFormData.token = token;
 
   const resetForm = superForm(data.resetForm, {
     validators: zodClient(resetReq),
@@ -105,7 +105,7 @@
     enhance: resetEnhance,
     message: resetMessage,
   } = resetForm;
-  $: $resetFormData.token = token;
+  //   $: $resetFormData.token = token;
   $: $resetFormData.code = code;
 </script>
 
@@ -135,11 +135,11 @@
         </p>
       {/if}
 
-      <Form.Field form={signInForm} name="token">
+      <!-- <Form.Field form={signInForm} name="token">
         <Form.Control let:attrs>
           <input {...attrs} type="hidden" bind:value={$signInFormData.token} />
         </Form.Control>
-      </Form.Field>
+      </Form.Field> -->
       <Form.Field form={signInForm} name="email">
         <Form.Control let:attrs>
           <Form.Label>Email</Form.Label>
@@ -201,11 +201,11 @@
       Welcome! To create an account, please enter your email and choose a
       password below.
     </p>
-    <Form.Field form={signUpForm} name="token">
+    <!-- <Form.Field form={signUpForm} name="token">
       <Form.Control let:attrs>
         <input {...attrs} type="hidden" bind:value={$signUpFormData.token} />
       </Form.Control>
-    </Form.Field>
+    </Form.Field> -->
     <Form.Field form={signUpForm} name="fname">
       <Form.Control let:attrs>
         <Form.Label>First Name</Form.Label>
@@ -267,11 +267,11 @@
       Enter your email address to receive an email with a link to change your
       password.
     </p>
-    <Form.Field form={forgotForm} name="token">
+    <!-- <Form.Field form={forgotForm} name="token">
       <Form.Control let:attrs>
         <input {...attrs} type="hidden" bind:value={$forgotFormData.token} />
       </Form.Control>
-    </Form.Field>
+    </Form.Field> -->
     <Form.Field form={forgotForm} name="email">
       <Form.Control let:attrs>
         <Form.Label>Email</Form.Label>
@@ -297,11 +297,11 @@
       class="font-heading mb-4 text-center text-3xl font-semibold text-gray-900">
       Choose a New Password
     </h3>
-    <Form.Field form={resetForm} name="token">
+    <!-- <Form.Field form={resetForm} name="token">
       <Form.Control let:attrs>
         <input {...attrs} type="hidden" bind:value={$resetFormData.token} />
       </Form.Control>
-    </Form.Field>
+    </Form.Field> -->
     <Form.Field form={resetForm} name="code">
       <Form.Control let:attrs>
         <input {...attrs} type="hidden" bind:value={$resetFormData.code} />

@@ -14,6 +14,9 @@
   } from '$lib/utils/validators';
 
   import * as Form from '$lib/components/ui/form';
+  import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
+  import { onMount } from 'svelte';
+  import { browser } from '$app/environment';
 
   export let data: PageData;
 
@@ -108,13 +111,15 @@
   //   $: $resetFormData.token = token;
   $: $resetFormData.code = code;
 
-  function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
+  // function onSignIn(googleUser) {
+  //   var profile = googleUser.getBasicProfile();
+  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //   console.log('Name: ' + profile.getName());
+  //   console.log('Image URL: ' + profile.getImageUrl());
+  //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  // }
+  let loaded = false;
+  onMount(() => (loaded = true));
 </script>
 
 <!-- {#if !token}
@@ -124,7 +129,14 @@
 			on:turnstile-callback={(e) => { token = e.detail.token }}
 		/> -->
 
-<div class="g-signin2 mt-10" data-onsuccess="onSignIn">H</div>
+{#if loaded}
+  <div
+    id="g_id_onload"
+    data-client_id={PUBLIC_GOOGLE_CLIENT_ID}
+    data-callback="handleCredentialResponse">
+  </div>
+  <div class="g_id_signin mt-10 bg-red-600" data-type="standard"></div>
+{/if}
 
 {#if state === 'signIn'}
   {#if processing}

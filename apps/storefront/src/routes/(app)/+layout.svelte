@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
+  import { browser } from '$app/environment';
   import { urlFor } from '$lib/sanity/sanity-client';
   import type { LayoutData } from './$types';
 
@@ -13,12 +13,25 @@
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()
     : null;
+
+  $: if (browser)
+    window.handleCredentialResponse = async (googleUser: unknown) => {
+      console.log('====================================');
+      console.log('HERE', googleUser);
+      console.log('====================================');
+
+      await fetch('/auth/google', {
+        method: 'POST',
+        body: JSON.stringify(googleUser),
+      }).catch((e) => {
+        if (e) console.log(e);
+      });
+    };
 </script>
 
 <svelte:head>
   <link rel="icon" type="image/png" href={faviconImage} />
-  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content={PUBLIC_GOOGLE_CLIENT_ID} /> -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </svelte:head>
 
 <main class="overflow-hidden">

@@ -1,4 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
+import { getCustomer } from './getCustomer.graphql';
+import { getActiveOrder } from './getActiveOrder.graphql';
 
 // this middleware function is called by src/hooks.server.ts or src/hooks.server.js
 export const handleVendureRequest = async function (
@@ -9,6 +11,6 @@ export const handleVendureRequest = async function (
   if (!event.locals.sid && !event.locals.ssig) return event;
 
   event.locals.user = await getCustomer(event.locals);
-  event.locals.cart = await getActiveOrder(event.locals, event.cookies);
+  event.locals.cart = await getActiveOrder(event.locals);
   return event;
 };

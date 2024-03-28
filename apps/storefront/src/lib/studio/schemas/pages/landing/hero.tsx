@@ -1,5 +1,4 @@
 import { SiHomeadvisor } from 'react-icons/si';
-import { toPlainText } from '@portabletext/svelte';
 import { alt } from '$lib/studio/lib/alt';
 import type { ObjectRule } from 'sanity';
 
@@ -55,12 +54,8 @@ const hero = {
     },
   ],
   preview: {
-    select: {
-      title: 'title',
-      subtitle: 'subtitle',
-    },
-    prepare({ title, subtitle }: unknown) {
-      return { title: toPlainText(title), subtitle };
+    prepare() {
+      return { title: 'Banner', subtitle: 'Hero' };
     },
   },
 };

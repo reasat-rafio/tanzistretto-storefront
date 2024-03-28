@@ -3,7 +3,7 @@
   import { PortableText } from '@portabletext/svelte';
   import { X } from 'lucide-svelte';
   import { onMount } from 'svelte';
-  import { fade, slide } from 'svelte/transition';
+  import { blur, slide } from 'svelte/transition';
 
   export let promotions: Promotion[];
 
@@ -25,7 +25,7 @@
     <div
       class="bg-primary text-primary-foreground text-xxs relative py-2 text-center text-xs font-medium md:text-xs">
       {#key promotions[activeIndex].title}
-        <div class="container" in:fade>
+        <div class="container" in:blur>
           <PortableText components={{}} value={promotions[activeIndex].title} />
         </div>
       {/key}

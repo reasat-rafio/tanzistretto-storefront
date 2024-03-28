@@ -37,6 +37,7 @@ const documents = {
     "\n\t\tmutation Register($input: RegisterCustomerInput!) {\n\t\t\tregisterCustomerAccount(input: $input) {\n\t\t\t\t... on Success {\n\t\t\t\t\tsuccess\n\t\t\t\t}\n\t\t\t\t...on ErrorResult {\n\t\t\t\t\terrorCode\n\t\t\t\t\tmessage\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.RegisterDocument,
     "\n\t\tmutation AdjustOrderLine($orderLineId: ID!, $quantity: Int!) {\n\t\t\tadjustOrderLine(orderLineId: $orderLineId, quantity: $quantity) {\n\t\t\t\t...ActiveOrder\n\t\t\t\t... on ErrorResult {\n\t\t\t\t\t\terrorCode\n\t\t\t\t\t\tmessage\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.AdjustOrderLineDocument,
     "\n\t\tmutation Verify($token: String!) {\n\t\t\tverifyCustomerAccount(token: $token) {\n\t\t\t\t...on CurrentUser {\n\t\t\t\t\tid\n\t\t\t\t\tidentifier\n\t\t\t\t}\n\t\t\t\t...on ErrorResult {\n\t\t\t\t\terrorCode\n\t\t\t\t\tmessage\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.VerifyDocument,
+    "\n\t\tquery GetOurFavoritesCollection($slug: String!) {\n\t\t\tcollection(slug: $slug) {\n\t\t\t\tname\n\t\t\t\tslug\n\t\t\t\tproductVariants {\n\t\t\t\t\titems {\n\t\t\t\t\t\tname\n\t\t\t\t\t\tprice\n        \t\t\t\tpriceWithTax\n\t\t\t\t\t\tfeaturedAsset {\n          \t\t\t\t\tsource\n        \t\t\t\t}\n\t\t\t\t\t\tassets {\n\t\t\t\t\t\t\tsource\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n  ": types.GetOurFavoritesCollectionDocument,
 };
 
 /**
@@ -149,6 +150,10 @@ export function gql(source: "\n\t\tmutation AdjustOrderLine($orderLineId: ID!, $
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\t\tmutation Verify($token: String!) {\n\t\t\tverifyCustomerAccount(token: $token) {\n\t\t\t\t...on CurrentUser {\n\t\t\t\t\tid\n\t\t\t\t\tidentifier\n\t\t\t\t}\n\t\t\t\t...on ErrorResult {\n\t\t\t\t\terrorCode\n\t\t\t\t\tmessage\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tmutation Verify($token: String!) {\n\t\t\tverifyCustomerAccount(token: $token) {\n\t\t\t\t...on CurrentUser {\n\t\t\t\t\tid\n\t\t\t\t\tidentifier\n\t\t\t\t}\n\t\t\t\t...on ErrorResult {\n\t\t\t\t\terrorCode\n\t\t\t\t\tmessage\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\t\tquery GetOurFavoritesCollection($slug: String!) {\n\t\t\tcollection(slug: $slug) {\n\t\t\t\tname\n\t\t\t\tslug\n\t\t\t\tproductVariants {\n\t\t\t\t\titems {\n\t\t\t\t\t\tname\n\t\t\t\t\t\tprice\n        \t\t\t\tpriceWithTax\n\t\t\t\t\t\tfeaturedAsset {\n          \t\t\t\t\tsource\n        \t\t\t\t}\n\t\t\t\t\t\tassets {\n\t\t\t\t\t\t\tsource\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n  "): (typeof documents)["\n\t\tquery GetOurFavoritesCollection($slug: String!) {\n\t\t\tcollection(slug: $slug) {\n\t\t\t\tname\n\t\t\t\tslug\n\t\t\t\tproductVariants {\n\t\t\t\t\titems {\n\t\t\t\t\t\tname\n\t\t\t\t\t\tprice\n        \t\t\t\tpriceWithTax\n\t\t\t\t\t\tfeaturedAsset {\n          \t\t\t\t\tsource\n        \t\t\t\t}\n\t\t\t\t\t\tassets {\n\t\t\t\t\t\t\tsource\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n  "];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

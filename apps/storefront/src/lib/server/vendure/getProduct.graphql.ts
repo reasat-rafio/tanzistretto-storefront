@@ -1,7 +1,7 @@
 import { gql } from '$lib/generated';
 import { query } from '.';
 
-export const getProduct = async function (slug: string) {
+export const getProduct = async (slug: string) => {
   if (!slug) return [];
   const GetProduct = gql(`
 		query GetProduct($slug: String!) {

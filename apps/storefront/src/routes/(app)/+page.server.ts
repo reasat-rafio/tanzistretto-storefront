@@ -1,11 +1,13 @@
 import { sanityClient } from '$lib/sanity/sanity-client';
 import { asset } from '$lib/sanity/sanity-image';
 import type { LandingPageProps } from '$lib/types/landing.types';
-import { error } from '@sveltejs/kit';
 import groq from 'groq';
 import type { PageServerLoad } from './$types';
+import { query } from '$lib/server/vendure';
+import { gql } from '$lib/generated';
 
-const query = groq`
+async function getSanityHomePageData(): Promise<LandingPageProps> {
+  const sanityQuery = groq`
 	*[_id == "landingPage"][0]{
 		...,
 		sections[] {
@@ -15,10 +17,48 @@ const query = groq`
 	}
 `;
 
+  return await sanityClient.fetch(sanityQuery).catch(() => null);
+}
+
+async function getOurFavoritesCollection(): Promise<unknown> {
+  const GetOurFavoritesCollection = gql(`
+		query GetOurFavoritesCollection($slug: String!) {
+			collection(slug: $slug) {
+				name
+				slug
+				productVariants {
+					items {
+						name
+						price
+        				priceWithTax
+						featuredAsset {
+          					source
+        				}
+						assets {
+							source
+						}
+					}
+				}
+			}
+		}
+
+  `);
+
+  return await query({
+    document: GetOurFavoritesCollection,
+    variables: { slug: 'our-favorites' },
+  })
+    .then((response) => response?.json())
+    .then((body) => body?.data?.collection)
+    .catch((e) => {
+      console.log(e);
+      return null;
+    });
+}
+
 export const load: PageServerLoad = async () => {
-  const data: LandingPageProps = await sanityClient.fetch(query);
-
-  if (!data) throw error(404, { message: 'Not found' });
-
-  return { page: data };
+  return {
+    page: await getSanityHomePageData(),
+    favoriteCollection: await getOurFavoritesCollection(),
+  };
 };

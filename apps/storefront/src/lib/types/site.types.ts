@@ -34,11 +34,11 @@ export interface Menu {
   subLinks?: SubLinks[];
 }
 
-type SubLinks = MenuSubLink | MenuPoster;
+export type SubLinks = MenuSubLink | MenuPoster;
 
 export interface MenuSubLink {
   _key: string;
-  _type: "links";
+  _type: 'links';
   links: { title: string; link: string }[];
 }
 

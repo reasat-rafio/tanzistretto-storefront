@@ -8,12 +8,10 @@
 </script>
 
 <Sheet.Root>
-  <Sheet.Trigger>
-    <button class="md:hidden">
-      <Menu size={30} />
-    </button>
+  <Sheet.Trigger class="p-0 lg:hidden">
+    <Menu size={30} />
   </Sheet.Trigger>
-  <Sheet.Content class=" w-full">
+  <Sheet.Content class="w-full overflow-auto">
     <ul class="text-primary flex flex-col divide-y">
       {#each nav.menu as navItem}
         <NavItem {navItem} />

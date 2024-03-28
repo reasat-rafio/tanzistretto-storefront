@@ -34,10 +34,10 @@
   </svelte:element>
 
   {#if hasSubLinks && open && subLinks?.length}
-    <ul transition:slide class="grid grid-cols-2 gap-4 px-2 md:grid-cols-4">
+    <ul transition:slide class="grid grid-cols-2 gap-4 px-2">
       {#each subLinks as subLink}
         {#if subLink._type === 'links'}
-          <ul class="col-span-2 space-y-2 pt-2 sm:col-span-1">
+          <ul class="col-span-2 space-y-2 pt-2">
             {#each subLink.links as { link, title }}
               <li>
                 <a class="font-medium" href={link}>{title}</a>

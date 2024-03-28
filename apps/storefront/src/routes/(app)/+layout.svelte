@@ -40,7 +40,7 @@
   <link rel="icon" type="image/png" href={faviconImage} />
 </svelte:head>
 
-<main class="overflow-hidden">
+<main class="">
   <Promotion {promotions} />
   <Navbar {logo} {nav} />
   <slot />

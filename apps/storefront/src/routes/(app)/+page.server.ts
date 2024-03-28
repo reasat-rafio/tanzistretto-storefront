@@ -18,7 +18,7 @@ const query = groq`
 export const load: PageServerLoad = async () => {
   const data: LandingPageProps = await sanityClient.fetch(query);
 
-  //   if (!data) throw error(404, { message: 'Not found' });
+  if (!data) throw error(404, { message: 'Not found' });
 
   return { page: data };
 };

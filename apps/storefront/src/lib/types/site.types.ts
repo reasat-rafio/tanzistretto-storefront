@@ -1,5 +1,6 @@
 import type { SanityDocument } from '@sanity/client';
 import type { Link, SanityImageWithAlt } from './common.types';
+import type { PortableTextBlock } from 'sanity';
 
 export interface SiteDataProps {
   logos: {
@@ -10,9 +11,15 @@ export interface SiteDataProps {
   nav: Nav;
   footer: Footer;
   greetings: Greetings;
+  promotions: Promotion[];
 }
 
 export type Greetings = SanityDocument & { greetings: string[] };
+
+export interface Promotion {
+  _id: string;
+  title: PortableTextBlock[];
+}
 
 export interface Nav {
   _rev: string;

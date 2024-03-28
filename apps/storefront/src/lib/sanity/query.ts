@@ -10,7 +10,11 @@ export const siteQuery = groq`{
     },
     "nav": *[_id == "siteNav"][0],
     "footer": *[_id == "siteFooter"][0],
-    "greetings": *[_id == "siteGreetings"][0]
+    "greetings": *[_id == "siteGreetings"][0],
+    "promotions": *[_type == "promotion"]|order(orderRank)[]{
+			_id,
+			title
+		},
   }`;
 
 export const pageQuery = (query: string) => groq`{

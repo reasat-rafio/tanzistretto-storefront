@@ -2,6 +2,7 @@ import { pages } from '$lib/utils/constant';
 import { BsLink45Deg } from 'react-icons/bs';
 import { defineField, defineType } from 'sanity';
 
+// @TODO - Hide the internal and external link when there is a child
 const link = defineType({
   name: 'link',
   title: 'Link',
@@ -17,7 +18,7 @@ const link = defineType({
       name: 'type',
       type: 'string',
       initialValue: 'internal',
-      validation: (Rule) => Rule.required(),
+      hidden: ({ parent }) => !!parent?.child?.length,
       options: {
         list: [
           { title: 'Internal', value: 'internal' },
@@ -28,7 +29,8 @@ const link = defineType({
     defineField({
       name: 'internalLink',
       type: 'string',
-      hidden: ({ parent }) => parent?.type !== 'internal',
+      hidden: ({ parent }) =>
+        !!parent?.child?.length || parent?.type !== 'internal',
       options: {
         list: [...pages],
       },
@@ -43,7 +45,8 @@ const link = defineType({
     defineField({
       name: 'externalLink',
       type: 'url',
-      hidden: ({ parent }) => parent?.type !== 'external',
+      hidden: ({ parent }) =>
+        !!parent?.child?.length || parent?.type !== 'external',
       validation: (Rule) =>
         Rule.custom((externalLink, context) =>
           (context?.parent as { type: string })?.type === 'external' &&

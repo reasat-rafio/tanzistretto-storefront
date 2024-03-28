@@ -1,4 +1,4 @@
-import type { Link, SeoProps } from './common.types';
+import type { Link, SanityImageWithAlt, SeoProps } from './common.types';
 import type { PortableTextBlock } from '@portabletext/types';
 
 export interface LandingPageProps {
@@ -10,7 +10,12 @@ type Section = HeroProps;
 
 export interface HeroProps {
   _type: 'landing.hero';
-  title: PortableTextBlock[];
-  subtitle: string;
+  banners: Banner[];
+}
+
+export interface Banner {
+  image: SanityImageWithAlt;
+  title: string;
+  subtitle?: PortableTextBlock[];
   link: Link;
 }

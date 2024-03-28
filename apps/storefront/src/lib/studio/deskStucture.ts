@@ -4,6 +4,8 @@ import { FaSitemap } from 'react-icons/fa';
 import { SiCloudflarepages } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
+import { TfiAnnouncement } from 'react-icons/tfi';
 
 interface ListItem {
   title: string;
@@ -31,7 +33,7 @@ const singleItem = (
   );
 
 // context: ConfigContext;
-export const AppStructure: StructureResolver = (S) =>
+export const AppStructure: StructureResolver = (S, context) =>
   S.list()
     .title('Content')
     .id('__root__')
@@ -61,6 +63,7 @@ export const AppStructure: StructureResolver = (S) =>
             ]),
         ),
       S.divider(),
+
       S.listItem()
         .title('Pages')
         .icon(SiCloudflarepages)
@@ -76,4 +79,13 @@ export const AppStructure: StructureResolver = (S) =>
               }),
             ]),
         ),
+      S.divider(),
+
+      orderableDocumentListDeskItem({
+        type: 'promotion',
+        S,
+        context,
+        title: 'Promotions',
+        icon: TfiAnnouncement,
+      }),
     ]);

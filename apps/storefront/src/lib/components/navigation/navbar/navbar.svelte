@@ -70,9 +70,7 @@
     {/if}
 
     {#if showDesktopNavItemsDropdown}
-      <DesktopNavItemsDropdown
-        bind:showDesktopNavItemsDropdown
-        {activeSubLinks} />
+      <DesktopNavItemsDropdown {activeSubLinks} />
     {/if}
   </div>
 </nav>

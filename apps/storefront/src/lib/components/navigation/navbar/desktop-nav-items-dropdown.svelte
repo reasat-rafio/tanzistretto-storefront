@@ -5,12 +5,11 @@
   import { blur, fade } from 'svelte/transition';
 
   export let activeSubLinks: SubLinks[] | undefined = undefined;
-  export let showDesktopNavItemsDropdown: boolean;
 </script>
 
 <div
   transition:blur
-  class="absolute bottom-0 left-0 min-h-[20dvh] w-full translate-y-full border-t bg-white shadow">
+  class="absolute bottom-0 left-0 min-h-[20dvh] w-full translate-y-full border-t bg-white shadow-lg">
   <div class="mx-auto max-w-screen-lg py-10">
     <ul class="grid grid-cols-5 gap-5">
       {#if !!activeSubLinks}

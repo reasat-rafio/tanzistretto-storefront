@@ -14,6 +14,7 @@ export interface HeroProps {
 }
 
 export interface Banner {
+  _key: string;
   image: SanityImageWithAlt;
   title: string;
   subtitle?: PortableTextBlock[];

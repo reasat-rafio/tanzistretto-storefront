@@ -52,7 +52,7 @@ export const AppStructure: StructureResolver = (S, context) =>
               }),
               singleItem(S, {
                 schemaType: 'site.nav',
-                id: 'siteNav',
+                id: 'siteNavigation',
                 title: 'Navigation',
               }),
               singleItem(S, {

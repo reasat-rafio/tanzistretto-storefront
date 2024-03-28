@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { pages } from '$lib/utils/constant';
 import { alt } from '$studio/lib/alt';
-import pages from '$studio/schemas/pages';
 import { BsLink45Deg } from 'react-icons/bs';
 import { CiImageOn } from 'react-icons/ci';
 import { IoNavigate } from 'react-icons/io5';
@@ -90,6 +90,7 @@ const siteNavigation = defineType({
                         {
                           type: 'object',
                           name: 'link',
+                          icon: BsLink45Deg,
                           fields: [
                             {
                               name: 'title',

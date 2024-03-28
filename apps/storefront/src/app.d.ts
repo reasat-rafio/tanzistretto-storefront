@@ -15,6 +15,12 @@ declare global {
     // interface PageState {}
     // interface Platform {}
   }
+
+  declare namespace svelteHTML {
+    interface HTMLAttributes<T> {
+      'on:clickOutside'?: CompositionEventHandler<T>;
+    }
+  }
 }
 
 export {};

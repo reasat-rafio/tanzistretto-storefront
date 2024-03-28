@@ -1,5 +1,4 @@
-import type { SanityDocument } from '@sanity/client';
-import type { Link, SanityImageWithAlt } from './common.types';
+import type { SanityImageWithAlt } from './common.types';
 import type { PortableTextBlock } from 'sanity';
 
 export interface SiteDataProps {
@@ -10,11 +9,8 @@ export interface SiteDataProps {
   };
   nav: Nav;
   footer: Footer;
-  greetings: Greetings;
   promotions: Promotion[];
 }
-
-export type Greetings = SanityDocument & { greetings: string[] };
 
 export interface Promotion {
   _id: string;
@@ -25,9 +21,34 @@ export interface Nav {
   _rev: string;
   _type: string;
   _id: string;
-  menu: Link[];
+  menu: Menu[];
   _updatedAt: Date;
   _createdAt: Date;
+}
+
+export interface Menu {
+  title: string;
+  type: 'internal' | 'external';
+  internalLink?: string;
+  externalLink?: string;
+  subLinks?: SubLinks[];
+}
+
+type SubLinks = MenuSubLink | MenuPoster;
+
+export interface MenuSubLink {
+  _key: string;
+  _type: "links";
+  links: { title: string; link: string }[];
+}
+
+export interface MenuPoster {
+  _key: string;
+  _type: 'poster';
+  title: string;
+  subtitle?: string;
+  image: SanityImageWithAlt;
+  link: string;
 }
 
 export interface Footer {

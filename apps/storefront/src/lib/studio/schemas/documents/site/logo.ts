@@ -1,3 +1,4 @@
+import { alt } from '$studio/lib/alt';
 import { FaRegStar } from 'react-icons/fa';
 import type { Rule } from 'sanity';
 
@@ -11,6 +12,8 @@ const siteLogo = {
       name: 'logo',
       type: 'image',
       validation: (Rule: Rule) => Rule.required(),
+      options: { hotspot: true },
+      fields: [alt()],
     },
 
     {

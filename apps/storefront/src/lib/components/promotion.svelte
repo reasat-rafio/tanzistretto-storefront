@@ -16,9 +16,7 @@
       activeIndex = (activeIndex + 1) % promotions.length;
     }, 3500);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   });
 </script>
 

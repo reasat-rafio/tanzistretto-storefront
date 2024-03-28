@@ -1,14 +1,16 @@
 <script lang="ts">
+  import Promotion from '$lib/components/promotion.svelte';
   import { urlFor } from '$lib/sanity/sanity-client';
   import { onMount } from 'svelte';
   import type { LayoutData } from './$types';
-  import Promotion from '$lib/components/promotion.svelte';
+  import Navbar from '$lib/components/navigation/navbar/navbar.svelte';
 
   export let data: LayoutData;
   $: ({
     site: {
-      logos: { logo, favicon },
+      nav,
       promotions,
+      logos: { logo, favicon },
     },
   } = data);
 
@@ -40,5 +42,6 @@
 
 <main class="overflow-hidden">
   <Promotion {promotions} />
+  <Navbar {logo} {nav} />
   <slot />
 </main>

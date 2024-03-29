@@ -3,18 +3,24 @@
 
   type Variant = GroupedFavProduct['variants'][0];
 
-  export let activeVariant: Variant;
+  export let activeVariant: Variant | null;
+  export let reactiveActiveVariant: Variant;
   export let variant: Variant;
 
-  $: color = variant.facetValues.find((facet) => facet.facet.name === 'Color');
+  $: color = variant.facetValues.find(({ facet }) => facet.name === 'Color');
+
+  $: isActive = reactiveActiveVariant?.id === variant?.id;
 </script>
 
 <button
-  on:click={() => (activeVariant = variant)}
+  on:click={() => {
+    if (!isActive) activeVariant = variant;
+  }}
   class="relative h-4 w-4 rounded-full"
   style="background-color: {color?.code};">
   <div
+    class:border={isActive}
     style="border-color: {color?.code};"
-    class="absolute inset-0 h-full w-full scale-125 rounded-full border">
+    class="absolute inset-0 h-full w-full scale-150 rounded-full">
   </div>
 </button>

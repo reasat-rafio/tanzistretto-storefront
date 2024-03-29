@@ -11,12 +11,6 @@
       logos: { ogImage },
     },
   } = data);
-
-  $: {
-    console.log('====================================');
-    console.log(favoriteCollection);
-    console.log('====================================');
-  }
 </script>
 
 <Seo {seo} siteOgImg={ogImage} />

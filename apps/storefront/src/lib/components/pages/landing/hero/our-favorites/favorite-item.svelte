@@ -1,41 +1,43 @@
 <script lang="ts">
+  import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
+  // import * as Carousel from '$lib/components/ui/carousel/index.js';
   import type { GroupedFavProduct } from '$lib/types/landing.types';
-  import { Heart } from 'lucide-svelte';
   import Color from './color.svelte';
+  import MakeFavoriteWidget from './make-favorite-widget.svelte';
+  import Controls from './controls.svelte';
+  import Images from './images.svelte';
+  import SelectSizeWidget from './select-size-widget.svelte';
 
   export let item: GroupedFavProduct;
 
-  $: ({ id, name, slug, variants } = item);
-  $: activeVariant = variants[0];
+  let api: CarouselAPI;
+  let isHovered = false;
+  let activeVariant: GroupedFavProduct['variants'][0] | null = null;
+  $: ({ name, slug, variants } = item);
+  $: reactiveActiveVariant = activeVariant ?? variants[0];
 </script>
 
-<div class="space-y-3 p-1">
-  <div class="relative block h-[22rem] overflow-hidden rounded-2xl">
-    <button
-      on:click|stopPropagation={() => {}}
-      class=" absolute right-5 top-5 rounded-full bg-white p-2 transition-transform duration-300 hover:scale-105">
-      <Heart size={18} />
-      <span class="sr-only">Add To Favorites</span>
-    </button>
-
-    <a href="/products/{slug}">
-      {#key activeVariant}
-        <img
-          class="h-full w-full object-cover"
-          src={activeVariant?.assets[0].source}
-          alt={name} />
-      {/key}
-
-      <span class="sr-only">{name}</span>
-    </a>
+<div
+  role="button"
+  tabindex="0"
+  on:mouseenter={() => (isHovered = true)}
+  on:mouseleave={() => (isHovered = false)}
+  class=" group space-y-3 p-1">
+  <div class="bg-muted relative block h-[22rem] overflow-hidden rounded-3xl">
+    <MakeFavoriteWidget />
+    <Images bind:api {name} {slug} {reactiveActiveVariant} />
+    <SelectSizeWidget />
+    {#if reactiveActiveVariant?.assets?.length > 1}
+      <Controls {api} />
+    {/if}
   </div>
   <div class="text-base">
-    <a href="/products/{slug}" class="font-medium">{name}</a>
-    <h5 class="font-semibold">৳{activeVariant?.priceWithTax}</h5>
+    <a href="/products/{slug}" class="mb-2 font-medium">{name}</a>
+    <h5 class="font-semibold">৳{reactiveActiveVariant?.priceWithTax}</h5>
 
     <div class="mt-2 flex gap-x-3">
       {#each variants as variant}
-        <Color bind:activeVariant {variant} />
+        <Color bind:activeVariant {reactiveActiveVariant} {variant} />
       {/each}
     </div>
   </div>

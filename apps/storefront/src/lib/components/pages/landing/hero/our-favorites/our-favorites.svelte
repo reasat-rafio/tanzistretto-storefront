@@ -1,14 +1,13 @@
 <script lang="ts">
-  import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
-  import * as SliderBlock from '$lib/components/ui/product-slider-block/index';
-  import type { NonNull } from '$lib/types/common.types';
   import * as Carousel from '$lib/components/ui/carousel/index.js';
-  import * as Card from '$lib/components/ui/card/index.js';
-  import FavoriteItem from './favorite-item.svelte';
+  import * as SliderBlock from '$lib/components/ui/product-slider-block/index';
+  import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
+  import type { NonNull } from '$lib/types/common.types';
   import type {
     GroupedFavProduct,
     OurFavProductVariantList,
   } from '$lib/types/landing.types';
+  import FavoriteItem from './favorite-item.svelte';
 
   export let favoriteCollection: NonNull<
     GetOurFavoritesCollectionQuery['collection']

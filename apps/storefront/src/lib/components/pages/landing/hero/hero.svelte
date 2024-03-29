@@ -16,7 +16,7 @@
         {#each banners as { _key, title, link, subtitle, image }, i (_key)}
           <Carousel.Item>
             <div
-              class="relative h-[20rem] overflow-hidden rounded-2xl md:h-[30rem] lg:h-[37.5rem]">
+              class="bg-muted relative h-[20rem] overflow-hidden rounded-3xl md:h-[30rem] lg:h-[37.5rem]">
               <div class="absolute inset-0 h-full w-full">
                 <SanityImage
                   lqip

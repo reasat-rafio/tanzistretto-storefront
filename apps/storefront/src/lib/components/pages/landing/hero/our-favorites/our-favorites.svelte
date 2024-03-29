@@ -19,6 +19,10 @@
     slug,
   } = favoriteCollection);
 
+  $: modifiedItems = groupVariantsByProduct(
+    favoriteCollection?.productVariants,
+  );
+
   function sortVariantsByMarkDefault(a: any, b: any): number {
     if (a?.customFields?.markDefault && !b.customFields?.markDefault) return -1;
     if (!a.customFields?.markDefault && b.customFields?.markDefault) return 1;
@@ -46,10 +50,6 @@
 
     return Object.values(groupedProducts);
   }
-
-  $: modifiedItems = groupVariantsByProduct(
-    favoriteCollection?.productVariants,
-  );
 </script>
 
 <SliderBlock.Root>

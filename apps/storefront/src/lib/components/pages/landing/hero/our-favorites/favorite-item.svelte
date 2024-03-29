@@ -1,16 +1,11 @@
 <script lang="ts">
-  import Button from '$lib/components/ui/button/button.svelte';
-  import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
-  import type { NonNull } from '$lib/types/common.types';
   import type { GroupedFavProduct } from '$lib/types/landing.types';
-  import { json } from '@sveltejs/kit';
   import { Heart } from 'lucide-svelte';
   import Color from './color.svelte';
 
   export let item: GroupedFavProduct;
 
   $: ({ id, name, slug, variants } = item);
-
   $: activeVariant = variants[0];
 </script>
 
@@ -24,21 +19,23 @@
     </button>
 
     <a href="/products/{slug}">
-      <img
-        class="h-full w-full object-cover"
-        src={activeVariant.assets[0].source}
-        alt={name} />
+      {#key activeVariant}
+        <img
+          class="h-full w-full object-cover"
+          src={activeVariant?.assets[0].source}
+          alt={name} />
+      {/key}
 
       <span class="sr-only">{name}</span>
     </a>
   </div>
   <div class="text-base">
     <a href="/products/{slug}" class="font-medium">{name}</a>
-    <h5 class="font-semibold">৳{activeVariant.priceWithTax}</h5>
+    <h5 class="font-semibold">৳{activeVariant?.priceWithTax}</h5>
 
     <div class="mt-2 flex gap-x-3">
-      {#each variants as { facetValues }}
-        <Color {facetValues} />
+      {#each variants as variant}
+        <Color bind:activeVariant {variant} />
       {/each}
     </div>
   </div>

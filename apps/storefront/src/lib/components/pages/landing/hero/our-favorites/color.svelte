@@ -1,12 +1,16 @@
 <script lang="ts">
   import type { GroupedFavProduct } from '$lib/types/landing.types';
 
-  export let facetValues: GroupedFavProduct['variants'][0]['facetValues'];
+  type Variant = GroupedFavProduct['variants'][0];
 
-  $: color = facetValues.find((facet) => facet.facet.name === 'Color');
+  export let activeVariant: Variant;
+  export let variant: Variant;
+
+  $: color = variant.facetValues.find((facet) => facet.facet.name === 'Color');
 </script>
 
 <button
+  on:click={() => (activeVariant = variant)}
   class="relative h-4 w-4 rounded-full"
   style="background-color: {color?.code};">
   <div

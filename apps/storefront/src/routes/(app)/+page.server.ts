@@ -42,6 +42,13 @@ async function getOurFavoritesCollection(): Promise<
 							name
           					slug
 							id
+							facetValues {
+								name
+								code
+								facet {
+									name
+								}
+							}
         				}
 						facetValues {
 							name

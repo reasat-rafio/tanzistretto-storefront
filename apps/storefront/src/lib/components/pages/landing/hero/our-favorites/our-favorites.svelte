@@ -12,15 +12,8 @@
   export let favoriteCollection: NonNull<
     GetOurFavoritesCollectionQuery['collection']
   >;
-  $: ({
-    name,
-    productVariants: { items },
-    slug,
-  } = favoriteCollection);
-
-  $: modifiedItems = groupVariantsByProduct(
-    favoriteCollection?.productVariants,
-  );
+  $: ({ name, productVariants, slug } = favoriteCollection);
+  $: modifiedItems = groupVariantsByProduct(productVariants);
 
   function sortVariantsByMarkDefault(a: any, b: any): number {
     if (a?.customFields?.markDefault && !b.customFields?.markDefault) return -1;

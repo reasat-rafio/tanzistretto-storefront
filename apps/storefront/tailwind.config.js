@@ -59,6 +59,7 @@ const config = {
       },
       fontFamily: {
         sans: [...fontFamily.sans],
+        metropolis: ['Metropolis', ...fontFamily.sans],
       },
     },
   },

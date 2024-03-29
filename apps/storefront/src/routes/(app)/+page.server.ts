@@ -5,6 +5,7 @@ import groq from 'groq';
 import type { PageServerLoad } from './$types';
 import { query } from '$lib/server/vendure';
 import { gql } from '$lib/generated';
+import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
 
 async function getSanityHomePageData(): Promise<LandingPageProps> {
   const sanityQuery = groq`
@@ -20,7 +21,9 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
   return await sanityClient.fetch(sanityQuery).catch(() => null);
 }
 
-async function getOurFavoritesCollection(): Promise<unknown> {
+async function getOurFavoritesCollection(): Promise<
+  GetOurFavoritesCollectionQuery['collection']
+> {
   const GetOurFavoritesCollection = gql(`
 		query GetOurFavoritesCollection($slug: String!) {
 			collection(slug: $slug) {
@@ -28,16 +31,23 @@ async function getOurFavoritesCollection(): Promise<unknown> {
 				slug
 				productVariants {
 					items {
+						customFields {
+          					markDefault
+        				}
+						id
 						name
 						price
         				priceWithTax
+						product {
+							name
+          					slug
+							id
+        				}
 						facetValues {
 							name
+							code
 							facet {
 								name
-								values {
-									name
-								}
 							}
 						}
 						assets {

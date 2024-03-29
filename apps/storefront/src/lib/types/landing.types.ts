@@ -1,4 +1,10 @@
-import type { Link, SanityImageWithAlt, SeoProps } from './common.types';
+import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
+import type {
+  Link,
+  NonNull,
+  SanityImageWithAlt,
+  SeoProps,
+} from './common.types';
 import type { PortableTextBlock } from '@portabletext/types';
 
 export interface LandingPageProps {
@@ -20,3 +26,14 @@ export interface Banner {
   subtitle?: PortableTextBlock[];
   link: Link;
 }
+
+export type OurFavProductVariantList = NonNull<
+  GetOurFavoritesCollectionQuery['collection']
+>['productVariants'];
+
+export type GroupedFavProduct = {
+  slug: string;
+  name: string;
+  id: string;
+  variants: NonNull<OurFavProductVariantList>['items'];
+};

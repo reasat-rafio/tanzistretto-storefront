@@ -4,6 +4,12 @@
   import { onMount } from 'svelte';
   import type { LayoutData } from './$types';
   import Navbar from '$lib/components/navigation/navbar/navbar.svelte';
+  import '@fontsource/metropolis/300.css';
+  import '@fontsource/metropolis/400.css';
+  import '@fontsource/metropolis/500.css';
+  import '@fontsource/metropolis/600.css';
+  import '@fontsource/metropolis/700.css';
+  import '@fontsource/metropolis/800.css';
 
   export let data: LayoutData;
   $: ({
@@ -41,7 +47,9 @@
 </svelte:head>
 
 <main class="">
-  <Promotion {promotions} />
-  <Navbar {logo} {nav} />
+  <div class="sticky inset-0 z-30">
+    <Promotion {promotions} />
+    <Navbar {logo} {nav} />
+  </div>
   <slot />
 </main>

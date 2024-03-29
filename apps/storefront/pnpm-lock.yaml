@@ -49,6 +49,9 @@ dependencies:
     version: 0.3.0(svelte@4.2.12)
 
 devDependencies:
+  '@fontsource/metropolis':
+    specifier: ^5.0.7
+    version: 5.0.7
   '@graphql-codegen/cli':
     specifier: ^5.0.2
     version: 5.0.2(@parcel/watcher@2.4.1)(graphql@16.8.1)(typescript@5.4.3)
@@ -2180,6 +2183,10 @@ packages:
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
+
+  /@fontsource/metropolis@5.0.7:
+    resolution: {integrity: sha512-4msG3iWhQWL9vOVEHHkGGC4ugfDC4nf144/XspzrLhoVpYvClx6kxzIJw7I1XS8O83QUKVuacca0EQxGQ4mDzw==}
+    dev: true
 
   /@gcornut/valibot-json-schema@0.0.26(@types/json-schema@7.0.15)(esbuild-runner@2.2.2)(esbuild@0.20.2)(valibot@0.30.0):
     resolution: {integrity: sha512-8eZpGLP1awX9UGEK+VUFiyXnjiIV/h5RPC7wt2KQG6O7YkXEw7t2pUxHhR5ULcoN0BsZ3FOWZqyzu3tFF7aXxw==}

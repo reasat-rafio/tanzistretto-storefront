@@ -20,7 +20,7 @@
 
 <nav
   on:mouseleave={() => (showDesktopNavItemsDropdown = false)}
-  class="sticky inset-0 z-30 w-full">
+  class="z-30 w-full bg-white">
   <div class="relative">
     <div class="container flex items-center justify-between">
       <div class="flex items-center gap-x-10">

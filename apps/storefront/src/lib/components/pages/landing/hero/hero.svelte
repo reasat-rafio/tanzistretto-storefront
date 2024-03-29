@@ -10,7 +10,7 @@
 </script>
 
 <section>
-  <div class="container">
+  <div class="container pb-6">
     <Carousel.Root class="w-full ">
       <Carousel.Content>
         {#each banners as { _key, title, link, subtitle, image }, i (_key)}
@@ -50,8 +50,8 @@
           </Carousel.Item>
         {/each}
       </Carousel.Content>
-      <Carousel.Previous class="hidden lg:flex" />
-      <Carousel.Next class="hidden lg:flex" />
+      <!-- <Carousel.Previous class="hidden lg:flex" />
+      <Carousel.Next class="hidden lg:flex" /> -->
     </Carousel.Root>
   </div>
 </section>

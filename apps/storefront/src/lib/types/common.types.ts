@@ -26,3 +26,5 @@ export interface Video {
   mov: string;
   webm: string;
 }
+
+export type NonNull<T> = T extends null | undefined ? never : T;

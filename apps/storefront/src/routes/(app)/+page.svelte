@@ -1,5 +1,6 @@
 <script lang="ts">
   import Hero from '$lib/components/pages/landing/hero/hero.svelte';
+  import OurFavorites from '$lib/components/pages/landing/hero/our-favorites/our-favorites.svelte';
   import Seo from '$lib/components/seo.svelte';
 
   export let data;
@@ -24,3 +25,7 @@
     <Hero {props} />
   {/if}
 {/each}
+
+{#if !!favoriteCollection?.productVariants?.items?.length}
+  <OurFavorites {favoriteCollection} />
+{/if}

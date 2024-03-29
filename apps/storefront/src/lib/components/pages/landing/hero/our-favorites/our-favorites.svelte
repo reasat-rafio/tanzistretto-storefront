@@ -1,0 +1,71 @@
+<script lang="ts">
+  import type { GetOurFavoritesCollectionQuery } from '$lib/generated/graphql';
+  import * as SliderBlock from '$lib/components/ui/product-slider-block/index';
+  import type { NonNull } from '$lib/types/common.types';
+  import * as Carousel from '$lib/components/ui/carousel/index.js';
+  import * as Card from '$lib/components/ui/card/index.js';
+  import FavoriteItem from './favorite-item.svelte';
+  import type {
+    GroupedFavProduct,
+    OurFavProductVariantList,
+  } from '$lib/types/landing.types';
+
+  export let favoriteCollection: NonNull<
+    GetOurFavoritesCollectionQuery['collection']
+  >;
+  $: ({
+    name,
+    productVariants: { items },
+    slug,
+  } = favoriteCollection);
+
+  function sortVariantsByMarkDefault(a: any, b: any): number {
+    if (a?.customFields?.markDefault && !b.customFields?.markDefault) return -1;
+    if (!a.customFields?.markDefault && b.customFields?.markDefault) return 1;
+    return 0;
+  }
+
+  function groupVariantsByProduct(
+    variantList: OurFavProductVariantList,
+  ): GroupedFavProduct[] {
+    const groupedProducts: { [key: string]: GroupedFavProduct } = {};
+
+    variantList.items.forEach((variant) => {
+      const { slug, name, id } = variant.product;
+      if (!groupedProducts[slug]) {
+        groupedProducts[slug] = { slug, name, id, variants: [] };
+      }
+      groupedProducts[slug].variants.push(variant);
+    });
+
+    for (const key in groupedProducts) {
+      if (Object.prototype.hasOwnProperty.call(groupedProducts, key)) {
+        groupedProducts[key].variants.sort(sortVariantsByMarkDefault);
+      }
+    }
+
+    return Object.values(groupedProducts);
+  }
+
+  $: modifiedItems = groupVariantsByProduct(
+    favoriteCollection?.productVariants,
+  );
+</script>
+
+<SliderBlock.Root>
+  <SliderBlock.Header>
+    <SliderBlock.Title>{name}</SliderBlock.Title>
+  </SliderBlock.Header>
+
+  <Carousel.Root class="w-full ">
+    <Carousel.Content>
+      {#each modifiedItems as item (item.id)}
+        <Carousel.Item class="md:basis-1/2 lg:basis-1/4">
+          <FavoriteItem {item} />
+        </Carousel.Item>
+      {/each}
+    </Carousel.Content>
+    <Carousel.Previous class="hidden lg:flex" />
+    <Carousel.Next class="hidden lg:flex" />
+  </Carousel.Root>
+</SliderBlock.Root>

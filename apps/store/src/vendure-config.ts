@@ -12,6 +12,7 @@ import "dotenv/config";
 import path from "path";
 import { FacebookAuthenticationStrategy } from "./plugins/authentication/facebook-authentication-strategy";
 import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
+import { WishlistPlugin } from "./plugins/wishlist-plugin/wishlist-plugin";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -77,6 +78,7 @@ export const config: VendureConfig = {
   // need to be updated. See the "Migrations" section in README.md.
   customFields: {},
   plugins: [
+    WishlistPlugin,
     AssetServerPlugin.init({
       route: "assets",
       assetUploadDir: path.join(__dirname, "../static/assets"),

@@ -31,9 +31,15 @@ async function getOurFavoritesCollection(): Promise<unknown> {
 						name
 						price
         				priceWithTax
-						featuredAsset {
-          					source
-        				}
+						facetValues {
+							name
+							facet {
+								name
+								values {
+									name
+								}
+							}
+						}
 						assets {
 							source
 						}

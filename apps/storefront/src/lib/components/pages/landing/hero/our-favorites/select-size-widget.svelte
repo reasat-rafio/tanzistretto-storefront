@@ -10,10 +10,6 @@
   }
 
   export let sizes: Size[];
-
-  $: {
-    console.log(sizes);
-  }
 </script>
 
 <div

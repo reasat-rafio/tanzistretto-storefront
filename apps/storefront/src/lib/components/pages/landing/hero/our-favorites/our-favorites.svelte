@@ -15,9 +15,6 @@
   $: ({ name, productVariants, slug } = favoriteCollection);
   $: modifiedItems = groupVariantsByProduct(productVariants);
 
-  $: {
-    console.log({ modifiedItems });
-  }
   function sortVariantsByMarkDefault(a: any, b: any): number {
     if (a?.customFields?.markDefault && !b.customFields?.markDefault) return -1;
     if (!a.customFields?.markDefault && b.customFields?.markDefault) return 1;

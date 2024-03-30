@@ -1,21 +1,21 @@
 import { writable } from 'svelte/store';
 
 interface UIStore {
-  setSomething: unknown;
+  authLoading: boolean;
 }
 
 const createUIStore = () => {
-  const { subscribe, update } = writable<UIStore>({ setSomething: null });
+  const { subscribe, update } = writable<UIStore>({ authLoading: false });
 
-  function setSomething(props: unknown) {
+  function setAuthLoading(loading: boolean) {
     update((state) => {
-      return { ...state, setSomething: props };
+      return { ...state, authLoading: loading };
     });
   }
 
   return {
     subscribe,
-    setSomething,
+    setAuthLoading,
   };
 };
 

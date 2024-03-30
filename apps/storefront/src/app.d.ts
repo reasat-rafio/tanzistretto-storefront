@@ -1,5 +1,8 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
+
+import type { User } from '$lib/types/common.types';
+
 declare global {
   namespace App {
     // interface Error {}
@@ -8,7 +11,7 @@ declare global {
       sid: string; // session id
       ssig: string; // session signature
       token: string; // vendure auth token
-      user: unknown;
+      user: User;
       cart: unknown;
     }
     // interface PageData {}

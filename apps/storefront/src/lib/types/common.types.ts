@@ -28,3 +28,11 @@ export interface Video {
 }
 
 export type NonNull<T> = T extends null | undefined ? never : T;
+
+export interface User {
+  id: string;
+  title: string;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+}

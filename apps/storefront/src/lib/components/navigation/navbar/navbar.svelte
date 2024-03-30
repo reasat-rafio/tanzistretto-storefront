@@ -10,6 +10,7 @@
   import NavItem from './nav-item.svelte';
   import DesktopNavItemsDropdown from './desktop-nav-items-dropdown.svelte';
   import BagSidebar from './bag-sidebar/bag-sidebar.svelte';
+  import UserSidebar from './user-sidebar/user-sidebar.svelte';
 
   export let logo: SanityImageWithAlt;
   export let nav: Nav;
@@ -53,9 +54,7 @@
             <Heart />
           </button>
 
-          <button>
-            <User />
-          </button>
+          <UserSidebar />
 
           <BagSidebar />
 

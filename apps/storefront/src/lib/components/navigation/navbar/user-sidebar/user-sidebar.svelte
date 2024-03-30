@@ -23,14 +23,15 @@
         <Tabs.Trigger value="order">Orders</Tabs.Trigger>
         <Tabs.Trigger value="for-you">For You</Tabs.Trigger>
       </Tabs.List>
+
       <Tabs.Content value="profile">
         <Profile />
       </Tabs.Content>
-      <Tabs.Content value="for-you">
-        <ForYou />
-      </Tabs.Content>
       <Tabs.Content value="order">
         <Order />
+      </Tabs.Content>
+      <Tabs.Content value="for-you">
+        <ForYou />
       </Tabs.Content>
     </Tabs.Root>
   </Sheet.Content>

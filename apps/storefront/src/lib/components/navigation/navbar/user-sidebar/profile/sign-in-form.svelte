@@ -1,0 +1,55 @@
+<script lang="ts">
+  import * as Form from '$lib/components/ui/form';
+  import Input from '$lib/components/ui/input/input.svelte';
+  import type { signInReq } from '$lib/utils/validators';
+  import { Eye, EyeOff } from 'lucide-svelte';
+  import type { SuperForm } from 'sveltekit-superforms';
+  import type { z } from 'zod';
+
+  export let signInForm: SuperForm<z.infer<typeof signInReq>>;
+  let reveal = false;
+
+  $: ({ form, enhance } = signInForm);
+</script>
+
+<form method="POST" action="/auth?/signIn" use:enhance>
+  <Form.Field form={signInForm} name="email">
+    <Form.Control let:attrs>
+      <Form.Label>Email</Form.Label>
+      <Input {...attrs} bind:value={$form.email} />
+    </Form.Control>
+    <Form.FieldErrors />
+  </Form.Field>
+
+  <Form.Field form={signInForm} name="password">
+    <Form.Control let:attrs>
+      <Form.Label>Password</Form.Label>
+      <div class="relative">
+        <Input
+          {...attrs}
+          type={reveal ? 'text' : 'password'}
+          bind:value={$form.password} />
+        <button
+          type="button"
+          on:click|stopPropagation={() => (reveal = !reveal)}
+          class="absolute right-5 top-1/2 z-20 -translate-y-1/2">
+          {#if reveal}
+            <Eye size={18} />
+          {:else}
+            <EyeOff size={18} />
+          {/if}
+        </button>
+      </div>
+    </Form.Control>
+    <Form.FieldErrors />
+  </Form.Field>
+  <Form.Button class="mt-2 w-full">Submit</Form.Button>
+</form>
+
+<div class="text-center">
+  By signing up, you agree with our <a class="underline" href="/">
+    privacy policy
+  </a>
+  and
+  <a class="underline" href="/">terms and service</a>
+</div>

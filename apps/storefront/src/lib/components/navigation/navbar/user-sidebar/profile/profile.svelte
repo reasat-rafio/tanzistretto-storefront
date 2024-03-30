@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { enhance } from '$app/forms';
-  import * as Form from '$lib/components/ui/form';
-  import { Input } from '$lib/components/ui/input';
+  import { authStore } from '$lib/stores/auth-store';
+  import RegisterForm from './register-form.svelte';
+  import * as Tabs from '$lib/components/ui/tabs';
+  import SignInForm from './sign-in-form.svelte';
 
-  //   const { form: formData, enhance } = form;
+  $: ({ signUpForm, signInForm } = $authStore);
 </script>
 
 <div class="space-y-2">
@@ -17,15 +18,21 @@
     </h3>
   </div>
 
-  <form method="POST" use:enhance>
-    <Form.Field {form} name="username">
-      <Form.Control let:attrs>
-        <Form.Label>Username</Form.Label>
-        <Input {...attrs} bind:value={$formData.username} />
-      </Form.Control>
-      <Form.Description>This is your public display name.</Form.Description>
-      <Form.FieldErrors />
-    </Form.Field>
-    <Form.Button>Submit</Form.Button>
-  </form>
+  <Tabs.Root value="register" class="mx-auto mt-2">
+    <Tabs.List class="w-full">
+      <Tabs.Trigger value="login">Login</Tabs.Trigger>
+      <Tabs.Trigger value="register">Register</Tabs.Trigger>
+    </Tabs.List>
+
+    <Tabs.Content value="login">
+      {#if signInForm}
+        <SignInForm {signInForm} />
+      {/if}
+    </Tabs.Content>
+    <Tabs.Content value="register">
+      {#if signUpForm}
+        <RegisterForm {signUpForm} />
+      {/if}
+    </Tabs.Content>
+  </Tabs.Root>
 </div>

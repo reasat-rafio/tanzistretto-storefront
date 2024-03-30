@@ -1,21 +1,29 @@
 import type { User } from '$lib/types/common.types';
+import type {
+  signInReq,
+  signUpReq,
+  resetReq,
+  forgotReq,
+} from '$lib/utils/validators';
 import { writable } from 'svelte/store';
+import type { SuperForm } from 'sveltekit-superforms';
+import { z } from 'zod';
 
 interface AuthStore {
   user: User | null;
-  signInForm: unknown;
-  signUpForm: unknown;
-  forgotForm: unknown;
-  resetForm: unknown;
+  signInForm?: SuperForm<z.infer<typeof signInReq>>;
+  signUpForm?: SuperForm<z.infer<typeof signUpReq>>;
+  forgotForm?: SuperForm<z.infer<typeof forgotReq>>;
+  resetForm?: SuperForm<z.infer<typeof resetReq>>;
 }
 
 const createAuthStore = () => {
   const { subscribe, update } = writable<AuthStore>({
     user: null,
-    signInForm: null,
-    signUpForm: null,
-    forgotForm: null,
-    resetForm: null,
+    signInForm: undefined,
+    signUpForm: undefined,
+    forgotForm: undefined,
+    resetForm: undefined,
   });
 
   function setUser(props: User) {
@@ -24,25 +32,25 @@ const createAuthStore = () => {
     });
   }
 
-  function setSignInForm<T>(props: T) {
+  function setSignInForm(props: SuperForm<z.infer<typeof signInReq>>) {
     update((state) => {
       return { ...state, signInForm: props };
     });
   }
 
-  function setSignUpForm<T>(props: T) {
+  function setSignUpForm(props: SuperForm<z.infer<typeof signUpReq>>) {
     update((state) => {
       return { ...state, signUpForm: props };
     });
   }
 
-  function setForgotForm<T>(props: T) {
+  function setForgotForm(props: SuperForm<z.infer<typeof forgotReq>>) {
     update((state) => {
       return { ...state, forgotForm: props };
     });
   }
 
-  function setResetForm<T>(props: T) {
+  function setResetForm(props: SuperForm<z.infer<typeof resetReq>>) {
     update((state) => {
       return { ...state, resetForm: props };
     });

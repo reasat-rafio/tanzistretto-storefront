@@ -76,6 +76,7 @@
     message: signUpMessage,
   } = signUpForm;
   //   $: $signUpFormData.token = token;
+  // signUpForm.f
 
   const forgotForm = superForm(data.forgotForm, {
     validators: zodClient(forgotReq),

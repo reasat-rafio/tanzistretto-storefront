@@ -15,6 +15,9 @@
   $: ({ name, productVariants, slug } = favoriteCollection);
   $: modifiedItems = groupVariantsByProduct(productVariants);
 
+  $: {
+    console.log({ modifiedItems });
+  }
   function sortVariantsByMarkDefault(a: any, b: any): number {
     if (a?.customFields?.markDefault && !b.customFields?.markDefault) return -1;
     if (!a.customFields?.markDefault && b.customFields?.markDefault) return 1;
@@ -27,9 +30,16 @@
     const groupedProducts: { [key: string]: GroupedFavProduct } = {};
 
     variantList.items.forEach((variant) => {
-      const { slug, name, id, facetValues } = variant.product;
+      const { slug, name, id, facetValues, customFields } = variant.product;
       if (!groupedProducts[slug]) {
-        groupedProducts[slug] = { slug, name, id, facetValues, variants: [] };
+        groupedProducts[slug] = {
+          id,
+          slug,
+          name,
+          facetValues,
+          customFields,
+          variants: [],
+        };
       }
       groupedProducts[slug].variants.push(variant);
     });

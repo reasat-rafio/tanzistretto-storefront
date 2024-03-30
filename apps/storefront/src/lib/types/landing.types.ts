@@ -35,6 +35,7 @@ export type GroupedFavProduct = {
   slug: string;
   name: string;
   id: string;
+  customFields: OurFavProductVariantList['items'][0]['product']['customFields'];
   facetValues: NonNull<OurFavProductVariantList>['items'][0]['facetValues'];
   variants: NonNull<OurFavProductVariantList>['items'];
 };

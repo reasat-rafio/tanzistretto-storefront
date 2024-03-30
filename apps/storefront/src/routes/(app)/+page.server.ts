@@ -42,6 +42,9 @@ async function getOurFavoritesCollection(): Promise<
 							name
           					slug
 							id
+							customFields{
+								displayNewTag
+							}
 							facetValues {
 								name
 								code

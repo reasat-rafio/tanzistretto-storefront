@@ -6,11 +6,13 @@
   export let slug: string;
   export let name: string;
   export let reactiveActiveVariant: GroupedFavProduct['variants'][0];
-  export let api: CarouselAPI;
+  export let mediaSliderApi: CarouselAPI;
 </script>
 
 <a href="/products/{slug}">
-  <Carousel.Root bind:api opts={{ watchDrag: false, duration: 20, loop: true }}>
+  <Carousel.Root
+    bind:api={mediaSliderApi}
+    opts={{ watchDrag: false, duration: 20, loop: true }}>
     <Carousel.Content>
       {#each reactiveActiveVariant?.assets as { source } (source)}
         <Carousel.Item class="p-0">

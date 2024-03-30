@@ -27,9 +27,9 @@
     const groupedProducts: { [key: string]: GroupedFavProduct } = {};
 
     variantList.items.forEach((variant) => {
-      const { slug, name, id } = variant.product;
+      const { slug, name, id, facetValues } = variant.product;
       if (!groupedProducts[slug]) {
-        groupedProducts[slug] = { slug, name, id, variants: [] };
+        groupedProducts[slug] = { slug, name, id, facetValues, variants: [] };
       }
       groupedProducts[slug].variants.push(variant);
     });

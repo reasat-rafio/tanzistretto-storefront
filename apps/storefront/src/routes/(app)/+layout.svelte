@@ -46,7 +46,7 @@
   <link rel="icon" type="image/png" href={faviconImage} />
 </svelte:head>
 
-<main class="">
+<main>
   <div class="sticky inset-0 z-30">
     <Promotion {promotions} />
     <Navbar {logo} {nav} />

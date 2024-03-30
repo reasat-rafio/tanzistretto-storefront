@@ -52,6 +52,6 @@
     @apply border-border;
   }
   body {
-    @apply font-metropolis bg-background text-primary;
+    @apply bg-background font-metropolis text-primary;
   }
 }

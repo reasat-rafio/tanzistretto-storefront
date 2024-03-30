@@ -3,12 +3,13 @@
   import SanityImage from '$lib/sanity/sanity-image/sanity-image.svelte';
   import type { SanityImageWithAlt } from '$lib/types/common.types';
   import type { Nav, SubLinks } from '$lib/types/site.types';
-  import { Heart, ShoppingBag, User } from 'lucide-svelte';
+  import { Heart, User } from 'lucide-svelte';
   import MobileSidebar from './mobile-sidebar/mobile-sidebar.svelte';
   import SearchDropdown from './search-dropdown.svelte';
   import Search from './search.svelte';
   import NavItem from './nav-item.svelte';
   import DesktopNavItemsDropdown from './desktop-nav-items-dropdown.svelte';
+  import BagSidebar from './bag-sidebar/bag-sidebar.svelte';
 
   export let logo: SanityImageWithAlt;
   export let nav: Nav;
@@ -49,16 +50,14 @@
         <Search bind:showSearchDropdown />
         <div class="flex gap-x-2 lg:gap-x-4">
           <button>
-            <Heart class="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px]" />
+            <Heart />
           </button>
 
           <button>
             <User />
           </button>
 
-          <button>
-            <ShoppingBag class="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px]" />
-          </button>
+          <BagSidebar />
 
           <MobileSidebar {nav} />
         </div>

@@ -1,15 +1,16 @@
 <script lang="ts">
   import * as Form from '$lib/components/ui/form';
   import Input from '$lib/components/ui/input/input.svelte';
+  import { uiStore } from '$lib/stores/ui-store';
   import type { signInReq } from '$lib/utils/validators';
-  import { Eye, EyeOff } from 'lucide-svelte';
+  import { Eye, EyeOff, RotateCw } from 'lucide-svelte';
   import type { SuperForm } from 'sveltekit-superforms';
   import type { z } from 'zod';
 
   export let signInForm: SuperForm<z.infer<typeof signInReq>>;
   let reveal = false;
 
-  $: ({ form, enhance } = signInForm);
+  $: ({ form, enhance, message } = signInForm);
 </script>
 
 <form method="POST" action="/auth?/signIn" use:enhance>
@@ -43,13 +44,10 @@
     </Form.Control>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Button class="mt-2 w-full">Submit</Form.Button>
+  <Form.Button disabled={$uiStore.authLoading} class="mt-2 w-full space-x-1">
+    {#if $uiStore.authLoading}
+      <RotateCw size={18} class="animate-spin" />
+    {/if}
+    <span>Submit</span>
+  </Form.Button>
 </form>
-
-<div class="text-center">
-  By signing up, you agree with our <a class="underline" href="/">
-    privacy policy
-  </a>
-  and
-  <a class="underline" href="/">terms and service</a>
-</div>

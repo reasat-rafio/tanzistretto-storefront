@@ -18,7 +18,7 @@
     </Sheet.Header>
 
     <Tabs.Root value="profile" class="mt-2 w-full">
-      <Tabs.List class="w-full">
+      <Tabs.List class="sticky top-0 w-full">
         <Tabs.Trigger value="profile">Profile</Tabs.Trigger>
         <Tabs.Trigger value="order">Orders</Tabs.Trigger>
         <Tabs.Trigger value="for-you">For You</Tabs.Trigger>

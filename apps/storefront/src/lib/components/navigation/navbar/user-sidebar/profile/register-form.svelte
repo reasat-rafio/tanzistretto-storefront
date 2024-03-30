@@ -2,14 +2,15 @@
   import * as Form from '$lib/components/ui/form';
   import Input from '$lib/components/ui/input/input.svelte';
   import type { signUpReq } from '$lib/utils/validators';
-  import { Eye, EyeOff } from 'lucide-svelte';
+  import { Eye, EyeOff, RotateCw } from 'lucide-svelte';
   import type { SuperForm } from 'sveltekit-superforms';
   import type { z } from 'zod';
+  import { uiStore } from '$lib/stores/ui-store';
 
   export let signUpForm: SuperForm<z.infer<typeof signUpReq>>;
   let reveal = false;
 
-  $: ({ form, enhance, message } = signUpForm);
+  $: ({ form, enhance } = signUpForm);
 </script>
 
 <form method="POST" action="/auth?/signUp" use:enhance>
@@ -56,7 +57,12 @@
     </Form.Control>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Button class="mt-2 w-full">Submit</Form.Button>
+  <Form.Button disabled={$uiStore.authLoading} class="mt-2 w-full space-x-1">
+    {#if $uiStore.authLoading}
+      <RotateCw size={18} class="animate-spin" />
+    {/if}
+    <span>Submit</span>
+  </Form.Button>
 </form>
 
 <div class="text-center">

@@ -41,10 +41,11 @@
       uiStore.setAuthLoading(true);
     },
     onResult: ({ result }) => {
+      uiStore.setAuthLoading(false);
+
       if (result.type === 'success') {
         handleSignIn();
       } else {
-        uiStore.setAuthLoading(false);
       }
     },
   });
@@ -55,12 +56,12 @@
       uiStore.setAuthLoading(true);
     },
     onResult: ({ result }) => {
-      console.log(result);
+      uiStore.setAuthLoading(false);
+
       if (result.type === 'success') {
         handleSignIn();
         // verify email
       } else {
-        uiStore.setAuthLoading(false);
       }
     },
   });
@@ -85,11 +86,11 @@
     },
   });
 
-  authStore.setUser(user);
-  authStore.setSignInForm(signInForm);
-  authStore.setSignUpForm(signUpForm);
-  authStore.setForgotForm(forgotForm);
-  authStore.setResetForm(resetForm);
+  $: authStore.setUser(user);
+  $: authStore.setSignInForm(signInForm);
+  $: authStore.setSignUpForm(signUpForm);
+  $: authStore.setForgotForm(forgotForm);
+  $: authStore.setResetForm(resetForm);
 
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()

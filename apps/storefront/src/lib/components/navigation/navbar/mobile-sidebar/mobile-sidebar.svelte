@@ -3,11 +3,12 @@
   import type { Nav } from '$lib/types/site.types';
   import { Menu } from 'lucide-svelte';
   import NavItem from './nav-item.svelte';
+  import { uiStore } from '$lib/stores/ui-store';
 
   export let nav: Nav;
 </script>
 
-<Sheet.Root>
+<Sheet.Root bind:open={$uiStore.openMobileSheet}>
   <Sheet.Trigger class="p-0 lg:hidden">
     <Menu size={30} />
   </Sheet.Trigger>

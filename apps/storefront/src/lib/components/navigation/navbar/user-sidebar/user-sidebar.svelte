@@ -5,9 +5,10 @@
   import ForYou from './for-you/for-you.svelte';
   import Order from './order/order.svelte';
   import Profile from './profile/profile.svelte';
+  import { uiStore } from '$lib/stores/ui-store';
 </script>
 
-<Sheet.Root>
+<Sheet.Root bind:open={$uiStore.openUserSheet}>
   <Sheet.Trigger>
     <User2Icon />
   </Sheet.Trigger>

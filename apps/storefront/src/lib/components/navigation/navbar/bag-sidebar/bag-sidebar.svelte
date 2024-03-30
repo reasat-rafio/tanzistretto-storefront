@@ -1,9 +1,10 @@
 <script>
   import * as Sheet from '$lib/components/ui/sheet/index';
+  import { uiStore } from '$lib/stores/ui-store';
   import { ShoppingBag } from 'lucide-svelte';
 </script>
 
-<Sheet.Root>
+<Sheet.Root bind:open={$uiStore.openBagSheet}>
   <Sheet.Trigger>
     <ShoppingBag />
   </Sheet.Trigger>

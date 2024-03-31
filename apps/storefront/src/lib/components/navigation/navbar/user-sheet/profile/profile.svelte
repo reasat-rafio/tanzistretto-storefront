@@ -68,7 +68,7 @@
       To create an account, please enter your email and choose a password below.
     </h3>
 
-    <Tabs.Root value="register" class="mx-auto mt-2">
+    <Tabs.Root value="login" class="mx-auto mt-2">
       <Tabs.List class="w-full">
         <Tabs.Trigger value="login">Login</Tabs.Trigger>
         <Tabs.Trigger value="register">Register</Tabs.Trigger>

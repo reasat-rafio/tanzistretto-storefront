@@ -7,6 +7,7 @@
   import Button from '$lib/components/ui/button/button.svelte';
   import { enhance } from '$app/forms';
   import { uiStore } from '$lib/stores/ui-store';
+  import { toast } from 'svelte-sonner';
 
   $: ({ signUpForm, signInForm, user } = $authStore);
 </script>
@@ -44,6 +45,7 @@
           return async ({ update }) => {
             uiStore.setAuthLoading(false);
             update();
+            toast.success("You've successfully logged out!");
           };
         }}>
         <Button

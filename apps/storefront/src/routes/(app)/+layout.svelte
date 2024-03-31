@@ -20,6 +20,8 @@
   import type { LayoutData } from './$types';
   import { authStore } from '$lib/stores/auth-store';
   import { uiStore } from '$lib/stores/ui-store';
+  import { Toaster } from '$lib/components/ui/sonner';
+  import { toast } from 'svelte-sonner';
 
   export let data: LayoutData;
   $: ({
@@ -35,6 +37,7 @@
     await invalidateAll();
     // await goto(data.rurl ? data.rurl : '/');
   };
+
   const signInForm = superForm(data.signInForm, {
     validators: zodClient(signInReq),
     onSubmit: () => {
@@ -45,7 +48,9 @@
 
       if (result.type === 'success') {
         handleSignIn();
+        toast.success("You've successfully logged in!");
       } else {
+        toast.error((result as any).data?.form?.message);
       }
     },
   });
@@ -60,8 +65,9 @@
 
       if (result.type === 'success') {
         handleSignIn();
-        // verify email
+        toast.info((result as any).data?.form?.message);
       } else {
+        toast.error((result as any).data?.form?.message);
       }
     },
   });
@@ -118,10 +124,9 @@
   <link rel="icon" type="image/png" href={faviconImage} />
 </svelte:head>
 
-<main>
-  <div class="sticky inset-0 z-30">
-    <Promotion {promotions} />
-    <Navbar {logo} {nav} />
-  </div>
-  <slot />
-</main>
+<Toaster richColors position="bottom-left" />
+<div class="sticky inset-0 z-30">
+  <Promotion {promotions} />
+  <Navbar {logo} {nav} />
+</div>
+<slot />

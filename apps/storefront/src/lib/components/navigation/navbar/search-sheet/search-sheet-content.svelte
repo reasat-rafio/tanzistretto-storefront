@@ -1,12 +1,9 @@
 <script lang="ts">
-  import { clickOutside } from '$lib/actions/click-outside';
+  import { uiStore } from '$lib/stores/ui-store';
   import { Search, X } from 'lucide-svelte';
-  import { slide } from 'svelte/transition';
-
-  export let showSearchDropdown = false;
 
   function closeSearchDropdown() {
-    showSearchDropdown = false;
+    uiStore.setSearchSheetOpen(false);
   }
 </script>
 

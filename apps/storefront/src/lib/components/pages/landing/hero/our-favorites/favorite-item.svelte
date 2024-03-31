@@ -33,11 +33,6 @@
   <div class="bg-muted relative block h-[22rem] overflow-hidden rounded-3xl">
     {#if customFields?.displayNewTag}
       <Badge variant="default" class="absolute left-5 top-5 z-10">NEW</Badge>
-
-      <!-- <div
-        class="text-xxs absolute left-5 top-5 z-10 rounded-full bg-white px-2 py-1 font-semibold shadow-xl transition-transform duration-300">
-        NEW
-      </div> -->
     {/if}
     <MakeFavoriteWidget />
     <Media bind:mediaSliderApi {name} {slug} {reactiveActiveVariant} />

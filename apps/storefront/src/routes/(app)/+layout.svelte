@@ -50,7 +50,8 @@
         handleSignIn();
         toast.success("You've successfully logged in!");
       } else {
-        toast.error((result as any).data?.form?.message);
+        const errorMessage = (result as any).data?.form?.message;
+        if (!!errorMessage) toast.error(errorMessage);
       }
     },
   });
@@ -65,9 +66,11 @@
 
       if (result.type === 'success') {
         handleSignIn();
+
         toast.info((result as any).data?.form?.message);
       } else {
-        toast.error((result as any).data?.form?.message);
+        const errorMessage = (result as any).data?.form?.message;
+        if (!!errorMessage) toast.error(errorMessage);
       }
     },
   });

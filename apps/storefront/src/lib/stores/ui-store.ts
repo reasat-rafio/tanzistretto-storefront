@@ -5,6 +5,7 @@ interface UIStore {
   openUserSheet: boolean;
   openBagSheet: boolean;
   openMobileSheet: boolean;
+  openSearchSheet: boolean;
 }
 
 const createUIStore = () => {
@@ -13,6 +14,7 @@ const createUIStore = () => {
     openUserSheet: false,
     openBagSheet: false,
     openMobileSheet: false,
+    openSearchSheet: false,
   });
 
   function setAuthLoading(loading: boolean) {
@@ -39,6 +41,12 @@ const createUIStore = () => {
     });
   }
 
+  function setSearchSheetOpen(open: boolean) {
+    update((state) => {
+      return { ...state, openSearchSheet: open };
+    });
+  }
+
   return {
     subscribe,
     set,
@@ -47,6 +55,7 @@ const createUIStore = () => {
     setUserSheetOpen,
     setBagSheetOpen,
     setMobileSheetOpen,
+    setSearchSheetOpen,
   };
 };
 

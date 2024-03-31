@@ -3,19 +3,17 @@
   import SanityImage from '$lib/sanity/sanity-image/sanity-image.svelte';
   import type { SanityImageWithAlt } from '$lib/types/common.types';
   import type { Nav, SubLinks } from '$lib/types/site.types';
-  import { Heart, User } from 'lucide-svelte';
-  import MobileSidebar from './mobile-sidebar/mobile-sidebar.svelte';
-  import SearchDropdown from './search-dropdown.svelte';
-  import Search from './search.svelte';
+  import { Heart } from 'lucide-svelte';
+  import MobileSidebar from './mobile-sheet/mobile-sheet.svelte';
+  import SearchSheet from './search-sheet/search-sheet.svelte';
   import NavItem from './nav-item.svelte';
   import DesktopNavItemsDropdown from './desktop-nav-items-dropdown.svelte';
-  import BagSidebar from './bag-sidebar/bag-sidebar.svelte';
-  import UserSidebar from './user-sidebar/user-sidebar.svelte';
+  import BagSheet from './bag-sheet/bag-sidebar.svelte';
+  import UserSheet from './user-sheet/user-sheet.svelte';
 
   export let logo: SanityImageWithAlt;
   export let nav: Nav;
 
-  let showSearchDropdown = false;
   let showDesktopNavItemsDropdown = false;
   let activeSubLinks: SubLinks[] | undefined = undefined;
 </script>
@@ -48,24 +46,17 @@
       </div>
 
       <div class="flex gap-x-3 lg:gap-x-6">
-        <Search bind:showSearchDropdown />
+        <SearchSheet />
         <div class="flex gap-x-2 lg:gap-x-4">
           <button>
             <Heart />
           </button>
-
-          <UserSidebar />
-
-          <BagSidebar />
-
+          <UserSheet />
+          <BagSheet />
           <MobileSidebar {nav} />
         </div>
       </div>
     </div>
-
-    {#if showSearchDropdown}
-      <SearchDropdown bind:showSearchDropdown />
-    {/if}
 
     {#if showDesktopNavItemsDropdown}
       <DesktopNavItemsDropdown {activeSubLinks} />

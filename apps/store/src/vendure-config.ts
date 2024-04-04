@@ -4,15 +4,19 @@ import {
   DefaultSearchPlugin,
   VendureConfig,
   NativeAuthenticationStrategy,
+  DefaultAssetNamingStrategy,
 } from "@vendure/core";
 import { defaultEmailHandlers, EmailPlugin } from "@vendure/email-plugin";
-import { AssetServerPlugin } from "@vendure/asset-server-plugin";
 import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
 import path from "path";
 import { FacebookAuthenticationStrategy } from "./plugins/authentication/facebook-authentication-strategy";
 import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
 import { WishlistPlugin } from "./plugins/wishlist-plugin/wishlist-plugin";
+import {
+  AssetServerPlugin,
+  configureS3AssetStorage,
+} from "@vendure/asset-server-plugin";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -97,10 +101,21 @@ export const config: VendureConfig = {
     AssetServerPlugin.init({
       route: "assets",
       assetUploadDir: path.join(__dirname, "../static/assets"),
+      namingStrategy: new DefaultAssetNamingStrategy(),
+      storageStrategyFactory: configureS3AssetStorage({
+        bucket: "tanzistretto",
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
+        },
+        nativeS3Configuration: {
+          region: process.env.AWS_REGION,
+        },
+      }),
       // For local dev, the correct value for assetUrlPrefix should
       // be guessed correctly, but for production it will usually need
       // to be set manually to match your production url.
-      assetUrlPrefix: IS_DEV ? undefined : "https://www.my-shop.com/assets/",
+      // assetUrlPrefix: IS_DEV ? undefined : "https://www.my-shop.com/assets/",
     }),
     DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
     DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),

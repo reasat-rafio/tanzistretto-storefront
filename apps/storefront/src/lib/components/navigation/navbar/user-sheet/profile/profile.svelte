@@ -57,17 +57,6 @@
         </button>
       </div>
 
-      <!-- <form
-        method="POST"
-        action="/auth?/logout"
-        use:enhance={() => {
-          uiStore.setAuthLoading(true);
-          return async ({ update }) => {
-            uiStore.setAuthLoading(false);
-            update();
-            toast.success("You've successfully logged out!");
-          };
-        }}> -->
       <Button
         on:click={logout}
         disabled={$uiStore.authLoading}
@@ -77,7 +66,6 @@
         {/if}
         <span>Logout</span>
       </Button>
-      <!-- </form> -->
     </div>
   {:else}
     <h2 class="text-2xl font-bold">

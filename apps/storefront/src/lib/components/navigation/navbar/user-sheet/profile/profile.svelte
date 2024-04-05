@@ -1,13 +1,13 @@
 <script lang="ts">
+  import { invalidateAll } from '$app/navigation';
+  import Button from '$lib/components/ui/button/button.svelte';
   import * as Tabs from '$lib/components/ui/tabs';
   import { authStore } from '$lib/stores/auth-store';
+  import { uiStore } from '$lib/stores/ui-store';
   import { MapPin, RotateCw, User2Icon } from 'lucide-svelte';
+  import { toast } from 'svelte-sonner';
   import LoginForm from './login-form.svelte';
   import RegisterForm from './register-form.svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
-  import { uiStore } from '$lib/stores/ui-store';
-  import { toast } from 'svelte-sonner';
-  import { invalidateAll } from '$app/navigation';
 
   $: ({ signUpForm, signInForm, user } = $authStore);
 

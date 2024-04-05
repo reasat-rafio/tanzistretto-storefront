@@ -5,27 +5,29 @@ import type { SiteDataProps } from '$lib/types/site.types.js';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import {
-  forgotReq,
-  resetReq,
-  signInReq,
-  signUpReq,
+  loginPostReq,
+  registerPostReq,
+  forgotPostReq,
+  resetPostReq,
 } from '$lib/utils/validators.js';
 
 export const load = async ({ locals }) => {
   const data: SiteDataProps = await sanityClient.fetch(siteQuery);
   if (!data) throw error(404, { message: 'Not found' });
 
-  const signInForm = await superValidate(zod(signInReq), { id: 'signIn' });
-  const signUpForm = await superValidate(zod(signUpReq), { id: 'signUp' });
-  const forgotForm = await superValidate(zod(forgotReq), { id: 'forgot' });
-  const resetForm = await superValidate(zod(resetReq), { id: 'reset' });
+  const loginForm = await superValidate(zod(loginPostReq), { id: 'login' });
+  const registerForm = await superValidate(zod(registerPostReq), {
+    id: 'register',
+  });
+  const forgotForm = await superValidate(zod(forgotPostReq), { id: 'forgot' });
+  const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
 
   return {
     user: locals.user,
     site: data,
-    signUpForm,
-    signInForm,
-    forgotForm,
-    resetForm,
+    signUpForm: registerForm,
+    signInForm: loginForm,
+    forgotForm: forgotForm,
+    resetForm: resetForm,
   };
 };

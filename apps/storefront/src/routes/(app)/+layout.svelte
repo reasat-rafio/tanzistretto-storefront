@@ -4,10 +4,10 @@
   import Promotion from '$lib/components/promotion.svelte';
   import { urlFor } from '$lib/sanity/sanity-client';
   import {
-    forgotReq,
-    resetReq,
-    signInReq,
-    signUpReq,
+    loginPostReq,
+    registerPostReq,
+    forgotPostReq,
+    resetPostReq,
   } from '$lib/utils/validators';
   import '@fontsource/metropolis/300.css';
   import '@fontsource/metropolis/400.css';
@@ -33,21 +33,22 @@
     },
   } = data);
 
-  const handleSignIn = async function () {
-    await invalidateAll();
-    // await goto(data.rurl ? data.rurl : '/');
-  };
+  // const handleSignIn = async function () {
+  //   await invalidateAll();
+  //   await goto(data.rurl ? data.rurl : '/');
+  // };
 
   const signInForm = superForm(data.signInForm, {
-    validators: zodClient(signInReq),
+    validators: zodClient(loginPostReq),
+    invalidateAll: true,
     onSubmit: () => {
       uiStore.setAuthLoading(true);
     },
     onResult: ({ result }) => {
       uiStore.setAuthLoading(false);
-
+      console.log(result);
       if (result.type === 'success') {
-        handleSignIn();
+        // handleSignIn();
         toast.success("You've successfully logged in!");
       } else {
         const errorMessage = (result as any).data?.form?.message;
@@ -57,7 +58,8 @@
   });
 
   const signUpForm = superForm(data.signUpForm, {
-    validators: zodClient(signUpReq),
+    validators: zodClient(registerPostReq),
+    invalidateAll: true,
     onSubmit: () => {
       uiStore.setAuthLoading(true);
     },
@@ -65,7 +67,7 @@
       uiStore.setAuthLoading(false);
 
       if (result.type === 'success') {
-        handleSignIn();
+        // handleSignIn();
 
         toast.info((result as any).data?.form?.message);
       } else {
@@ -76,7 +78,8 @@
   });
 
   const forgotForm = superForm(data.forgotForm, {
-    validators: zodClient(forgotReq),
+    validators: zodClient(forgotPostReq),
+    invalidateAll: true,
     onSubmit: () => {
       uiStore.setAuthLoading(true);
     },
@@ -86,7 +89,8 @@
   });
 
   const resetForm = superForm(data.resetForm, {
-    validators: zodClient(resetReq),
+    validators: zodClient(resetPostReq),
+    invalidateAll: true,
     onSubmit: () => {
       uiStore.setAuthLoading(true);
     },

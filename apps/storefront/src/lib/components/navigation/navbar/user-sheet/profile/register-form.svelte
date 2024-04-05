@@ -1,41 +1,41 @@
 <script lang="ts">
   import * as Form from '$lib/components/ui/form';
   import Input from '$lib/components/ui/input/input.svelte';
-  import type { signUpReq } from '$lib/utils/validators';
+  import type { registerPostReq } from '$lib/utils/validators';
   import { Eye, EyeOff, RotateCw } from 'lucide-svelte';
   import type { SuperForm } from 'sveltekit-superforms';
   import type { z } from 'zod';
   import { uiStore } from '$lib/stores/ui-store';
 
-  export let signUpForm: SuperForm<z.infer<typeof signUpReq>>;
+  export let registerForm: SuperForm<z.infer<typeof registerPostReq>>;
   let reveal = false;
 
-  $: ({ form, enhance } = signUpForm);
+  $: ({ form, enhance } = registerForm);
 </script>
 
-<form method="POST" action="/auth?/signUp" use:enhance>
-  <Form.Field form={signUpForm} name="fname">
+<form method="POST" action="/auth?/register">
+  <Form.Field form={registerForm} name="firstName">
     <Form.Control let:attrs>
       <Form.Label>First Name</Form.Label>
-      <Input {...attrs} bind:value={$form.fname} />
+      <Input {...attrs} bind:value={$form.firstName} />
     </Form.Control>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Field form={signUpForm} name="lname">
+  <Form.Field form={registerForm} name="lastName">
     <Form.Control let:attrs>
       <Form.Label>Last Name</Form.Label>
-      <Input {...attrs} bind:value={$form.lname} />
+      <Input {...attrs} bind:value={$form.lastName} />
     </Form.Control>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Field form={signUpForm} name="email">
+  <Form.Field form={registerForm} name="email">
     <Form.Control let:attrs>
       <Form.Label>Email</Form.Label>
       <Input {...attrs} bind:value={$form.email} />
     </Form.Control>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Field form={signUpForm} name="password">
+  <Form.Field form={registerForm} name="password">
     <Form.Control let:attrs>
       <Form.Label>Password</Form.Label>
       <div class="relative">

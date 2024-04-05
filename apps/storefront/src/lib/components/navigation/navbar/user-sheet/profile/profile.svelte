@@ -5,11 +5,31 @@
   import LoginForm from './login-form.svelte';
   import RegisterForm from './register-form.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
-  import { enhance } from '$app/forms';
   import { uiStore } from '$lib/stores/ui-store';
   import { toast } from 'svelte-sonner';
+  import { invalidateAll } from '$app/navigation';
 
   $: ({ signUpForm, signInForm, user } = $authStore);
+
+  const logout = async () => {
+    uiStore.setAuthLoading(true);
+
+    try {
+      const formData = new FormData(); // The POST request fails without a body
+      const res = await fetch('/auth?/logout', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        await invalidateAll();
+        toast.success("You've successfully logged out!");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      uiStore.setAuthLoading(false);
+    }
+  };
 </script>
 
 <div class="space-y-2">
@@ -23,7 +43,7 @@
           <div
             class="flex flex-col transition-transform duration-300 group-hover:translate-x-1">
             <div class=" text-left font-bold">My information</div>
-            <div class="text-xs">{user.emailAddress}</div>
+            <div class="text-xs">{user.email}</div>
           </div>
         </button>
         <button class="group flex items-center gap-3 py-3">
@@ -37,27 +57,27 @@
         </button>
       </div>
 
-      <form
+      <!-- <form
         method="POST"
-        action="/auth?/signOut"
-        use:enhance={({}) => {
+        action="/auth?/logout"
+        use:enhance={() => {
           uiStore.setAuthLoading(true);
           return async ({ update }) => {
             uiStore.setAuthLoading(false);
             update();
             toast.success("You've successfully logged out!");
           };
-        }}>
-        <Button
-          type="submit"
-          disabled={$uiStore.authLoading}
-          class="w-full space-x-1">
-          {#if $uiStore.authLoading}
-            <RotateCw size={18} class="animate-spin" />
-          {/if}
-          <span>Logout</span>
-        </Button>
-      </form>
+        }}> -->
+      <Button
+        on:click={logout}
+        disabled={$uiStore.authLoading}
+        class="w-full space-x-1">
+        {#if $uiStore.authLoading}
+          <RotateCw size={18} class="animate-spin" />
+        {/if}
+        <span>Logout</span>
+      </Button>
+      <!-- </form> -->
     </div>
   {:else}
     <h2 class="text-2xl font-bold">
@@ -76,12 +96,12 @@
 
       <Tabs.Content value="login">
         {#if signInForm}
-          <LoginForm {signInForm} />
+          <LoginForm loginForm={signInForm} />
         {/if}
       </Tabs.Content>
       <Tabs.Content value="register">
         {#if signUpForm}
-          <RegisterForm {signUpForm} />
+          <RegisterForm registerForm={signUpForm} />
         {/if}
       </Tabs.Content>
     </Tabs.Root>

@@ -151,6 +151,9 @@ devDependencies:
   svelte-meta-tags:
     specifier: ^3.1.1
     version: 3.1.1(svelte@4.2.12)(typescript@5.4.3)
+  sveltekit-medusa-client:
+    specifier: ^3.1.2
+    version: 3.1.2(svelte@4.2.12)
   sveltekit-search-params:
     specifier: ^2.1.2
     version: 2.1.2(@sveltejs/kit@2.5.4)(svelte@4.2.12)(vite@5.2.6)
@@ -2938,6 +2941,11 @@ packages:
       '@lezer/common': 1.2.1
     dev: false
 
+  /@medusajs/types@1.11.15:
+    resolution: {integrity: sha512-1zoM+MSbSxuDoyJ3xUVlwh5DgB9DgZH4yu/WUrymbZwVNka7/uPIraRG65sVO6fJu+/y8NpEe231Y7ZEyFz19A==}
+    engines: {node: '>=16'}
+    dev: true
+
   /@melt-ui/svelte@0.68.0(svelte@4.2.12):
     resolution: {integrity: sha512-/QvA98hnYEodZtHJ71+ocum/WWp30hVNt3F8uiZKnNYwZDaiQYjlyR9AaGKYcZLCe6R68op1mfCzc0kTzJilyA==}
     peerDependencies:
@@ -5588,7 +5596,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
-    bundledDependencies: false
 
   /crelt@1.0.6:
     resolution: {integrity: sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g==}
@@ -10428,6 +10435,16 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.7
       periscopic: 3.1.0
+
+  /sveltekit-medusa-client@3.1.2(svelte@4.2.12):
+    resolution: {integrity: sha512-UYCzLvE4en7cR6KABgaFsXK11tKmHI2LHdvHX4VKQFuoogumQRIZ2td9CLqXPtX5A3QHO3tMsbPKqJ9d77zmjA==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      '@medusajs/types': 1.11.15
+      svelte: 4.2.12
+      sveltekit-superfetch: 3.0.3(svelte@4.2.12)
+    dev: true
 
   /sveltekit-search-params@2.1.2(@sveltejs/kit@2.5.4)(svelte@4.2.12)(vite@5.2.6):
     resolution: {integrity: sha512-wh5WSo46wz48MdWvpchVGrOjoDmbmsNJ7dUToSZ4L1SQ2LOasmTjAAlFhfG/EFvEhR34phRzLF7BjE0ZHzx1Uw==}

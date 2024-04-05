@@ -2,19 +2,19 @@
   import * as Form from '$lib/components/ui/form';
   import Input from '$lib/components/ui/input/input.svelte';
   import { uiStore } from '$lib/stores/ui-store';
-  import type { signInReq } from '$lib/utils/validators';
+  import type { loginPostReq } from '$lib/utils/validators';
   import { Eye, EyeOff, RotateCw } from 'lucide-svelte';
   import type { SuperForm } from 'sveltekit-superforms';
   import type { z } from 'zod';
 
-  export let signInForm: SuperForm<z.infer<typeof signInReq>>;
+  export let loginForm: SuperForm<z.infer<typeof loginPostReq>>;
   let reveal = false;
 
-  $: ({ form, enhance, message } = signInForm);
+  $: ({ form, enhance, message } = loginForm);
 </script>
 
-<form method="POST" action="/auth?/signIn" use:enhance>
-  <Form.Field form={signInForm} name="email">
+<form method="POST" action="/auth?/login" use:enhance>
+  <Form.Field form={loginForm} name="email">
     <Form.Control let:attrs>
       <Form.Label>Email</Form.Label>
       <Input {...attrs} bind:value={$form.email} />
@@ -22,7 +22,7 @@
     <Form.FieldErrors />
   </Form.Field>
 
-  <Form.Field form={signInForm} name="password">
+  <Form.Field form={loginForm} name="password">
     <Form.Control let:attrs>
       <Form.Label>Password</Form.Label>
       <div class="relative">

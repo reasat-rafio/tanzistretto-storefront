@@ -1,149 +1,134 @@
-import { requestPasswordReset } from '$lib/server/vendure/requestPasswordReset.graphql';
-import { resetPassword } from '$lib/server/vendure/resetPassword.graphql';
-import { signIn } from '$lib/server/vendure/signIn.graphql';
-import { signOut } from '$lib/server/vendure/signOut.graphql';
-import { signUp } from '$lib/server/vendure/signUp.graphql';
 import {
-  forgotReq,
-  resetReq,
-  signInReq,
-  signUpReq,
+  forgotPostReq,
+  loginPostReq,
+  registerPostReq,
+  resetPostReq,
 } from '$lib/utils/validators';
-import { redirect } from '@sveltejs/kit';
-import { message, superValidate } from 'sveltekit-superforms';
+import { error, json, redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { Actions, PageServerLoad } from './$types';
-// import { SECRET_TURNSTILE_KEY } from '$env/static/private'
+import { message, superValidate } from 'sveltekit-superforms/server';
+import type { PageServerLoad } from '../$types';
+import medusa from '$lib/server/medusa';
+import type { Actions } from './$types';
 
-export const load: PageServerLoad = async ({ locals, url }) => {
-  // vendure token renamed to 'code' because of turnstile token
-  const code = url.searchParams.get('token') || '';
+export const load: PageServerLoad = async ({ url }) => {
   const rurl = url.searchParams.get('rurl') || '';
+  const code = url.searchParams.get('code') || '';
 
-  // if (locals.user) throw redirect(302, `/${rurl}`);
+  // if (locals.user) {
+  //   throw redirect(302, `/${rurl}`);
+  // }
 
-  const signInForm = await superValidate(zod(signInReq), { id: 'signIn' });
-  const signUpForm = await superValidate(zod(signUpReq), { id: 'signUp' });
-  const forgotForm = await superValidate(zod(forgotReq), { id: 'forgot' });
-  const resetForm = await superValidate(zod(resetReq), { id: 'reset' });
+  const loginForm = await superValidate(zod(loginPostReq), { id: 'login' });
+  const registerForm = await superValidate(zod(registerPostReq), {
+    id: 'register',
+  });
+  const forgotForm = await superValidate(zod(forgotPostReq), { id: 'forgot' });
+  const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
 
   return {
-    code,
     rurl,
-    signUpForm,
-    signInForm,
+    code,
+    loginForm,
+    registerForm,
     forgotForm,
     resetForm,
   };
 };
 
 export const actions: Actions = {
-  signIn: async ({ request, locals, cookies }) => {
-    const form = await superValidate(request, zod(signInReq), { id: 'signIn' });
-
-    if (!form.valid)
+  login: async ({ request, locals, cookies }) => {
+    const form = await superValidate(request, zod(loginPostReq), {
+      id: 'login',
+    });
+    if (!form.valid) {
       return message(form, 'Something went wrong', { status: 500 }); // this shouldn't happen because of client-side validation
+    }
 
-    // if (!(await validateToken(form.data.token, SECRET_TURNSTILE_KEY)))
-    //   return message(form, 'Bot defense', { status: 420 });
-
-    const result = await signIn(
-      locals,
-      cookies,
-      form.data.email.toLowerCase(),
-      form.data.password,
-    );
-
-    if (!result) {
-      return message(form, 'The service is unavailable.', { status: 424 });
-    } else if (result && result.id) {
-      return message(form, 'success'); // the form will redirect to rurl
-    } else if (result && result.errorCode === 'NOT_VERIFIED_ERROR') {
-      return message(
-        form,
-        'Please verify your email address before signing in.',
-        { status: 401 },
-      );
+    if (
+      await medusa.login(locals, cookies, form.data.email, form.data.password)
+    ) {
+      message(form, 'Logged in');
+      // throw redirect(302, `/${form.data.rurl}`);
     } else {
-      return message(
-        form,
-        'A user with that email address was not found or the password was not valid.',
-        { status: 401 },
-      );
+      return message(form, 'Invalid email/password combination', {
+        status: 401,
+      });
     }
   },
 
-  signUp: async ({ request, locals, cookies }) => {
-    const form = await superValidate(request, zod(signUpReq), { id: 'signUp' });
-
-    if (!form.valid)
-      return message(form, 'Something went wrong', { status: 500 }); // this shouldn't happen because of client-side validation
-
-    // if (!(await validateToken(form.data.token, SECRET_TURNSTILE_KEY)))
-    //   return message(form, 'Bot defense', { status: 420 });
-
-    const result = await signUp(locals, cookies, {
-      emailAddress: form.data.email.toLowerCase(),
-      firstName: form.data.fname,
-      lastName: form.data.lname,
-      password: form.data.password,
+  register: async ({ request, locals, cookies }) => {
+    const form = await superValidate(request, zod(registerPostReq), {
+      id: 'register',
     });
 
-    if (!result) {
-      return message(form, 'The service is unavailable.', { status: 424 });
-    } else if (result && result.success) {
+    const user = {
+      first_name: form.data.firstName,
+      last_name: form.data.lastName,
+      email: form.data.email,
+      password: form.data.password,
+    };
+
+    if (await medusa.register(locals, cookies, user)) {
+      message(form, 'User registered');
+    } else {
       return message(
         form,
-        `Your account has been created. An email has been sent to ${form.data.email}.  To continue, please click the link in the email to verify your address.`,
+        'Unable to register a new user with that email address',
+        { status: 400 },
       );
-    } else {
-      return message(form, 'Something went wrong', { status: 500 });
     }
   },
 
   forgot: async ({ request }) => {
-    const form = await superValidate(request, zod(forgotReq), { id: 'forgot' });
+    const form = await superValidate(request, zod(forgotPostReq), {
+      id: 'forgot',
+    });
 
     if (!form.valid)
-      return message(form, 'Something went wrong', { status: 500 }); // this shouldn't happen because of client-side validation
+      return message(form, 'Something went wrong', { status: 500 });
 
-    // if (!(await validateToken(form.data.token, SECRET_TURNSTILE_KEY)))
-    //   return message(form, 'Bot defense', { status: 420 });
-
-    const result = await requestPasswordReset(form.data.email);
-    if (!result) {
-      return message(form, 'The service is unavailable.', { status: 424 });
-    } else if (result && result.success) {
-      // return { form }
+    if (await medusa.requestResetPassword(form.data.email)) {
       return message(
         form,
-        'If an account with that email exists, a reset code has been sent to your email address.',
+        'If an account with that email exists, a reset code has been sent to your email address',
       );
     } else {
-      return message(form, 'Something went wrong', { status: 500 });
+      return message(form, 'Unable to send reset code', { status: 400 });
     }
   },
 
-  reset: async ({ request }) => {
-    const form = await superValidate(request, zod(resetReq), { id: 'reset' });
-
+  reset: async ({ request, locals, cookies }) => {
+    const form = await superValidate(request, zod(resetPostReq), {
+      id: 'reset',
+    });
     if (!form.valid)
       return message(form, 'Something went wrong', { status: 500 }); // this shouldn't happen because of client-side validation
 
-    // if (!(await validateToken(form.data.token, SECRET_TURNSTILE_KEY)))
-    //   return message(form, 'Bot defense', { status: 420 });
-
-    const result = await resetPassword(form.data.code, form.data.password);
-    if (!result) {
-      return message(form, 'The service is unavailable.', { status: 424 });
-    } else if (result && result.id) {
-      return message(form, 'Your password has been reset. Please sign in.');
+    if (
+      await medusa.resetPassword(
+        form.data.email,
+        form.data.password,
+        form.data.code,
+      )
+    ) {
+      if (
+        await medusa.login(locals, cookies, form.data.email, form.data.password)
+      ) {
+        throw redirect(302, `/${form.data.rurl}`);
+      }
     } else {
-      return message(form, 'Something went wrong', { status: 500 });
+      return message(form, 'The link was expired or invalid.', { status: 400 });
     }
   },
 
-  signOut: async ({ locals, cookies }) => {
-    await signOut(locals, cookies);
+  logout: async ({ locals, cookies }) => {
+    try {
+      if (await medusa.logout(locals, cookies)) {
+        json({ message: 'Logged out' });
+      } else error(500, 'server error');
+    } catch (e) {
+      console.log(e);
+    }
   },
 };

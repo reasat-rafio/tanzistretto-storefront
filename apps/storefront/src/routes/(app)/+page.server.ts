@@ -3,7 +3,7 @@ import { asset } from '$lib/sanity/sanity-image';
 import type { LandingPageProps } from '$lib/types/landing.types';
 import groq from 'groq';
 import type { PageServerLoad } from './$types';
-import getOurFavoritesCollection from '$lib/server/vendure/collections/getOurFavoritesCollection';
+import medusa from '$lib/server/medusa';
 
 async function getSanityHomePageData(): Promise<LandingPageProps> {
   const sanityQuery = groq`
@@ -20,8 +20,10 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
 }
 
 export const load: PageServerLoad = async () => {
+  const products = await medusa.getProducts();
+
   return {
     page: await getSanityHomePageData(),
-    favoriteCollection: await getOurFavoritesCollection(),
+    products,
   };
 };

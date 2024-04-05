@@ -1,27 +1,21 @@
-import { handleVendureRequest } from '$lib/server/vendure/handleVendureRequest.graphql';
 import type { Handle } from '@sveltejs/kit';
+import medusa from '$lib/server/medusa';
 
 export const handle: Handle = async ({ event, resolve }) => {
-  // If path starts with /checkout/success, wait for 500 ms
-  // This allows the order to be processed via the webhook before the page is rendered
-  if (event.url.pathname.startsWith('/checkout/success')) {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
+  // MEDUSA SESSION MIDDLEWARE
+  // Sets locals.user and locals.cart if they are found.
+  event = await medusa.handleRequest(event);
 
-  // VENDURE SESSION MIDDLEWARE
-  // Sets locals.user and locals.cart if a vendure session is found.
-  // If you have a large app where only part of the app functions as a shop, you may want
-  // to check the request path and only run this middleware if the path is /shop or similar.
-  event = await handleVendureRequest(event);
-
-  // Required for all paths
   const response = await resolve(event);
+
+  // CACHE CONTROL
+  // response.headers.set['Cache-Control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate'
+  // response.headers.set['Cache-Control'] = 'public, max-age=0, s-maxage=1'
 
   // SECURITY HEADERS
   // CSP directives are set elsewhere in svelte.config.js and added automatically by SvelteKit.
   // CSRF mitigation in SvelteKit is handled by header-checking and is enabled by default. More secure token-based CSRF mitigation must be added manually.
   // Token-based CSRF mitigation for the most sensitive endpoints/form actions is handled by Cloudflare Turnstile.
-  // The headers below provide additional security against XSS, clickjacking, MIME-type sniffing, and other attacks.
   // response.headers.set('X-Frame-Options', 'DENY');
   // response.headers.set('X-Content-Type-Options', 'nosniff');
   // response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');

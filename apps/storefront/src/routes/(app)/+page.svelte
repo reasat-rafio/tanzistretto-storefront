@@ -6,7 +6,6 @@
   export let data;
   $: ({
     page: { sections, seo },
-    favoriteCollection,
     site: {
       logos: { ogImage },
     },
@@ -20,6 +19,6 @@
   {/if}
 {/each}
 
-{#if !!favoriteCollection?.productVariants?.items?.length}
+<!-- {#if !!favoriteCollection?.productVariants?.items?.length}
   <OurFavorites {favoriteCollection} />
-{/if}
+{/if} -->

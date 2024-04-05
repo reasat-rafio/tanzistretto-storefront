@@ -9,6 +9,8 @@ export const actions: Actions = {
     if (!data.get('variantId')) return { success: false };
     const variantId = data.get('variantId') as string;
     const cart = await addCartLine(locals, cookies, variantId, 1);
+    console.log({ cart });
+
     if (cart) return { success: true, cart };
   },
 

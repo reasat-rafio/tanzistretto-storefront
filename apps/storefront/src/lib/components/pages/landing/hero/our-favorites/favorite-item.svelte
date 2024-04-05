@@ -27,6 +27,10 @@
   $: sizes = !!activeVariantSizes?.length
     ? activeVariantSizes
     : productParentSizes;
+
+  // function addItemTOBag(size: (typeof sizes)[0]) {
+  //   //
+  // }
 </script>
 
 <div class="group space-y-3 p-1">
@@ -36,7 +40,7 @@
     {/if}
     <MakeFavoriteWidget />
     <Media bind:mediaSliderApi {name} {slug} {reactiveActiveVariant} />
-    <SelectSizeWidget {sizes} />
+    <SelectSizeWidget activeVariantId={reactiveActiveVariant.id} {sizes} />
     {#if reactiveActiveVariant?.assets?.length > 1}
       <Controls {mediaSliderApi} />
     {/if}

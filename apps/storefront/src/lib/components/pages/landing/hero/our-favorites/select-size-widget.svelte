@@ -9,7 +9,23 @@
     };
   }
 
+  export let activeVariantId: string;
   export let sizes: Size[];
+  // export let addItemTOBag: (size: Size) => void;
+
+  async function addToBag(size: Size) {
+    try {
+      const data = await fetch('/api/add-to-bag', {
+        method: 'POST',
+        body: JSON.stringify({ variantId: activeVariantId, size }),
+      });
+
+      const res = await data.json();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 </script>
 
 <div
@@ -18,12 +34,14 @@
     <div class="text-center text-sm font-bold">Select a size</div>
 
     <div class="mt-1 flex items-center justify-center gap-x-1">
-      {#each sizes as { name }}
+      <input value={activeVariantId} type="text" class="hidden" />
+      {#each sizes as size}
         <Button
+          on:click={() => addToBag(size)}
           class="text-xxs h-8 w-8 !rounded-sm font-semibold"
           size="icon"
           variant="outline">
-          {name}
+          {size.name}
         </Button>
       {/each}
     </div>

@@ -79,7 +79,7 @@ const plugins = [
           // The success redirect can be overriden from the client by adding a query param `?redirectTo=your_url` to the auth url
           // This query param will have the priority over this configuration
           successRedirect: `${ADMIN_URL}/`,
-          authPath: "/admin/auth/google",
+          // authPath: "/admin/auth/google",
           // authCallbackPath: '/admin/auth/google/cb',
           // expiresIn: 24 * 60 * 60 * 1000,
           // verifyCallback: (container, req, accessToken, refreshToken, profile, strict) => {
@@ -92,7 +92,7 @@ const plugins = [
           // The success redirect can be overriden from the client by adding a query param `?redirectTo=your_url` to the auth url
           // This query param will have the priority over this configuration
           successRedirect: `${STORE_URL}/`,
-          authPath: "/store/auth/google",
+          // authPath: "/store/auth/google",
           // authCallbackPath: '/store/auth/google/cb',
           // expiresIn: 24 * 60 * 60 * 1000,
           // verifyCallback: (container, req, accessToken, refreshToken, profile, strict) => {
@@ -167,7 +167,7 @@ const projectConfig = {
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
   // Uncomment the following lines to enable REDIS
-  // redis_url: REDIS_URL,
+  redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */

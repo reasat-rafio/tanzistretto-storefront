@@ -22,6 +22,8 @@ export const load = async ({ locals }) => {
   const forgotForm = await superValidate(zod(forgotPostReq), { id: 'forgot' });
   const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
 
+  console.log(locals.user);
+
   return {
     user: locals.user,
     site: data,

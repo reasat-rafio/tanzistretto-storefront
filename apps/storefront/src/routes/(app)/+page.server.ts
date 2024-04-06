@@ -20,10 +20,10 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
 }
 
 export const load: PageServerLoad = async () => {
-  const products = await medusa.getProducts();
+  // const products = await medusa.getProducts();
 
   return {
     page: await getSanityHomePageData(),
-    products,
+    // products,
   };
 };

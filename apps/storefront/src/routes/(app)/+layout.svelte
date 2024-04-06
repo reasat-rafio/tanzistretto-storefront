@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
   import Navbar from '$lib/components/navigation/navbar/navbar.svelte';
   import Promotion from '$lib/components/promotion.svelte';
+  import { Toaster } from '$lib/components/ui/sonner';
   import { urlFor } from '$lib/sanity/sanity-client';
+  import { authStore } from '$lib/stores/auth-store';
+  import { uiStore } from '$lib/stores/ui-store';
   import {
+    forgotPostReq,
     loginPostReq,
     registerPostReq,
-    forgotPostReq,
     resetPostReq,
   } from '$lib/utils/validators';
   import '@fontsource/metropolis/300.css';
@@ -15,13 +17,10 @@
   import '@fontsource/metropolis/600.css';
   import '@fontsource/metropolis/700.css';
   import '@fontsource/metropolis/800.css';
+  import { toast } from 'svelte-sonner';
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
   import type { LayoutData } from './$types';
-  import { authStore } from '$lib/stores/auth-store';
-  import { uiStore } from '$lib/stores/ui-store';
-  import { Toaster } from '$lib/components/ui/sonner';
-  import { toast } from 'svelte-sonner';
 
   export let data: LayoutData;
   $: ({
@@ -32,11 +31,6 @@
       logos: { logo, favicon },
     },
   } = data);
-
-  // const handleSignIn = async function () {
-  //   await invalidateAll();
-  //   await goto(data.rurl ? data.rurl : '/');
-  // };
 
   const signInForm = superForm(data.signInForm, {
     validators: zodClient(loginPostReq),
@@ -108,23 +102,6 @@
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()
     : null;
-
-  // onMount(() => {
-  //   window.handleCredentialResponse = async (googleUser: unknown) => {
-  //     await fetch('/auth/google', {
-  //       method: 'POST',
-  //       body: JSON.stringify(googleUser),
-  //     }).catch((e) => {
-  //       if (e) console.log(e);
-  //     });
-  //   };
-
-  //   return () => {
-  //     if ((window as any).handleCredentialResponse) {
-  //       delete (window as any).handleCredentialResponse;
-  //     }
-  //   };
-  // });
 </script>
 
 <svelte:head>

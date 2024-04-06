@@ -58,6 +58,9 @@ devDependencies:
   '@graphql-codegen/client-preset':
     specifier: ^4.2.5
     version: 4.2.5(graphql@16.8.1)
+  '@medusajs/types':
+    specifier: ^1.11.15
+    version: 1.11.15
   '@parcel/watcher':
     specifier: ^2.4.1
     version: 2.4.1

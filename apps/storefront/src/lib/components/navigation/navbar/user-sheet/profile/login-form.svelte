@@ -54,8 +54,9 @@
 </form>
 
 <Button
-  href="http://localhost:9000/store/auth/google"
-  class="mb-2 mr-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55">
+  href="http://localhost:9000/store/auth/google/"
+  variant="destructive"
+  class="">
   <svg
     class="-ml-1 mr-2 h-4 w-4"
     aria-hidden="true"
@@ -72,8 +73,8 @@
   </svg>
   Sign in with Google
 </Button>
-<Button
+<!-- <Button
   href="http://localhost:9000/store/auth/facebook"
   class="mb-2 mr-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55">
   Sign in with Facebook
-</Button>
+</Button> -->

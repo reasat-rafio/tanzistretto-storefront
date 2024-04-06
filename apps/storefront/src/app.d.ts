@@ -11,7 +11,7 @@ declare global {
       sid: string; // session id
       ssig: string; // session signature
       token: string; // vendure auth token
-      user: User;
+      user?: object;
       cart: unknown;
     }
     // interface PageData {}

@@ -11,9 +11,14 @@ import {
   resetPostReq,
 } from '$lib/utils/validators.js';
 
-export const load = async ({ locals }) => {
+export const load = async ({ locals, url, cookies }) => {
   const data: SiteDataProps = await sanityClient.fetch(siteQuery);
   if (!data) throw error(404, { message: 'Not found' });
+
+  const access_token = url.searchParams.get('access_token');
+  //   if (access_token) {
+  // cookies.set
+  //   }
 
   const loginForm = await superValidate(zod(loginPostReq), { id: 'login' });
   const registerForm = await superValidate(zod(registerPostReq), {
@@ -21,8 +26,6 @@ export const load = async ({ locals }) => {
   });
   const forgotForm = await superValidate(zod(forgotPostReq), { id: 'forgot' });
   const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
-
-  console.log(locals.user);
 
   return {
     user: locals.user,

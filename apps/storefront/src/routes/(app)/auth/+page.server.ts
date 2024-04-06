@@ -4,37 +4,11 @@ import {
   registerPostReq,
   resetPostReq,
 } from '$lib/utils/validators';
-import { error, json, redirect } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import type { PageServerLoad } from '../$types';
 import medusa from '$lib/server/medusa';
 import type { Actions } from './$types';
-
-export const load: PageServerLoad = async ({ url }) => {
-  const rurl = url.searchParams.get('rurl') || '';
-  const code = url.searchParams.get('code') || '';
-
-  // if (locals.user) {
-  //   throw redirect(302, `/${rurl}`);
-  // }
-
-  const loginForm = await superValidate(zod(loginPostReq), { id: 'login' });
-  const registerForm = await superValidate(zod(registerPostReq), {
-    id: 'register',
-  });
-  const forgotForm = await superValidate(zod(forgotPostReq), { id: 'forgot' });
-  const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
-
-  return {
-    rurl,
-    code,
-    loginForm,
-    registerForm,
-    forgotForm,
-    resetForm,
-  };
-};
 
 export const actions: Actions = {
   login: async ({ request, locals, cookies }) => {
@@ -70,7 +44,7 @@ export const actions: Actions = {
     };
 
     if (await medusa.register(locals, cookies, user)) {
-      message(form, 'User registered');
+      return message(form, 'User registered');
     } else {
       return message(
         form,
@@ -115,7 +89,8 @@ export const actions: Actions = {
       if (
         await medusa.login(locals, cookies, form.data.email, form.data.password)
       ) {
-        throw redirect(302, `/${form.data.rurl}`);
+        // throw redirect(302, `/${form.data.rurl}`);
+        return message(form, 'Password reset and logged in');
       }
     } else {
       return message(form, 'The link was expired or invalid.', { status: 400 });

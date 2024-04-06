@@ -1,5 +1,6 @@
-import { MedusaClient } from 'sveltekit-medusa-client';
+// import { MedusaClient } from 'sveltekit-medusa-client';
 import { MEDUSA_BACKEND_URL } from '$env/static/private';
+import { MedusaClient } from './sveltekit-medusa-client';
 
 export default new MedusaClient(MEDUSA_BACKEND_URL, {
   // headers: {
@@ -7,5 +8,6 @@ export default new MedusaClient(MEDUSA_BACKEND_URL, {
   //    'CF-Access-Client-Secret': CLOUDFLARE_ACCESS_SECRET,
   // },
   retry: 0,
+
   persistentCart: true,
 });

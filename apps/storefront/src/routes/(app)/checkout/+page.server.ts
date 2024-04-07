@@ -1,15 +1,32 @@
-import { setOrderState } from '$lib/server/vendure/setOrderState.graphql';
-import type { Actions } from './$types';
-import { fail } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types'
+import { fail, redirect } from '@sveltejs/kit'
+import medusa from '$lib/server/medusa'
+
+export const load: PageServerLoad = async function ({ locals }) {
+   if (!locals.user) throw redirect(302, '/auth?rurl=checkout')
+
+   return {
+      user: locals.user,
+      cart: locals.cart
+   }
+}
 
 export const actions: Actions = {
-  default: async ({ locals }) => {
-    // if we get here, there was an error with the payment
-    // set state back to 'AddingItems'
-    if (await setOrderState(locals, 'AddingItems')) {
-      return { success: true };
-    } else {
-      fail(400, { success: false });
-    }
-  },
-};
+   default: async ({ locals, cookies }) => {
+      //remove cookie first because customer has already paid for the cart
+      const order = await medusa.completeCart(locals)
+      cookies.set('cartid', '', {
+         path: '/',
+         maxAge: 0,
+         sameSite: 'strict',
+         httpOnly: true,
+         secure: true
+      })
+      locals.cartid = ''
+      if (order) {
+         return { success: true, order: order }
+      } else {
+         return fail (400, { success: false })
+      }
+   }
+}

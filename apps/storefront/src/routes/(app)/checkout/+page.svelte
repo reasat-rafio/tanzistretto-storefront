@@ -1,370 +1,354 @@
 <script lang="ts">
-	import type { PageData } from './$types'
-	import type { Customer, Order, ShippingMethodQuote, PaymentMethod, CreateCustomerInput, CreateAddressInput } from '$lib/generated/graphql'
-	import type { Address, StripeAddressElementOptions } from 'sveltekit-stripe'
-	import { Elements, PaymentElement, AddressElement } from 'sveltekit-stripe'
-	import { Turnstile } from 'sveltekit-turnstile'
-	import { Truck, Warehouse } from 'lucide-svelte'
-	import { enhance } from '$app/forms'
-	import { writable } from 'svelte/store'
-	import { setContext } from 'svelte'
-	import { browser, dev } from '$app/environment'
-	import { 
-		PUBLIC_DEFAULT_CURRENCY,
-		PUBLIC_LOCAL_PICKUP_CODE,
-		PUBLIC_SITE_NAME,
-		PUBLIC_STRIPE_KEY,
-		PUBLIC_TURNSTILE_SITE_KEY,
-	} from '$env/static/public'
-	import { formatCurrency } from '$lib/utils'
-	import CheckoutOrderSummary from '$lib/components/CheckoutOrderSummary.svelte'
-	import MetaTags from '$lib/components/MetaTags.svelte'
+   import type { PageData } from './$types'
+   import { onMount } from 'svelte'
+   import SEO from '$lib/components/SEO.svelte'
+   import { PUBLIC_SITE_NAME } from '$env/static/public'
+   import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public'
+   import { PUBLIC_STRIPE_KEY } from '$env/static/public'
+   import { enhance } from '$app/forms'
+   import { formatPrice } from '$lib/utils'
+   import { Turnstile } from 'sveltekit-turnstile'
+   import { Payment, Address, stripeClient, stripeElements } from 'sveltekit-stripe'
 
-	export let data: PageData
-	const customer = writable<Customer>(data.user)
-	const order = writable<Order>(data.cart)
-	setContext('order', order)
-	setContext('customer', customer)
+   export let data: PageData
+   let user = data.user
+   let cart = data.cart
+   $: items = cart?.items || []
+   
+   let token: string = (PUBLIC_TURNSTILE_SITE_KEY === '')? 'no-token-required' : ''
+   let clientSecret: string
+   let shippingOptions: any[]
+   let shippingOptionId: string
+   let addressContainer: any
+   let order: any
+   
+   let orderSummaryOpen = false
+   let success = false
+   let processing = false
+   let loading = true
+   let errorMessage = ''
+   
+   let contacts = []
+   if (user.shipping_addresses) {
+      for (let address of user.shipping_addresses) {
+         contacts.push({
+            name: address.first_name + ' ' + address.last_name,
+            address: {
+               line1: address.address_1,
+               line2: address.address_2,
+               city: address.city,
+               state: address.province,
+               postal_code: address.postal_code,
+               country: address.country_code.toUpperCase(),
+            }
+         })
+      }
+   }
+   let addressOptions = {
+      contacts: contacts
+   }
 
-	let token: string
-	let addressElementOptions: StripeAddressElementOptions = { mode: 'shipping' }
-	let contacts: any[]
-	let address: Address
-	let emailAddress: string
-	let firstName: string
-	let lastName: string
-	let shippingOptions: ShippingMethodQuote[]
-	let selectedShippingOption: string
-	let paymentOptions: PaymentMethod[]
-	let delivery: 'ship'|'pickup' = 'ship'
-	let processing = false
-	let errorMessage: string|undefined
-	
-	$: { if (browser && shippingOptions) setShippingOption(selectedShippingOption) }
+   const splitName = (name = '') => {
+      const [firstName, ...lastName] = name.split(' ').filter(Boolean)
+      return {
+         firstName: firstName,
+         lastName: lastName.join(' ')
+      }
+   }
 
-	const startCheckout = async (token: string) => {
-		const { paymentOptions, contacts } = await fetch('/checkout/start-checkout', { 
-			method: 'POST', 
-			body: JSON.stringify({ token } )
-		}).then(res => res.json()).catch(e => { if (dev) console.log(e) })
-		addressElementOptions.contacts = contacts
-	}
+   const toggleOrderSummary = () => {
+      let orderSummary = document.getElementById('order-summary') as HTMLElement
+      if (orderSummaryOpen) {
+         orderSummary.classList.add('hidden')
+         orderSummaryOpen = false
+      } else {
+         orderSummary.classList.remove('hidden')
+         orderSummaryOpen = true
+      }
+   }
 
-	const setCustomer = async (customer: CreateCustomerInput) => {
-		const response = await fetch('/checkout/set-customer', { 
-			method: 'POST', 
-			body: JSON.stringify(customer)
-		}).catch(e => { if (dev) console.log(e) })
-		if (response?.status === 409) {
-			errorMessage = 'An account with that email address already exists.  Please sign in.'
-		}
-	}
+   const saveAddress = async (value) => {
+      let address = {
+         first_name: value.firstName,
+         last_name: value.lastName,
+         address_1: value.address.line1,
+         address_2: value.address.line2,
+         city: value.address.city,
+         province: value.address.state,
+         postal_code: value.address.postal_code,
+         country_code: value.address.country.toLowerCase(),
+      }
+      let newAddress = true
+      // if no first_name, this must be coming from stripe, so address is not new.  
+      // sometimes stripe sends full name despite setting cause who knows why
+      if (!address.first_name) {
+         newAddress = false
+         let { firstName, lastName } = splitName(value.name)
+         address.first_name = firstName
+         address.last_name = lastName
+      } else {
+         for (let existing of user.shipping_addresses) {
+            if (JSON.stringify(address) === JSON.stringify(existing)) {
+               newAddress = false
+            }
+         }
+      }
+      address.phone = value.phone // add after to not break the comparison above
+      if (newAddress) {
+         let success = await fetch('/checkout/save-address', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(address)
+         })
+         .then(res => res.ok)
+         .catch(() => false)
+         if (!success) return false
+      }
+      return await fetch('/checkout/shipping-address', { 
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify(address) })
+      .then(res => res.json())
+      .catch(() => false)
+   }
 
-	const setAddress = async (address: CreateAddressInput) => {
-		return await fetch('/checkout/set-address', { 
-			method: 'POST', 
-			body: JSON.stringify(address)
-		}).catch(e => { if (dev) console.log(e) })
-	}
+   const saveShippingOption = async (id: string) => {
+      if (!shippingOptionId) return false
+      return await fetch('/checkout/shipping-option', { 
+         method: 'POST', 
+         body: JSON.stringify({ 'option_id': id }) 
+      }).then(res => res.json()).catch(() => false)
+   }
 
-	const getShippingOptions = async () => {
-		return await fetch('/checkout/get-shipping-options')
-			.then(res => res.json()).catch(e => { if (dev) console.log(e) })
-	}
+   // const savePaymentMethod = async (id) => {
+   // 	let form = new FormData()
+   // 	form.append('payment_method_id', id)
+   // 	return await fetch('/checkout/payment-method', { method: 'POST', body: form })
+   // 	.then(res => res.json())
+   // 	.catch(() => false)
+   // }
 
-	const setShippingOption = async (id: string) => {
-		$order = await fetch('/checkout/set-shipping-option', { 
-			method: 'POST', 
-			body: JSON.stringify({ id })
-		}).then(res => res.json()).catch(e => { if (dev) console.log(e) })
-	}
-	
-	const selectCheapestShippingOption = async () => {
-		// set cheapest shipping option as default, but make sure it is not local pickup
-		if (shippingOptions) {
-			let index = 0
-			if (PUBLIC_LOCAL_PICKUP_CODE) {
-				let pickupIndex = shippingOptions.findIndex(v => v.code === PUBLIC_LOCAL_PICKUP_CODE)
-				if (pickupIndex === index) index += 1
-			}
-			if (index === shippingOptions.length) {
-				errorMessage = 'There are no shipping options available.'
-			} else {
-				selectedShippingOption = shippingOptions[index].id
-			}
-		}
-	}
-	
-	const selectPickupOption = async () => {
-		if (shippingOptions) {
-			let pickupIndex = shippingOptions.findIndex(v => v.code === PUBLIC_LOCAL_PICKUP_CODE)
-			if (pickupIndex === -1) {
-				errorMessage = 'Something went wrong while setting the shipping option to local pickup.'
-			} else {
-				selectedShippingOption = shippingOptions[pickupIndex].id                    
-			}
-		}
-	}
+   const startCheckout = async (token: string) => {
+      try {
+         let response = await fetch('/checkout/turnstile', { 
+            method: 'POST', 
+            body: JSON.stringify({ token } )
+         }).then(res => res.json())
+         cart = response.cart
+         clientSecret = response.cart.payment_session.data.client_secret
+         shippingOptions = response.shippingOptions
+         for (let shippingOption of shippingOptions) {
+            if (shippingOption.name === 'Free Shipping') {
+               shippingOptionId = shippingOption.id
+               cart = await saveShippingOption(shippingOptionId)
+               break
+            }
+         }
+         if (!shippingOptionId) {
+            shippingOptionId = shippingOptions[0].id
+            cart = await saveShippingOption(shippingOptionId)
+         }
+         loading = false
+      } catch (err) {
+         console.log(err)
+      }
+   }
 
-	const setOrderState = async (state: string) => {
-		return await fetch('/checkout/set-order-state', { 
-			method: 'POST', 
-			body: JSON.stringify({ state })
-		}).then(res => res.json()).catch(e => { if (dev) console.log(e) })
-	}
-
-	const saveNewAddress = async (address: CreateAddressInput) => {
-		if ($customer.addresses?.length) {
-			const existingAddress = $customer.addresses.find(v => v.streetLine1 === address.streetLine1 && v.streetLine2 === address.streetLine2 && v.city === address.city && v.province === address.province && v.postalCode === address.postalCode)
-			if (existingAddress) return
-		}
-		return await fetch('/checkout/save-new-address', { 
-			method: 'POST', 
-			body: JSON.stringify(address)
-		}).catch(e => { if (dev) console.log(e) })
-	}
-
-	const turnstile = async () => {
-		return await fetch('/checkout/turnstile', { 
-			method: 'POST', 
-			body: JSON.stringify({ token })
-		}).then(res => res.json()).catch(e => { if (dev) console.log(e) })
-	}
+   onMount( async () => {
+      if (token = 'no-token-required') {
+         await startCheckout(token)
+      }
+   })
 </script>
-<!-- <MetaTags title="Checkout" description="Checkout page for {data.siteName}"/> -->
+
+<SEO title="Checkout" description="Checkout page for {PUBLIC_SITE_NAME}"/>
+
 <noscript>
-	<p>Please enable javascript to complete checkout.</p>
-	<p>We use a third party (<a href="https://stripe.com">Stripe</a>) to process credit card payments for enhanced security.  Making payments on this site using Stripe requires javascript.</p>
+   <p>Please enable javascript to complete checkout.</p>
+   <p>We use a third party (<a href="https://stripe.com">Stripe</a>) to process credit card payments for enhanced security.  Making payments on this site using Stripe requires javascript.</p>
 </noscript>
-{#if (!$order?.lines)}
-	<p>Your cart is empty.</p>
+
+{#if errorMessage}
+   <p>{errorMessage}</p>
+{:else if success}
+   <main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:max-h-screen lg:overflow-hidden">
+      <section class="flex-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-4 lg:pt-0">
+         <div class="mx-auto max-w-lg">
+            <!-- Logo on thank you screen -->
+            <div class="py-10 lg:flex">
+               <span class="sr-only">{PUBLIC_SITE_NAME}</span>
+               <a href="/"><img src="/logo.png" alt="{PUBLIC_SITE_NAME}" class="h-14 w-auto"></a>
+            </div>
+            <p>Thank you for your order!</p>
+            <p>Your order number is <a class="font-bold text-lime-600" href={`/account/order/${order.id}`}>{order.display_id}</a></p>
+            <p class="mt-6"><a href="/">&larr; Continue Shopping</a></p>
+         </div>
+      </section>
+   </main>
+{:else if (!cart?.items)}
+   <p>Your cart is empty.</p>
 {:else if !token}
-	<Turnstile theme="light" siteKey={PUBLIC_TURNSTILE_SITE_KEY} on:turnstile-callback={ async (e) => { 
-		token = e.detail.token
-		await startCheckout(token)
-	}} />
-{:else}
-	<main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:max-h-screen lg:overflow-hidden">
-		<!-- Logo on sm screen -->
-		<div class="px-4 py-6 sm:px-6 lg:hidden">
-			<div class="mx-auto flex max-w-lg">
-				<h1 class="sr-only">Checkout</h1>
-				<a href="/"><img src="/logo.png" class="mx-auto h-14 w-auto" alt="{PUBLIC_SITE_NAME}" /></a>
-			</div>
-		</div>
-		<CheckoutOrderSummary currency={PUBLIC_DEFAULT_CURRENCY} />
-		<section aria-labelledby="payment-heading" class="flex-auto px-4 pb-16 pt-6 sm:pt-8 sm:px-6 lg:px-8 lg:pb-4 overflow-auto">
-			<div class="mx-auto max-w-lg">
-				<!-- Logo on lg screen -->
-				<div class="hidden py-10 lg:flex">
-					<h1 class="sr-only">Checkout</h1>
-					<a href="/"><img src="/logo.png" alt="{PUBLIC_SITE_NAME}" class="h-14 w-auto"></a>
-				</div>
-				<!-- Checkout Form -->
-				<Elements publicKey={PUBLIC_STRIPE_KEY} let:stripe let:elements elementsOptions={{ 
-					appearance: { 
-						theme: 'stripe',
-					},
-					mode: 'payment',
-					currency: PUBLIC_DEFAULT_CURRENCY.toLowerCase(),
-					amount: $order.total
-				}}>
-					<form class="grid gap-y-8" method="POST" use:enhance={ async ({ formData, cancel }) => {
-						if (processing) cancel()
-						processing = true
-						// save guest customer
-						if (!$customer) {
-							if (!emailAddress || !firstName || !lastName) errorMessage = 'Please complete all fields.'
-							else await setCustomer({ emailAddress, firstName, lastName })
-							if (errorMessage) {
-								processing = false
-								cancel()
-							}
-						// save address if new
-						} else {
-							await saveNewAddress({
-								fullName: `${firstName} ${lastName}`,
-								// @ts-ignore
-								streetLine1: address.line1,
-								streetLine2: address.line2,
-								city: address.city,
-								province: address.state,
-								postalCode: address.postal_code,
-								// @ts-ignore
-								countryCode: address.country
-							})
-						}
-						// transition to ArrangingPayment state
-						if ($order.state !== 'ArrangingPayment') {
-							$order = await setOrderState('ArrangingPayment')
-							if ($order.state !== 'ArrangingPayment') {
-								errorMessage = 'Something went wrong while transitioning to ArrangingPayment state.'
-								processing = false
-								cancel()
-							}
-						}
-						// get payment intent
-						const { clientSecret } = await turnstile()
-						// submit to Stripe
-						let stripeResponse = await elements?.submit()
-						if (stripeResponse && !stripeResponse.error) {
-							// save payment method
-							// await fetch('/checkout/set-payment-method', { 
-							//    method: 'POST', 
-							//    body: JSON.stringify({ paymentMethodId: stripeResponse.paymentMethod.id })
-							// }).catch(e => { if (dev) console.log(e) })
-							// confirm payment intent
-							stripeResponse = await stripe?.confirmPayment({ 
-								elements,
-								clientSecret, 
-								confirmParams: { return_url: `http://localhost:5173/checkout/success/${$order.code}` }
-							})
-						}
-						return async () => {
-							// if we get here instead of being redirected, there was a payment error
-							errorMessage = stripeResponse?.error?.message
-							processing = false
-						}
-					}}>
-						{#if errorMessage}
-							<p class="text-red-600 text-lg font-semibold">{errorMessage}</p>
-						{/if}
-						<section id="email">
-							<div class="flex flex-auto justify-between items-center">
-								<h3 class="text-xl font-medium text-gray-900" id="payment-heading">Email</h3>
-								<span class="text-sm">
-									{#if (!$customer)}
-										Have an account? Sign in
-									{:else}
-										Sign in as a different customer
-									{/if}
-								</span>
-							</div>
-							{#if $customer}
-								<div>{$customer.emailAddress}</div>
-							{:else}
-								<input name="emailAddress" bind:value={emailAddress} on:change={ async () => { await setCustomer({ emailAddress, firstName: '', lastName: '' }) } } type="text" class="input mt-2">
-								<div class="mt-2 flex items-center">
-									<input name="offers" id="offers" type="checkbox" class="checkbox"> 
-									Send me emails with news and offers
-								</div>
-							{/if}
-						</section>
-						<section id="address">
-							<h3 class="mb-3 text-xl font-medium text-gray-900" id="payment-heading">Address</h3>
-							<AddressElement {addressElementOptions} 
-								on:complete={async (e) => {
-									firstName = e.detail.firstName
-									lastName = e.detail.lastName
-									if (address !== e.detail.address) {
-										address = e.detail.address
-										await setAddress({
-											fullName: `${firstName} ${lastName}`,
-											// @ts-ignore
-											streetLine1: address.line1,
-											streetLine2: address.line2,
-											city: address.city,
-											province: address.state,
-											postalCode: address.postal_code,
-											// @ts-ignore
-											countryCode: address.country
-										})
-										shippingOptions = await getShippingOptions()
-										if (!shippingOptions) {
-											errorMessage = 'Something went wrong while getting shipping options.'
-										} else {
-											if (delivery === 'ship') {
-												await selectCheapestShippingOption()
-											} else if (delivery === 'pickup') {
-												await selectPickupOption()
-											}
-										}
-									}
-								}}
-							/>
-						</section>
-						{#if PUBLIC_LOCAL_PICKUP_CODE}
-						{PUBLIC_LOCAL_PICKUP_CODE}
-							<section id="delivery">
-								<h3 class="mb-3 text-xl font-medium text-gray-900" id="payment-heading">Delivery</h3>
-								<div role="radiogroup" class="rounded-md overflow-hidden border">
-									<label class={
-										(delivery === 'ship')
-										? "w-full flex items-center p-4 rounded-t-md border-2 border-violet-600" 
-										: "w-full flex items-center p-4"
-									}>
-										<input 
-											type="radio" 
-											name="delivery" 
-											value="ship" 
-											class="focus:ring-0 text-violet-600"
-											checked={delivery === 'ship'} 
-											on:change={ async () => { 
-												delivery = 'ship'
-												await selectCheapestShippingOption()
-											}} 
-										/>
-										<span class="ml-3">Ship</span>
-										<Truck class="ml-auto" />
-									</label>
-									<label class={
-										(delivery === 'pickup')
-										? "w-full flex items-center p-4 rounded-b-md border-2 border-violet-500" 
-										: "w-full flex items-center p-4"
-									}>
-										<input 
-											type="radio" 
-											name="delivery" 
-											value="pickup" 
-											class="focus:ring-0 text-violet-600"
-											checked={delivery === 'pickup'} 
-											on:change={ async () => { 
-												delivery = 'pickup' 
-												await selectPickupOption()
-											}} 
-										/>
-										<span class="ml-3">Pick Up</span>
-										<Warehouse class="ml-auto" />
-									</label>
-								</div>
-							</section>
-						{/if}
-						<!-- Shipping Method -->
-						{#if delivery === 'ship' && shippingOptions}
-						<section id="shipping-method">
-							<h3 class="mb-3 text-xl font-medium text-gray-900" id="payment-heading">Shipping Method</h3>
-							<select bind:value={selectedShippingOption} required class="block w-full rounded-md border-gray-200 focus:border-2 focus:border-violet-600 text-gray-600 py-3">
-								{#each shippingOptions as shippingOption}
-									<option value={shippingOption.id}>{shippingOption.name} {formatCurrency(shippingOption.price, PUBLIC_DEFAULT_CURRENCY)}</option>
-								{:else}
-									No shipping options available
-								{/each}
-							</select>
-						</section>
-						{:else}
-							Enter name and address above to see shipping getOptions.
-						{/if}
-						<!-- Payment -->
-						<section id="payment">
-							<h3 class="mb-3 text-xl font-medium text-gray-900" id="payment-heading">Payment</h3>
-							<PaymentElement />
-						</section>
-						{#if errorMessage}
-							<p class="text-red-600 text-lg font-semibold">{errorMessage}</p>
-						{/if}
-						<!-- Submission -->         
-						<button disabled={processing} type="submit" class="w-full items-center justify-center rounded-md border border-transparent bg-lime-600 px-5 py-3 text-base font-medium text-white hover:bg-lime-700">
-							{#if processing} Processing...{:else} Complete Your Order {/if}
-						</button>
-						<p class="flex justify-center pb-4 text-sm font-medium text-gray-500">
-							<svg class="mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
-								<path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
-							</svg>
-							Payments processed securely by Stripe
-						</p>
-					</form>
-			</Elements>
-			</div>
-		</section>
-	</main>
+   <Turnstile theme="light" siteKey={PUBLIC_TURNSTILE_SITE_KEY} on:turnstile-callback={ async (e) => { 
+      token = e.detail.token
+      await startCheckout(token)
+   }} />
+{:else if !loading}
+   <main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:max-h-screen lg:overflow-hidden">
+      <h1 class="sr-only">Checkout</h1>
+
+      <!-- Logo on sm screen -->
+      <div class="px-4 py-6 sm:px-6 lg:hidden">
+         <div class="mx-auto flex max-w-lg">
+            <span class="sr-only">{PUBLIC_SITE_NAME}</span>
+            <a href="/"><img src="/logo.png" class="mx-auto h-14 w-auto" alt="{PUBLIC_SITE_NAME}" /></a>
+         </div>
+      </div>
+      
+      <!-- Order Summary -->
+      <section class="w-full flex-col lg:max-w-md bg-gray-50 p-6 overflow-auto">
+         <h2 id="summary-heading" class="sr-only">Order summary</h2>
+         <div class="mx-auto max-w-lg">
+
+            <!-- Mobile order summary toggle -->
+            <div class="lg:hidden flex items-center justify-between">
+               <h2 id="order-heading" class="text-lg font-medium text-gray-900">Your Order</h2>
+               <button on:click={toggleOrderSummary} type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                  {#if orderSummaryOpen} Hide full summary {:else} Show full summary {/if}
+               </button>
+            </div>
+      
+            <div id="order-summary" class="hidden lg:block lg:max-h-screen">
+               <ul role="list" class="flex-auto">
+                  {#each items as item}
+                  <li class="flex space-x-6 py-6 border-b border-gray-200">
+                     <img src="{item.thumbnail}" alt="item.description" class="h-28 w-auto flex-none rounded-md bg-gray-200 object-cover object-center">
+                     <div class="flex flex-col justify-between space-y-4 my-auto">
+                        <div class="space-y-1 text-sm font-medium">
+                           <h3 class="text-gray-900">{item.title}</h3>
+                           <p class="text-gray-900">{item.description}</p>
+                           <p class="text-gray-500">Price: {formatPrice(item.unit_price)}</p>
+                           <p class="text-gray-500">Quantity: {item.quantity}</p>
+                        </div>
+                     </div>
+                  </li>
+                  {/each}
+               </ul>
+               
+               <form class="hidden mt-10">
+                  <label for="discount-code-mobile" class="block text-sm font-medium text-gray-700">Discount code</label>
+                  <div class="mt-1 flex space-x-4">
+                     <input type="text" id="discount-code-mobile" name="discount-code-mobile" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                     <button type="submit" class="rounded-md bg-gray-200 px-4 text-sm font-medium text-gray-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Apply</button>
+                  </div>
+               </form>
+      
+               <dl class="py-6 space-y-6 text-sm font-medium text-gray-500">
+                  <div class="flex justify-between">
+                     <dt>Subtotal</dt>
+                     <dd class="text-gray-900">{formatPrice(cart?.subtotal)}</dd>
+                  </div>
+                  {#if cart?.discount_total}
+                  <div class="flex justify-between">
+                     <dt class="flex">
+                        Discount
+                        <span class="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600">{cart.discounts[0]}</span>
+                     </dt>
+                     <dd class="text-gray-900">{formatPrice(cart.discount_total)}</dd>
+                  </div>
+                  {/if}
+                  <div class="flex justify-between">
+                     <dt>Taxes</dt>
+                     <dd class="text-gray-900">{formatPrice(cart?.tax_total)}</dd>
+                  </div>
+                  <div class="flex justify-between">
+                     <dt>Shipping</dt>
+                     <dd class="text-gray-900">{formatPrice(cart?.shipping_methods[0]?.price)}</dd>
+                  </div>
+               </dl>
+               
+               <p class="py-6 flex items-center justify-between border-t border-gray-200 text-sm font-medium text-gray-900">
+                  <span class="text-base">Total</span>
+                  <span class="text-base">{formatPrice(cart?.total)}</span>
+               </p>
+
+            </div>
+         </div>
+      </section>
+   
+      <!-- Checkout form -->
+      <section aria-labelledby="payment-heading" class="flex-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-4 lg:pt-0 overflow-auto">
+         <div class="mx-auto max-w-lg">
+
+            <!-- Logo on lg screen -->
+            <div class="hidden py-10 lg:flex">
+               <span class="sr-only">{PUBLIC_SITE_NAME}</span>
+               <a href="/"><img src="/logo.png" alt="{PUBLIC_SITE_NAME}" class="h-14 w-auto"></a>
+            </div>
+
+            <form class="grid gap-y-8" method="POST" use:enhance={ async ({ cancel }) => {
+               if (processing) cancel()
+               processing = true
+         
+               // capture shipping address
+               const {complete, value} = await addressContainer.getValue()
+               if (complete) {
+                  cart = await saveAddress(value)
+                  if (!cart) {
+                     errorMessage = 'Something went wrong while saving your address.'
+                     console.log(errorMessage)
+                     processing = false
+                     cancel()
+                  }
+               }
+      
+               // capture final shipping method
+               cart = await saveShippingOption(shippingOptionId)
+               if (!cart) {
+                  errorMessage = 'Something went wrong while selecting the shipping option.'
+                  console.log(errorMessage)
+                  processing = false
+                  cancel()
+               }
+         
+               // confirm payment
+               const stripeResponse = await $stripeClient.confirmPayment({ elements: $stripeElements, redirect: 'if_required' })
+               if (stripeResponse.error) {
+                  errorMessage = stripeResponse.error.message
+                  processing = false
+                  cancel()
+               } else {
+                  return async ({ result }) => {
+                     if (result.status === 200) {
+                        success = true
+                        order = result.data.order
+                     } 
+                  }
+               }
+            }}>
+
+               <Address publicKey={PUBLIC_STRIPE_KEY} {addressOptions} {clientSecret} bind:addressContainer/>
+
+               <select bind:value={shippingOptionId} on:change={async () => { cart = await saveShippingOption(shippingOptionId) } } name="shippingOptionId" required="required" class="block w-full rounded-md border-gray-200 shadow-sm focus:border-blue-300 focus:ring-blue-300 text-gray-600 py-3">
+                  {#each shippingOptions as shippingOption}
+                     <option value={shippingOption.id}>{shippingOption.name} {formatPrice(shippingOption.price_incl_tax)}</option>
+                  {/each}
+               </select>
+
+               <Payment publicKey={PUBLIC_STRIPE_KEY} {clientSecret} />			
+         
+               <button disabled={processing} type="submit" class="w-full items-center justify-center rounded-md border border-transparent bg-lime-600 px-5 py-3 text-base font-medium text-white hover:bg-lime-700">
+                  {#if processing} Processing...{:else} Complete Your Order {/if}
+               </button>
+         
+               <p class="flex justify-center text-sm font-medium text-gray-500">
+                  <svg class="mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+                     <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                  </svg>
+                  Payments processed securely by Stripe
+               </p>
+            </form>
+
+         </div>
+      </section>
+   </main>
 {/if}

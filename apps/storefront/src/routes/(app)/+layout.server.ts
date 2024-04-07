@@ -29,6 +29,7 @@ export const load = async ({ locals, url, cookies }) => {
 
   return {
     user: locals.user,
+    cart: locals.cart,
     site: data,
     signUpForm: registerForm,
     signInForm: loginForm,

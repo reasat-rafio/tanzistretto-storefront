@@ -7,12 +7,10 @@ declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      config: SalunaConfig;
-      sid: string; // session id
-      ssig: string; // session signature
-      token: string; // vendure auth token
-      user?: object;
-      cart: unknown;
+      sid: string;
+      cartid: string;
+      user: any;
+      cart: any;
     }
     // interface PageData {}
     // interface PageState {}

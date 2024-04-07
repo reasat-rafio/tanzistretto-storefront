@@ -1,20 +1,30 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "allowSyntheticDefaultImports": true,
+    "target": "es2019",
+    "allowJs": true,
     "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "target": "es2019",
-    "strict": true,
-    "sourceMap": false,
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "checkJs": false
   },
-  "exclude": ["node_modules", "migration.ts", "src/plugins/**/ui/*", "admin-ui"],
-  "ts-node": {
-    "files": true
-  }
+  "include": ["src/"],
+  "exclude": [
+    "**/__tests__",
+    "**/__fixtures__",
+    "node_modules",
+    "build",
+    ".cache"
+  ]
 }

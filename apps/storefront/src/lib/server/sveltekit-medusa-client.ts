@@ -162,6 +162,18 @@ export class MedusaClient {
     });
   }
 
+  // getMedusaHeaders = (tags: string[] = []) => {
+  //   const token = cookie.get('_medusa_jwt')?.value;
+
+  //   if (token) {
+  //     this.headers.authorization = `Bearer ${token}`;
+  //   } else {
+  //     this.headers.authorization = '';
+  //   }
+
+  //   return this.headers;
+  // };
+
   async query(options: QueryOptions): Promise<Response | null> {
     const { locals, path, method = 'GET', body = {}, ...rest } = options;
     let headers: any = {};
@@ -207,10 +219,18 @@ export class MedusaClient {
   async handleRequest(event: RequestEvent): Promise<RequestEvent> {
     // this middleware function is called by src/hooks.server.ts or src/hooks.server.js
 
+    if (!this.headers) this.headers = {};
+
     event.locals.sid = event.cookies.get('sid');
+
+    console.log({ kk: event.locals.sid });
+
     if (event.locals.sid)
       event.locals.user = await this.getCustomer(event.locals, event.cookies);
     else event.locals.sid = '';
+
+    if (this.headers.Authorization) {
+    }
 
     event.locals.cartid = event.cookies.get('cartid');
     let cart: any = await this.getCart(event.locals, event.cookies);
@@ -225,6 +245,8 @@ export class MedusaClient {
     locals: App.Locals,
     cookies: Cookies,
   ) {
+    console.log({ setCookie, locals, cookies });
+
     if (!setCookie) return false;
     try {
       for (let rawCookie of setCookie) {

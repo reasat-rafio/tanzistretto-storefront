@@ -28,9 +28,9 @@ export const load = async ({ locals, url, cookies }) => {
   const resetForm = await superValidate(zod(resetPostReq), { id: 'reset' });
 
   return {
+    site: data,
     user: locals.user,
     cart: locals.cart,
-    site: data,
     signUpForm: registerForm,
     signInForm: loginForm,
     forgotForm: forgotForm,

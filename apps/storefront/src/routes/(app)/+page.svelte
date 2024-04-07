@@ -5,6 +5,7 @@
 
   export let data;
   $: ({
+    products,
     page: { sections, seo },
     site: {
       logos: { ogImage },

@@ -1,39 +1,39 @@
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
 
-import { formatAmount } from "@lib/util/prices"
-import { RegionInfo } from "types/global"
-import { CalculatedVariant } from "types/medusa"
+import { formatAmount } from "./prices";
+import { RegionInfo } from "@/types/global";
+import { CalculatedVariant } from "@/types/medusa";
 
 export function getProductPrice({
   product,
   variantId,
   region,
 }: {
-  product: PricedProduct
-  variantId?: string
-  region: RegionInfo
+  product: PricedProduct;
+  variantId?: string;
+  region: RegionInfo;
 }) {
   if (!product || !product.id) {
-    throw new Error("No product provided")
+    throw new Error("No product provided");
   }
 
   const getPercentageDiff = (original: number, calculated: number) => {
-    const diff = original - calculated
-    const decrease = (diff / original) * 100
+    const diff = original - calculated;
+    const decrease = (diff / original) * 100;
 
-    return decrease.toFixed()
-  }
+    return decrease.toFixed();
+  };
 
   const cheapestPrice = () => {
     if (!product || !product.variants?.length || !region) {
-      return null
+      return null;
     }
 
-    const variants = product.variants as unknown as CalculatedVariant[]
+    const variants = product.variants as unknown as CalculatedVariant[];
 
     const cheapestVariant = variants.reduce((prev, curr) => {
-      return prev.calculated_price < curr.calculated_price ? prev : curr
-    })
+      return prev.calculated_price < curr.calculated_price ? prev : curr;
+    });
 
     return {
       calculated_price: formatAmount({
@@ -51,20 +51,20 @@ export function getProductPrice({
         cheapestVariant.original_price,
         cheapestVariant.calculated_price
       ),
-    }
-  }
+    };
+  };
 
   const variantPrice = () => {
     if (!product || !variantId || !region) {
-      return null
+      return null;
     }
 
     const variant = product.variants.find(
       (v) => v.id === variantId || v.sku === variantId
-    ) as unknown as CalculatedVariant
+    ) as unknown as CalculatedVariant;
 
     if (!variant) {
-      return null
+      return null;
     }
 
     return {
@@ -83,12 +83,12 @@ export function getProductPrice({
         variant.original_price,
         variant.calculated_price
       ),
-    }
-  }
+    };
+  };
 
   return {
     product,
     cheapestPrice: cheapestPrice(),
     variantPrice: variantPrice(),
-  }
+  };
 }

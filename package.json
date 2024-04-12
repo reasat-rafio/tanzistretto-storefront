@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "embla-carousel-react": "^8.0.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.365.0",
     "next": "14.1.4",
     "react": "^18",
@@ -43,6 +44,8 @@
   "devDependencies": {
     "@medusajs/client-types": "^0.2.11",
     "@medusajs/medusa": "^1.20.4",
+    "@medusajs/types": "^1.11.15",
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

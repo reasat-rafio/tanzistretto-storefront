@@ -1,10 +1,10 @@
-import { MoneyAmount } from "@medusajs/medusa"
+import { MoneyAmount } from "@medusajs/medusa";
 
-import { Region, Variant } from "types/medusa"
+import { Region, Variant } from "@/types/medusa";
 
-import { isEmpty } from "./isEmpty"
-import { ProductVariantInfo, RegionInfo } from "../../types/global"
-import { noDivisionCurrencies } from "@lib/constants"
+import { isEmpty } from "./isEmpty";
+import { ProductVariantInfo, RegionInfo } from "@/types/global";
+import { noDivisionCurrencies } from "@/lib/constants";
 
 export const findCheapestRegionPrice = (
   variants: Variant[],
@@ -12,32 +12,32 @@ export const findCheapestRegionPrice = (
 ) => {
   const regionPrices = variants.reduce((acc, v) => {
     if (!v.prices) {
-      return acc
+      return acc;
     }
 
-    const price = v.prices.find((p) => p.region_id === regionId)
+    const price = v.prices.find((p) => p.region_id === regionId);
     if (price) {
-      acc.push(price)
+      acc.push(price);
     }
 
-    return acc
-  }, [] as MoneyAmount[])
+    return acc;
+  }, [] as MoneyAmount[]);
 
   if (!regionPrices.length) {
-    return undefined
+    return undefined;
   }
 
   //find the price with the lowest amount in regionPrices
   const cheapestPrice = regionPrices.reduce((acc, p) => {
     if (acc.amount > p.amount) {
-      return p
+      return p;
     }
 
-    return acc
-  })
+    return acc;
+  });
 
-  return cheapestPrice
-}
+  return cheapestPrice;
+};
 
 export const findCheapestCurrencyPrice = (
   variants: Variant[],
@@ -45,63 +45,63 @@ export const findCheapestCurrencyPrice = (
 ) => {
   const currencyPrices = variants.reduce((acc, v) => {
     if (!v.prices) {
-      return acc
+      return acc;
     }
 
-    const price = v.prices.find((p) => p.currency_code === currencyCode)
+    const price = v.prices.find((p) => p.currency_code === currencyCode);
     if (price) {
-      acc.push(price)
+      acc.push(price);
     }
 
-    return acc
-  }, [] as MoneyAmount[])
+    return acc;
+  }, [] as MoneyAmount[]);
 
   if (!currencyPrices.length) {
-    return undefined
+    return undefined;
   }
 
   //find the price with the lowest amount in currencyPrices
   const cheapestPrice = currencyPrices.reduce((acc, p) => {
     if (acc.amount > p.amount) {
-      return p
+      return p;
     }
 
-    return acc
-  })
+    return acc;
+  });
 
-  return cheapestPrice
-}
+  return cheapestPrice;
+};
 
 export const findCheapestPrice = (variants: Variant[], region: Region) => {
-  const { id, currency_code } = region
+  const { id, currency_code } = region;
 
-  let cheapestPrice = findCheapestRegionPrice(variants, id)
+  let cheapestPrice = findCheapestRegionPrice(variants, id);
 
   if (!cheapestPrice) {
-    cheapestPrice = findCheapestCurrencyPrice(variants, currency_code)
+    cheapestPrice = findCheapestCurrencyPrice(variants, currency_code);
   }
 
   if (cheapestPrice) {
     return formatAmount({
       amount: cheapestPrice.amount,
       region: region,
-    })
+    });
   }
 
   // if we can't find any price that matches the current region,
   // either by id or currency, then the product is not available in
   // the current region
-  return "Not available in your region"
-}
+  return "Not available in your region";
+};
 
 type FormatVariantPriceParams = {
-  variant: ProductVariantInfo
-  region: RegionInfo
-  includeTaxes?: boolean
-  minimumFractionDigits?: number
-  maximumFractionDigits?: number
-  locale?: string
-}
+  variant: ProductVariantInfo;
+  region: RegionInfo;
+  includeTaxes?: boolean;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  locale?: string;
+};
 
 /**
  * Takes a product variant and a region, and converts the variant's price to a localized decimal format
@@ -112,20 +112,20 @@ export const formatVariantPrice = ({
   includeTaxes = true,
   ...rest
 }: FormatVariantPriceParams) => {
-  const amount = computeVariantPrice({ variant, region, includeTaxes })
+  const amount = computeVariantPrice({ variant, region, includeTaxes });
 
   return convertToLocale({
     amount,
     currency_code: region?.currency_code,
     ...rest,
-  })
-}
+  });
+};
 
 type ComputeVariantPriceParams = {
-  variant: ProductVariantInfo
-  region: RegionInfo
-  includeTaxes?: boolean
-}
+  variant: ProductVariantInfo;
+  region: RegionInfo;
+  includeTaxes?: boolean;
+};
 
 /**
  * Takes a product variant and region, and returns the variant price as a decimal number
@@ -138,14 +138,14 @@ export const computeVariantPrice = ({
   region,
   includeTaxes = true,
 }: ComputeVariantPriceParams) => {
-  const amount = getVariantPrice(variant, region)
+  const amount = getVariantPrice(variant, region);
 
   return computeAmount({
     amount,
     region,
     includeTaxes,
-  })
-}
+  });
+};
 
 /**
  * Finds the price amount correspoding to the region selected
@@ -160,16 +160,16 @@ export const getVariantPrice = (
   const price = variant?.prices?.find(
     (p) =>
       p.currency_code.toLowerCase() === region?.currency_code?.toLowerCase()
-  )
+  );
 
-  return price?.amount || 0
-}
+  return price?.amount || 0;
+};
 
 type ComputeAmountParams = {
-  amount: number
-  region: RegionInfo
-  includeTaxes?: boolean
-}
+  amount: number;
+  region: RegionInfo;
+  includeTaxes?: boolean;
+};
 
 /**
  * Takes an amount, a region, and returns the amount as a decimal including or excluding taxes
@@ -179,23 +179,23 @@ export const computeAmount = ({
   region,
   includeTaxes = true,
 }: ComputeAmountParams) => {
-  const toDecimal = convertToDecimal(amount, region)
+  const toDecimal = convertToDecimal(amount, region);
 
-  const taxRate = includeTaxes ? getTaxRate(region) : 0
+  const taxRate = includeTaxes ? getTaxRate(region) : 0;
 
-  const amountWithTaxes = toDecimal * (1 + taxRate)
+  const amountWithTaxes = toDecimal * (1 + taxRate);
 
-  return amountWithTaxes
-}
+  return amountWithTaxes;
+};
 
 type FormatAmountParams = {
-  amount: number
-  region: RegionInfo
-  includeTaxes?: boolean
-  minimumFractionDigits?: number
-  maximumFractionDigits?: number
-  locale?: string
-}
+  amount: number;
+  region: RegionInfo;
+  includeTaxes?: boolean;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  locale?: string;
+};
 
 /**
  * Takes an amount and a region, and converts the amount to a localized decimal format
@@ -210,28 +210,28 @@ export const formatAmount = ({
     amount,
     region,
     includeTaxes,
-  })
+  });
 
   return convertToLocale({
     amount: taxAwareAmount,
     currency_code: region.currency_code,
     ...rest,
-  })
-}
+  });
+};
 
 const convertToDecimal = (amount: number, region: RegionInfo) => {
   const divisor = noDivisionCurrencies.includes(
     region?.currency_code?.toLowerCase()
   )
     ? 1
-    : 100
+    : 100;
 
-  return Math.floor(amount) / divisor
-}
+  return Math.floor(amount) / divisor;
+};
 
 const getTaxRate = (region?: RegionInfo) => {
-  return region && !isEmpty(region) ? region?.tax_rate / 100 : 0
-}
+  return region && !isEmpty(region) ? region?.tax_rate / 100 : 0;
+};
 
 const convertToLocale = ({
   amount,
@@ -247,13 +247,13 @@ const convertToLocale = ({
         minimumFractionDigits,
         maximumFractionDigits,
       }).format(amount)
-    : amount.toString()
-}
+    : amount.toString();
+};
 
 type ConvertToLocaleParams = {
-  amount: number
-  currency_code: string
-  minimumFractionDigits?: number
-  maximumFractionDigits?: number
-  locale?: string
-}
+  amount: number;
+  currency_code: string;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  locale?: string;
+};

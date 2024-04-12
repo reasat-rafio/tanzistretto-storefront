@@ -514,7 +514,8 @@ export const getProductsListWithSort = cache(
   }: {
     page?: number;
     queryParams?: StoreGetProductsParams;
-    sortBy?: SortOptions;
+    // sortBy?: SortOptions;
+    sortBy?: any;
     countryCode: string;
   }): Promise<{
     response: { products: ProductPreviewType[]; count: number };

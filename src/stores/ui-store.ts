@@ -13,7 +13,7 @@ interface UIStore {
   setSearchSheetOpen: (open: boolean) => void;
 }
 
-const uiStore = create<UIStore>()((set) => ({
+const useUiStore = create<UIStore>()((set) => ({
   authLoading: false,
   openUserSheet: false,
   openBagSheet: false,
@@ -26,4 +26,4 @@ const uiStore = create<UIStore>()((set) => ({
   setSearchSheetOpen: (open) => set((state) => ({ openSearchSheet: open })),
 }));
 
-export default uiStore;
+export default useUiStore;

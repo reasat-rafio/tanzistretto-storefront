@@ -6,6 +6,7 @@ import { useState } from "react";
 import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
 import SearchSheet from "./search-sheet/search-sheet";
+import NavItems from "./nav-items";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -37,12 +38,16 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
 
             <div className="hidden lg:block">
               <ul className="flex gap-x-5">
-                {/* {#each nav.menu as navItem}
-              <NavItem
-                bind:activeSubLinks
-                bind:showDesktopNavItemsDropdown
-                {navItem} />
-            {/each} */}
+                {nav?.menu.map((navItem) => (
+                  <NavItems
+                    key={navItem._key}
+                    navItem={navItem}
+                    setActiveSubLinks={setActiveSubLinks}
+                    setShowDesktopNavItemsDropdown={
+                      setShowDesktopNavItemsDropdown
+                    }
+                  />
+                ))}
               </ul>
             </div>
           </div>

@@ -27,6 +27,7 @@ export interface Nav {
 }
 
 export interface Menu {
+  _key: string;
   title: string;
   type: "internal" | "external";
   internalLink?: string;

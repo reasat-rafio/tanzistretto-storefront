@@ -1,12 +1,12 @@
 "use client";
 
+import sanityConfig from "@/sanity/sanity.config";
 import { NextStudio } from "next-sanity/studio";
-import config from "@/studio/sanity.config";
 
 export default function StudioPage() {
   return (
     <div>
-      <NextStudio config={config} />
+      <NextStudio config={sanityConfig} />
     </div>
   );
 }

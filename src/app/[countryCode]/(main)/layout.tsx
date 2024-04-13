@@ -39,7 +39,8 @@ export async function generateMetadata() {
 async function PageLayout({ children }: { children: React.ReactNode }) {
   const {
     promotions,
-    logos: { favicon },
+    nav,
+    logos: { favicon, logo },
   } = await getSiteData();
 
   return (
@@ -49,7 +50,7 @@ async function PageLayout({ children }: { children: React.ReactNode }) {
       <div className="sticky inset-0 z-30">
         {!!promotions?.length && <Promotion promotions={promotions} />}
 
-        {/* <Promotion {promotions} />
+        {/*
   <Navbar {logo} {nav} /> */}
       </div>
 

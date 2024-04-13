@@ -1,10 +1,11 @@
+import Navbar from "@/components/common/navbar/navbar";
+import Promotion from "@/components/common/promotion";
+import { Toaster } from "@/components/ui/toaster";
 import sanityClient from "@/lib/sanity/client";
 import { urlFor } from "@/lib/sanity/image";
 import { SITE_QUERY } from "@/lib/sanity/queries";
 import { SiteDataProps } from "@/types/site";
 import { groq } from "next-sanity";
-import { Toaster } from "@/components/ui/toaster";
-import Promotion from "@/components/common/promotion";
 
 async function getSiteData(): Promise<SiteDataProps> {
   try {
@@ -48,7 +49,7 @@ async function PageLayout({ children }: { children: React.ReactNode }) {
       <Toaster />
       <div className="sticky inset-0 z-30">
         {!!promotions?.length && <Promotion promotions={promotions} />}
-        {/* <Navbar {logo} {nav} /> */}
+        <Navbar logo={logo} nav={nav} />
       </div>
 
       {children}

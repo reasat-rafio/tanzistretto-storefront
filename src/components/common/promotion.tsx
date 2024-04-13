@@ -27,17 +27,13 @@ const Promotion: React.FC<promotionProps> = ({ promotions }) => {
     <AnimatePresence>
       {!hidden && (
         <motion.div
-          initial={{ y: "-100%" }}
-          animate={{ y: "0" }}
+          initial={{ y: "0" }}
           exit={{ y: "-100%" }}
           transition={{ ease: "easeInOut" }}
         >
           <div className="bg-primary text-primary-foreground text-xxs relative py-2 text-center text-xs font-medium md:text-xs">
             <div className="container">
-              <PortableText
-                components={{}}
-                value={promotions[activeIdx].title}
-              />
+              <PortableText value={promotions[activeIdx].title} />
             </div>
 
             <button

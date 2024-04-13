@@ -4,7 +4,7 @@ import { SITE_QUERY } from "@/lib/sanity/queries";
 import { SiteDataProps } from "@/types/site";
 import { groq } from "next-sanity";
 import { Toaster } from "@/components/ui/toaster";
-import Promotion from "@/components/pages/home/promotion";
+import Promotion from "@/components/common/promotion";
 
 async function getSiteData(): Promise<SiteDataProps> {
   try {
@@ -46,16 +46,12 @@ async function PageLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Toaster />
-
       <div className="sticky inset-0 z-30">
         {!!promotions?.length && <Promotion promotions={promotions} />}
-
-        {/*
-  <Navbar {logo} {nav} /> */}
+        {/* <Navbar {logo} {nav} /> */}
       </div>
 
       {children}
-      {/*  */}
     </>
   );
 }

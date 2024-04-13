@@ -25,3 +25,16 @@ export const SITE_QUERY = groq`{
 		title
 	},
 }`;
+
+export const HOMEPAGE_QUERY = groq`
+	*[_id == "landingPage"][0]{
+		...,
+		sections[] {
+			...,
+      banners[]{
+        ...,
+			  ${asset("image")},
+      }
+		},
+	}
+`;

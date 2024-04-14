@@ -9,10 +9,10 @@ function assertValue<T>(v: T | undefined, errorMessage: string): T {
 }
 
 const apiVersion = "2024-02-12";
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET"
-);
+// export const dataset = assertValue(
+//   process.env.NEXT_PUBLIC_SANITY_DATASET,
+//   "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET"
+// );
 
 export const projectId = assertValue(
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -21,7 +21,7 @@ export const projectId = assertValue(
 
 const sanityClient = createClient({
   apiVersion,
-  dataset,
+  dataset: "production",
   projectId,
   useCdn: process.env.NODE_ENV === "production",
   perspective: "published",

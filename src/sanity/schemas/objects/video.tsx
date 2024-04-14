@@ -1,4 +1,5 @@
-import VideoPreview from "@/studio/components/VideoPreview";
+// import VideoPreview from "@/studio/components/VideoPreview";
+import VideoPreview from "@/sanity/components/VideoPreview";
 import React from "react";
 import { FcVideoCall } from "react-icons/fc";
 import { defineField, defineType } from "sanity";

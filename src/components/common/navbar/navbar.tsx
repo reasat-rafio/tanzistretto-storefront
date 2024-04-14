@@ -7,7 +7,8 @@ import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
 import SearchSheet from "./search-sheet/search-sheet";
 import NavItems from "./nav-items";
-import DesktopMegaMenu from "./desktop-mega-menu";
+import DesktopMegaMenu from "./mega-menu/desktop-mega-menu";
+import MobileSheet from "./mobile-sheet/mobile-sheet";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -58,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
               </button>
               {/* <UserSheet />
           <BagSheet /> */}
-              {/* <MobileSidebar {nav} /> */}
+              <MobileSheet nav={nav} />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { SubLinks } from "@/types/site";
 import Link from "next/link";
-import SanityImage from "../sanity-image";
+import SanityImage from "../../sanity-image";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface DesktopNavItemsDropdownProps {

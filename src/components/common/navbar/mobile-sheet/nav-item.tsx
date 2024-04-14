@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import SanityImage from "../../sanity-image";
 import { AnimatePresence, motion } from "framer-motion";
+import { SanityImageWithAlt } from "@/types/common";
 
 const NavItem: React.FC<Menu> = ({
   title,
@@ -66,21 +67,11 @@ const NavItem: React.FC<Menu> = ({
                 ) : (
                   <>
                     {subLink._type === "poster" ? (
-                      <li>
-                        <Link className="space-y-2" href={subLink.link}>
-                          <div className="aspect-square overflow-hidden rounded-2xl">
-                            <SanityImage
-                              src={subLink.image}
-                              alt={subLink.title}
-                              sizes="200px"
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                          <span className="block font-medium">
-                            {subLink.title}
-                          </span>
-                        </Link>
-                      </li>
+                      <Poster
+                        link={subLink.link}
+                        image={subLink.image}
+                        title={subLink.title}
+                      />
                     ) : null}
                   </>
                 )}
@@ -125,5 +116,27 @@ const Element: React.FC<
         </Link>
       )}
     </>
+  );
+};
+
+const Poster: React.FC<{
+  link: string;
+  image: SanityImageWithAlt;
+  title: string;
+}> = ({ image, link, title }) => {
+  return (
+    <li>
+      <Link className="space-y-2" href={link}>
+        <div className="aspect-square overflow-hidden rounded-2xl">
+          <SanityImage
+            src={image}
+            alt={title}
+            sizes="200px"
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <span className="block font-medium">{title}</span>
+      </Link>
+    </li>
   );
 };

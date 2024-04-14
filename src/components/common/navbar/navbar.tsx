@@ -9,6 +9,7 @@ import SearchSheet from "./search-sheet/search-sheet";
 import NavItems from "./nav-items";
 import DesktopMegaMenu from "./mega-menu/desktop-mega-menu";
 import MobileSheet from "./mobile-sheet/mobile-sheet";
+import BagSheet from "./bag-sheet/bag-sheet";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -58,7 +59,8 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
                 <Heart />
               </button>
               {/* <UserSheet />
-          <BagSheet /> */}
+               */}
+              <BagSheet />
               <MobileSheet nav={nav} />
             </div>
           </div>

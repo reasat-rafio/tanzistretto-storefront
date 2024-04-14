@@ -10,6 +10,7 @@ import NavItems from "./nav-items";
 import DesktopMegaMenu from "./mega-menu/desktop-mega-menu";
 import MobileSheet from "./mobile-sheet/mobile-sheet";
 import BagSheet from "./bag-sheet/bag-sheet";
+import UserSheet from "./user-sheet/user-sheet";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -58,8 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
               <button>
                 <Heart />
               </button>
-              {/* <UserSheet />
-               */}
+              <UserSheet />
               <BagSheet />
               <MobileSheet nav={nav} />
             </div>

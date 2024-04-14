@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import "@fontsource/metropolis/300.css";
+import "@fontsource/metropolis/400.css";
+import "@fontsource/metropolis/500.css";
+import "@fontsource/metropolis/600.css";
+import "@fontsource/metropolis/700.css";
+import "@fontsource/metropolis/800.css";
 
 export const metadata: Metadata = {
   title: "Tanizstretto",
@@ -22,10 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
+          className={cn("min-h-screen bg-background font-sans antialiased")}
         >
           {children}
         </main>

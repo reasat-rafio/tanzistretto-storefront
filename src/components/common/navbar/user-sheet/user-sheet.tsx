@@ -8,6 +8,9 @@ import {
 import useUiStore from "@/stores/ui-store";
 import { User2Icon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Profile from "./profile/profile";
+import Order from "./order/order";
+import ForYou from "./for-you/for-you";
 
 interface UserSheetProps {}
 
@@ -35,14 +38,16 @@ const UserSheet: React.FC<UserSheetProps> = ({}) => {
             <TabsTrigger value="for-you">For You</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="profile">Hi</TabsContent>
-          <TabsContent value="order">Hi</TabsContent>
-          <TabsContent value="for-you">Hi</TabsContent>
+          <TabsContent value="profile">
+            <Profile />
+          </TabsContent>
+          <TabsContent value="order">
+            <Order />
+          </TabsContent>
+          <TabsContent value="for-you">
+            <ForYou />
+          </TabsContent>
         </Tabs>
-        {/* <SheetHeader>
-          <SheetTitle>YOUR BAG</SheetTitle>
-          <SheetDescription>Your cart is empty</SheetDescription>
-        </SheetHeader> */}
       </SheetContent>
     </Sheet>
   );

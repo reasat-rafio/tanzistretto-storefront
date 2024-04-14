@@ -1,7 +1,11 @@
 interface LoginFormProps {}
 
 const LoginForm: React.FC<LoginFormProps> = ({}) => {
-  return <div></div>;
+  return (
+    <>
+      <form></form>
+    </>
+  );
 };
 
 export default LoginForm;

@@ -6,7 +6,7 @@ import { structureTool } from "sanity/structure";
 
 export default defineConfig([
   {
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
+    projectId: "12fv2wdd",
     dataset: "production",
     name: "production-workspace",
     basePath: "/studio/production",
@@ -18,7 +18,7 @@ export default defineConfig([
     },
   },
   {
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
+    projectId: "12fv2wdd",
     dataset: "staging",
     name: "staging-workspace",
     basePath: "/studio/staging",

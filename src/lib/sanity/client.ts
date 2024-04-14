@@ -14,15 +14,15 @@ const apiVersion = "2024-02-12";
 //   "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET"
 // );
 
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID"
-);
+// export const projectId = assertValue(
+//   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+//   "Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID"
+// );
 
 const sanityClient = createClient({
   apiVersion,
   dataset: "production",
-  projectId,
+  projectId: "12fv2wdd",
   useCdn: process.env.NODE_ENV === "production",
   perspective: "published",
   stega: {

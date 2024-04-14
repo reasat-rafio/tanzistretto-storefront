@@ -7,7 +7,7 @@ import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
 import SearchSheet from "./search-sheet/search-sheet";
 import NavItems from "./nav-items";
-import DesktopNavItemsDropdown from "./desktop-nav-items-dropdown";
+import DesktopMegaMenu from "./desktop-mega-menu";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -15,8 +15,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
-  const [showDesktopNavItemsDropdown, setShowDesktopNavItemsDropdown] =
-    useState(false);
+  const [showDesktopMegaMenu, setShowDesktopMegaMenu] = useState(false);
   const [activeSubLinks, setActiveSubLinks] = useState<SubLinks[] | undefined>(
     undefined
   );
@@ -24,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
   return (
     <nav
       className="z-30 w-full bg-white"
-      onMouseLeave={() => setShowDesktopNavItemsDropdown(false)}
+      onMouseLeave={() => setShowDesktopMegaMenu(false)}
     >
       <div className="relative">
         <div className="container flex items-center justify-between">
@@ -44,9 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
                     key={navItem._key}
                     navItem={navItem}
                     setActiveSubLinks={setActiveSubLinks}
-                    setShowDesktopNavItemsDropdown={
-                      setShowDesktopNavItemsDropdown
-                    }
+                    setShowDesktopMegaMenu={setShowDesktopMegaMenu}
                   />
                 ))}
               </ul>
@@ -66,9 +63,9 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
           </div>
         </div>
 
-        <DesktopNavItemsDropdown
+        <DesktopMegaMenu
           activeSubLinks={activeSubLinks}
-          showDesktopNavItemsDropdown={showDesktopNavItemsDropdown}
+          showDesktopMegaMenu={showDesktopMegaMenu}
         />
       </div>
     </nav>

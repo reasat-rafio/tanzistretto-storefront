@@ -7,23 +7,23 @@ import { Dispatch, SetStateAction, useState } from "react";
 interface NavItemsProps {
   navItem: Menu;
   setActiveSubLinks: Dispatch<SetStateAction<SubLinks[] | undefined>>;
-  setShowDesktopNavItemsDropdown: Dispatch<SetStateAction<boolean>>;
+  setShowDesktopMegaMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavItems: React.FC<NavItemsProps> = ({
   navItem: { title, type, externalLink, internalLink, subLinks },
   setActiveSubLinks,
-  setShowDesktopNavItemsDropdown,
+  setShowDesktopMegaMenu,
 }) => {
   const hasSubLinks = !!subLinks?.length;
   const [open, setOpen] = useState(false);
 
   function handleMouseEnter() {
     if (hasSubLinks) {
-      setShowDesktopNavItemsDropdown(true);
+      setShowDesktopMegaMenu(true);
       setActiveSubLinks(subLinks);
     } else {
-      setShowDesktopNavItemsDropdown(false);
+      setShowDesktopMegaMenu(false);
     }
   }
 

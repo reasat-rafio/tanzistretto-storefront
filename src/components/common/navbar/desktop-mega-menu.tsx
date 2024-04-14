@@ -5,16 +5,16 @@ import { AnimatePresence, motion } from "framer-motion";
 
 interface DesktopNavItemsDropdownProps {
   activeSubLinks: SubLinks[] | undefined;
-  showDesktopNavItemsDropdown: boolean;
+  showDesktopMegaMenu: boolean;
 }
 
-const DesktopNavItemsDropdown: React.FC<DesktopNavItemsDropdownProps> = ({
+const DesktopMegaMenu: React.FC<DesktopNavItemsDropdownProps> = ({
   activeSubLinks,
-  showDesktopNavItemsDropdown,
+  showDesktopMegaMenu,
 }) => {
   return (
     <AnimatePresence>
-      {showDesktopNavItemsDropdown && (
+      {showDesktopMegaMenu && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -68,4 +68,4 @@ const DesktopNavItemsDropdown: React.FC<DesktopNavItemsDropdownProps> = ({
   );
 };
 
-export default DesktopNavItemsDropdown;
+export default DesktopMegaMenu;

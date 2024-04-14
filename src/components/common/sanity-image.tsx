@@ -11,6 +11,7 @@ interface SanityImageProps {
   sizes?: string;
   className?: string;
   style?: React.CSSProperties;
+  alt?: string;
 }
 
 const SanityImage: React.FC<SanityImageProps> = ({
@@ -18,6 +19,7 @@ const SanityImage: React.FC<SanityImageProps> = ({
   className,
   sizes = "(max-width: 800px) 100vw, 800px",
   style = { width: "100%", height: "100%" },
+  alt = src?.alt ?? "Image",
 }) => {
   const imageProps = useNextSanityImage(sanityClient, src);
 
@@ -29,7 +31,7 @@ const SanityImage: React.FC<SanityImageProps> = ({
       sizes={sizes}
       placeholder="blur"
       blurDataURL={(src.asset as SanityAsset).metadata.lqip}
-      alt={src?.alt ?? "Image"}
+      alt={alt}
     />
   );
 };

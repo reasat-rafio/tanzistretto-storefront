@@ -7,6 +7,7 @@ import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
 import SearchSheet from "./search-sheet/search-sheet";
 import NavItems from "./nav-items";
+import DesktopNavItemsDropdown from "./desktop-nav-items-dropdown";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
@@ -65,9 +66,10 @@ const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
           </div>
         </div>
 
-        {/* {#if showDesktopNavItemsDropdown}
-      <DesktopNavItemsDropdown {activeSubLinks} />
-    {/if} */}
+        <DesktopNavItemsDropdown
+          activeSubLinks={activeSubLinks}
+          showDesktopNavItemsDropdown={showDesktopNavItemsDropdown}
+        />
       </div>
     </nav>
   );

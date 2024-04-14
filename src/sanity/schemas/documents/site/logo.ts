@@ -1,4 +1,4 @@
-import { alt } from "@/studio/lib/alt";
+import { alt } from "@/sanity/lib/alt";
 import { FaRegStar } from "react-icons/fa";
 import type { Rule } from "sanity";
 

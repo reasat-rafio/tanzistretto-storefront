@@ -1,5 +1,5 @@
 import { pages } from "@/lib/constants";
-import { alt } from "@/studio/lib/alt";
+import { alt } from "@/sanity/lib/alt";
 import { BsLink45Deg } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { IoNavigate } from "react-icons/io5";

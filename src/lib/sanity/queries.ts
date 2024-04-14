@@ -14,15 +14,24 @@ export const asset = (attr: string, opts?: { as: string }) => groq`'${
 }`;
 
 export const SITE_QUERY = groq`{
-    "logos": *[_id == "siteLogos"][0] {
+  "logos": *[_id == "siteLogos"][0] {
+      ...,
+      ${asset("logo")},
+  },
+  "nav": *[_id == "siteNavigation"][0] {
+    ...,
+    menu[]{
+      ...,
+      subLinks[]{
         ...,
-        ${asset("logo")},
-    },
-    "nav": *[_id == "siteNavigation"][0],
-    "footer": *[_id == "siteFooter"][0],
-    "promotions": *[_type == "promotion"]|order(orderRank)[]{
-		_id,
-		title
+        ${asset("image")},
+      }
+    }
+  },
+  "footer": *[_id == "siteFooter"][0],
+  "promotions": *[_type == "promotion"]|order(orderRank)[]{
+    _id,
+    title
 	},
 }`;
 
@@ -31,6 +40,7 @@ export const HOMEPAGE_QUERY = groq`
 		...,
 		sections[] {
 			...,
+      ${asset("image")},
       banners[]{
         ...,
 			  ${asset("image")},

@@ -1,6 +1,6 @@
 import { SiHomeadvisor } from "react-icons/si";
 import type { ObjectRule } from "sanity";
-import { alt } from "@/studio/lib/alt";
+import { alt } from "@/sanity/lib/alt";
 
 const hero = {
   title: "Hero",

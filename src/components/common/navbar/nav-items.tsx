@@ -34,7 +34,7 @@ const NavItems: React.FC<NavItemsProps> = ({
         hasSubLinks={hasSubLinks}
         internalLink={internalLink}
         externalLink={externalLink}
-        className="hover:border-primary flex h-full w-full items-center justify-between space-x-2 border-b-2 border-b-transparent py-5 text-lg uppercase transition-[border] duration-300"
+        className="hover:border-primary flex h-full w-full items-center justify-between space-x-2 border-b-2 border-b-transparent py-5 text-lg uppercase transition-[border] duration-300 cursor-pointer"
       >
         <span>{title}</span>
         {hasSubLinks && (

@@ -23,13 +23,15 @@ export const registerPostReq = z
     password: z.string().min(6),
     passwordConfirm: z.string().min(6),
     // token: z.string().min(1),
-    rurl: z.string(),
+    rurl: z.string().optional(),
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
+    console.log({ passwordConfirm, password });
     if (passwordConfirm !== password) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "The passwords did not match",
+        path: ["passwordConfirm"],
       });
     }
   });

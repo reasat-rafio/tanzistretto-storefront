@@ -16,6 +16,9 @@ import { useForm } from "react-hook-form";
 import useFormPersist from "react-hook-form-persist";
 import { useLocalStorage } from "usehooks-ts";
 import { z } from "zod";
+import GoogleIcon from "/public/icons/google.svg";
+import FacebookIcon from "/public/icons/facebook.svg";
+import Image from "next/image";
 
 interface RegisterFormProps {}
 
@@ -52,7 +55,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
   }
 
   return (
-    <>
+    <div className="divide-y-2 divide-dashed space-y-3">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
@@ -167,7 +170,22 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
           <Button className="mt-2 w-full space-x-1">Submit</Button>
         </form>
       </Form>
-    </>
+      <div className="space-y-3 pt-3">
+        <Button className="bg-[#1877F2] shadow w-full flex justify-center items-center space-x-1.5 hover:bg-[#1877F2]/90">
+          <Image
+            src={FacebookIcon}
+            alt="Facebook Icon"
+            width={20}
+            height={20}
+          />
+          <span>Continue With Facebook</span>
+        </Button>
+        <Button className="bg-muted hover:bg-muted/90 shadow text-primary w-full flex justify-center items-center space-x-1.5">
+          <Image src={GoogleIcon} alt="Google Icon" width={20} height={20} />
+          <span>Continue With Google</span>
+        </Button>
+      </div>
+    </div>
   );
 };
 

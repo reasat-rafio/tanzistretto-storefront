@@ -7,7 +7,7 @@ export const loginPostReq = z.object({
     .refine((val) => val.length > 0),
   password: z.string().min(6),
   //   token: z.string().min(1),
-  rurl: z.string(),
+  rurl: z.string().optional(),
 });
 
 export const registerPostReq = z
@@ -26,7 +26,6 @@ export const registerPostReq = z
     rurl: z.string().optional(),
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
-    console.log({ passwordConfirm, password });
     if (passwordConfirm !== password) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

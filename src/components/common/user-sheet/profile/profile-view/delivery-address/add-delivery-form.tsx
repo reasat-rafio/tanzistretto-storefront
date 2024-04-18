@@ -44,7 +44,6 @@ const defaultFormValue: FormProps = {
   firstName: "",
   lastName: "",
   postalCode: "",
-  company: "",
 };
 
 const AddDeliveryForm: React.FC<AddFormProps> = ({}) => {
@@ -67,7 +66,6 @@ const AddDeliveryForm: React.FC<AddFormProps> = ({}) => {
       firstName: value.firstName ?? "",
       lastName: value.lastName ?? "",
       postalCode: value.postalCode ?? "",
-      company: value.company ?? "",
     },
   });
 
@@ -116,10 +114,6 @@ const FormFields: React.FC<{
     null
   );
 
-  console.log("====================================");
-  console.log(selectedCountryCode);
-  console.log("====================================");
-
   return (
     <>
       <div className="grid grid-cols-2 gap-3 mt-5">
@@ -150,20 +144,6 @@ const FormFields: React.FC<{
           )}
         />
       </div>
-
-      <FormField
-        control={form.control}
-        name="company"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Company</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
 
       <FormField
         control={form.control}

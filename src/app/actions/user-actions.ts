@@ -12,7 +12,6 @@ export async function addCustomerShippingAddress(
     address: {
       first_name: formData.get("firstName") as string,
       last_name: formData.get("lastName") as string,
-      company: formData.get("company") as string,
       address_1: formData.get("address_1") as string,
       address_2: formData.get("address_2") as string,
       city: formData.get("city") as string,
@@ -22,7 +21,6 @@ export async function addCustomerShippingAddress(
     },
   } as StorePostCustomersCustomerAddressesReq;
 
-  console.log({ customer });
   try {
     await addShippingAddress(customer).then(() => {
       revalidateTag("customer");

@@ -1,9 +1,23 @@
 import { Dispatch, SetStateAction } from "react";
 import { View, Direction } from "../profile-view";
-import { MoveLeft } from "lucide-react";
+import {
+  DeleteIcon,
+  Edit,
+  Edit2,
+  Edit2Icon,
+  MoveLeft,
+  Trash2Icon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import useUserStore from "@/stores/user-store";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface DeliveryAddressViewProps {
   direction: Direction;
@@ -17,10 +31,6 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
   setDirection,
 }) => {
   const user = useUserStore((state) => state.user);
-
-  console.log("====================================");
-  console.log(user?.billing_address);
-  console.log("====================================");
 
   return (
     <motion.div
@@ -53,14 +63,56 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
         like. Saving your addresses will make them available during checkout.
       </p>
 
+      {!!user?.shipping_addresses?.length && (
+        <div className="mt-5 space-y-3">
+          {user.shipping_addresses.map(
+            ({
+              first_name,
+              last_name,
+              id,
+              phone,
+              city,
+              postal_code,
+              address_1,
+              address_2,
+            }) => (
+              <Card className="relative" key={id}>
+                <div className="absolute right-2 top-2 space-x-2">
+                  <button className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary">
+                    <Edit2Icon size={14} />
+                  </button>
+                  <button className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary">
+                    <Trash2Icon size={16} />
+                  </button>
+                </div>
+
+                <CardHeader>
+                  <CardTitle className="text-xl">
+                    {first_name} {last_name}
+                  </CardTitle>
+                  <CardDescription>{phone}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>{address_1}</p>
+                  <p>{address_2}</p>
+                  <p>
+                    {city} {postal_code}
+                  </p>
+                </CardContent>
+              </Card>
+            )
+          )}
+        </div>
+      )}
+
       <Button
         size="lg"
         onClick={() => {
           setView("add-delivery-address");
           setDirection("right");
         }}
-        className="w-full mt-5 border-2 font-semibold uppercase"
-        variant="outline"
+        className="w-full mt-5 border-2 font-semibold uppercase "
+        variant="default"
       >
         Add Address
       </Button>

@@ -84,9 +84,8 @@ const phoneRegex = new RegExp(
 export const customerShippingAddress = z.object({
   firstName: z.string().min(2).max(60),
   lastName: z.string().min(2).max(60),
-  company: z.string().max(120).optional(),
   address_1: z.string().min(2).max(500),
-  address_2: z.string().max(500).optional(),
+  address_2: z.string().min(2).max(500),
   city: z.string().min(2).max(100),
   postalCode: z.string().min(2).max(20),
   countryCode: z.string().min(2).max(5),

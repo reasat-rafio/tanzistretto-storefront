@@ -73,7 +73,7 @@ const DefaultView: React.FC<DefaultViewProps> = ({ setView, setDirection }) => {
       <Button
         disabled={loading}
         onClick={handleLogout}
-        className="w-full space-x-1"
+        className="w-full space-x-1 mt-5"
       >
         {loading && <RotateCw size={18} className="animate-spin" />}
         <span>Logout</span>

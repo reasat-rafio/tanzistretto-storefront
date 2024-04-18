@@ -14,7 +14,7 @@ import { Eye, EyeOff, RotateCw } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import useFormPersist from "react-hook-form-persist";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 import { z } from "zod";
 import GoogleIcon from "/public/icons/google.svg";
 import FacebookIcon from "/public/icons/facebook.svg";
@@ -28,7 +28,7 @@ interface RegisterFormProps {}
 
 type FormProps = z.infer<typeof registerPostReq>;
 type FormResponse = { success: boolean | undefined; error?: string };
-
+const formKey = "register-form";
 const defaultFormValue = {
   firstName: "",
   lastName: "",
@@ -39,7 +39,7 @@ const defaultFormValue = {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
   const { toast } = useToast();
-  const [value, setValue] = useLocalStorage("register-form", defaultFormValue);
+  const [value, setValue] = useSessionStorage(formKey, defaultFormValue);
   const [formState, formAction] = useFormState<FormResponse, FormData>(
     registerUser,
     { success: undefined }
@@ -47,7 +47,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
 
   const form = useForm<FormProps>({
     resolver: zodResolver(registerPostReq),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       firstName: value.firstName ?? "",
       lastName: value.lastName ?? "",
@@ -57,14 +57,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
     },
   });
 
-  console.log("====================================");
-  console.log(form);
-  console.log("====================================");
-
-  useFormPersist("register-form", {
+  useFormPersist(formKey, {
     watch: form.watch,
     setValue: form.setValue,
-    storage: window.localStorage,
   });
 
   useEffect(() => {

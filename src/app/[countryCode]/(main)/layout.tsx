@@ -1,14 +1,15 @@
 import Navbar from "@/components/common/navbar/navbar";
 import Promotion from "@/components/common/promotion";
 import { Toaster } from "@/components/ui/toaster";
-import { getCustomer } from "@/lib/medusa/data";
+import { getCustomer, getRegion } from "@/lib/medusa/data";
 import sanityClient from "@/lib/sanity/client";
 import { urlFor } from "@/lib/sanity/image";
 import { SITE_QUERY } from "@/lib/sanity/queries";
 import { User } from "@/types/common";
 import { SiteDataProps } from "@/types/site";
 import { groq } from "next-sanity";
-
+import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 async function getSiteData(): Promise<SiteDataProps> {
   try {
     return await sanityClient.fetch(SITE_QUERY);
@@ -48,7 +49,12 @@ export async function generateMetadata() {
 }
 
 async function PageLayout({ children }: { children: React.ReactNode }) {
+  const nextHeaders = headers();
+  const countryCode = nextHeaders.get("next-url")?.split("/")[1] || "bd";
+
   const user = await getUser();
+  const region = await getRegion(countryCode);
+
   const {
     promotions,
     nav,
@@ -60,7 +66,13 @@ async function PageLayout({ children }: { children: React.ReactNode }) {
       <Toaster />
       <div className="sticky inset-0 z-30">
         {!!promotions?.length && <Promotion promotions={promotions} />}
-        <Navbar logo={logo} nav={nav} user={user} />
+        <Navbar
+          region={region}
+          countryCode={countryCode}
+          logo={logo}
+          nav={nav}
+          user={user}
+        />
       </div>
 
       {children}

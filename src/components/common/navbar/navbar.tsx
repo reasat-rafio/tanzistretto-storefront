@@ -5,30 +5,45 @@ import { Nav, SubLinks } from "@/types/site";
 import { useEffect, useState } from "react";
 import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
-import SearchSheet from "./search-sheet/search-sheet";
+import SearchSheet from "../search-sheet/search-sheet";
 import NavItems from "./nav-items";
 import DesktopMegaMenu from "./mega-menu/desktop-mega-menu";
 import MobileSheet from "./mobile-sheet/mobile-sheet";
-import BagSheet from "./bag-sheet/bag-sheet";
-import UserSheet from "./user-sheet/user-sheet";
+import BagSheet from "../bag-sheet/bag-sheet";
+import UserSheet from "../user-sheet/user-sheet";
 import useUserStore from "@/stores/user-store";
+import { Region } from "@/types/medusa";
+import { usePathname } from "next/navigation";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
   nav: Nav;
   user: User | null;
+  region: Region | null | undefined;
+  countryCode: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ logo, nav, user }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  logo,
+  nav,
+  user,
+  region,
+  countryCode,
+}) => {
+  const pathName = usePathname();
+
   const [showDesktopMegaMenu, setShowDesktopMegaMenu] = useState(false);
   const [activeSubLinks, setActiveSubLinks] = useState<SubLinks[] | undefined>(
     undefined
   );
-  const setUser = useUserStore((state) => state.setUser);
+
+  const { setUser, setCountryCode, setRegion } = useUserStore();
 
   useEffect(() => {
     setUser(user);
-  }, [user, setUser]);
+    setCountryCode(countryCode);
+    setRegion(region);
+  }, [user, countryCode, region, setRegion, setUser, setCountryCode]);
 
   return (
     <nav

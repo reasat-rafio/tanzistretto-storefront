@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import useFormPersist from "react-hook-form-persist";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 import { z } from "zod";
 import GoogleIcon from "/public/icons/google.svg";
 import FacebookIcon from "/public/icons/facebook.svg";
@@ -27,7 +27,7 @@ interface LoginFormProps {}
 
 type FormProps = z.infer<typeof loginPostReq>;
 type FormResponse = { success: boolean | undefined; error?: string };
-
+const formKey = "login-form";
 const defaultFormValue = {
   email: "",
   password: "",
@@ -35,7 +35,7 @@ const defaultFormValue = {
 
 const LoginForm: React.FC<LoginFormProps> = ({}) => {
   const { toast } = useToast();
-  const [value, setValue] = useLocalStorage("login-form", defaultFormValue);
+  const [value, setValue] = useSessionStorage(formKey, defaultFormValue);
   const [formState, formAction] = useFormState<FormResponse, FormData>(
     loginUser,
     { success: undefined }
@@ -49,10 +49,9 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
     },
   });
 
-  useFormPersist("login-form", {
+  useFormPersist(formKey, {
     watch: form.watch,
     setValue: form.setValue,
-    storage: window.localStorage,
   });
 
   useEffect(() => {

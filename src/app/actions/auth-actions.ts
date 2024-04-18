@@ -42,7 +42,7 @@ export async function registerUser(_currentState: unknown, formData: FormData) {
   }
 }
 
-export async function login(_currentState: unknown, formData: FormData) {
+export async function loginUser(_currentState: unknown, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -50,7 +50,17 @@ export async function login(_currentState: unknown, formData: FormData) {
     await getToken({ email, password }).then(() => {
       revalidateTag("customer");
     });
+    return { success: true };
   } catch (error: any) {
-    return error.toString();
+    return { success: false, error: error.toString() };
   }
+}
+
+export async function signOutUser(countryCode?: string) {
+  cookies().set("_medusa_jwt", "", {
+    maxAge: -1,
+  });
+  revalidateTag("auth");
+  revalidateTag("customer");
+  // redirect(`/${countryCode}/account`);
 }

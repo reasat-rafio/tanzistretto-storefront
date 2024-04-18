@@ -39,16 +39,15 @@ const defaultFormValue = {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
   const { toast } = useToast();
-
+  const [value, setValue] = useLocalStorage("register-form", defaultFormValue);
   const [formState, formAction] = useFormState<FormResponse, FormData>(
     registerUser,
     { success: undefined }
   );
 
-  const [value, setValue] = useLocalStorage("register-form", defaultFormValue);
-
   const form = useForm<FormProps>({
     resolver: zodResolver(registerPostReq),
+    reValidateMode: "onChange",
     defaultValues: {
       firstName: value.firstName ?? "",
       lastName: value.lastName ?? "",
@@ -57,6 +56,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
       passwordConfirm: value.passwordConfirm ?? "",
     },
   });
+
+  console.log("====================================");
+  console.log(form);
+  console.log("====================================");
 
   useFormPersist("register-form", {
     watch: form.watch,

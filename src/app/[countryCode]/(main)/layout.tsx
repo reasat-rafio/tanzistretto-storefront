@@ -1,9 +1,11 @@
 import Navbar from "@/components/common/navbar/navbar";
 import Promotion from "@/components/common/promotion";
 import { Toaster } from "@/components/ui/toaster";
+import { getCustomer } from "@/lib/medusa/data";
 import sanityClient from "@/lib/sanity/client";
 import { urlFor } from "@/lib/sanity/image";
 import { SITE_QUERY } from "@/lib/sanity/queries";
+import { User } from "@/types/common";
 import { SiteDataProps } from "@/types/site";
 import { groq } from "next-sanity";
 
@@ -12,6 +14,14 @@ async function getSiteData(): Promise<SiteDataProps> {
     return await sanityClient.fetch(SITE_QUERY);
   } catch (error) {
     throw new Error(error as string);
+  }
+}
+async function getUser(): Promise<User | null> {
+  try {
+    return await getCustomer();
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
 
@@ -38,6 +48,7 @@ export async function generateMetadata() {
 }
 
 async function PageLayout({ children }: { children: React.ReactNode }) {
+  const user = await getUser();
   const {
     promotions,
     nav,
@@ -49,7 +60,7 @@ async function PageLayout({ children }: { children: React.ReactNode }) {
       <Toaster />
       <div className="sticky inset-0 z-30">
         {!!promotions?.length && <Promotion promotions={promotions} />}
-        <Navbar logo={logo} nav={nav} />
+        <Navbar logo={logo} nav={nav} user={user} />
       </div>
 
       {children}

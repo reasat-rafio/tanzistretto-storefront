@@ -1,8 +1,8 @@
 "use client";
 
-import { SanityImageWithAlt } from "@/types/common";
+import { SanityImageWithAlt, User } from "@/types/common";
 import { Nav, SubLinks } from "@/types/site";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SanityImage from "../sanity-image";
 import { Heart } from "lucide-react";
 import SearchSheet from "./search-sheet/search-sheet";
@@ -11,17 +11,24 @@ import DesktopMegaMenu from "./mega-menu/desktop-mega-menu";
 import MobileSheet from "./mobile-sheet/mobile-sheet";
 import BagSheet from "./bag-sheet/bag-sheet";
 import UserSheet from "./user-sheet/user-sheet";
+import useUserStore from "@/stores/user-store";
 
 interface NavbarProps {
   logo: SanityImageWithAlt;
   nav: Nav;
+  user: User | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ logo, nav }) => {
+const Navbar: React.FC<NavbarProps> = ({ logo, nav, user }) => {
   const [showDesktopMegaMenu, setShowDesktopMegaMenu] = useState(false);
   const [activeSubLinks, setActiveSubLinks] = useState<SubLinks[] | undefined>(
     undefined
   );
+  const setUser = useUserStore((state) => state.setUser);
+
+  useEffect(() => {
+    setUser(user);
+  }, [user, setUser]);
 
   return (
     <nav

@@ -19,11 +19,11 @@ const useUiStore = create<UIStore>()((set) => ({
   openBagSheet: false,
   openMobileSheet: false,
   openSearchSheet: false,
-  setAuthLoading: (loading) => set((state) => ({ authLoading: loading })),
-  setUserSheetOpen: (open) => set((state) => ({ openUserSheet: open })),
-  setBagSheetOpen: (open) => set((state) => ({ openBagSheet: open })),
-  setMobileSheetOpen: (open) => set((state) => ({ openMobileSheet: open })),
-  setSearchSheetOpen: (open) => set((state) => ({ openSearchSheet: open })),
+  setAuthLoading: (loading) => set(() => ({ authLoading: loading })),
+  setUserSheetOpen: (open) => set(() => ({ openUserSheet: open })),
+  setBagSheetOpen: (open) => set(() => ({ openBagSheet: open })),
+  setMobileSheetOpen: (open) => set(() => ({ openMobileSheet: open })),
+  setSearchSheetOpen: (open) => set(() => ({ openSearchSheet: open })),
 }));
 
 export default useUiStore;

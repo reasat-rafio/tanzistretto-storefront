@@ -23,6 +23,7 @@ import { useFormStatus } from "react-dom";
 import { registerUser } from "@/app/actions/auth-actions";
 import { useFormState } from "react-dom";
 import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 interface RegisterFormProps {}
 
@@ -88,18 +89,32 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
         </form>
       </Form>
       <div className="space-y-3 pt-3">
-        <Button className="bg-[#1877F2] shadow w-full flex justify-center items-center space-x-1.5 hover:bg-[#1877F2]/90">
-          <Image
-            src={FacebookIcon}
-            alt="Facebook Icon"
-            width={20}
-            height={20}
-          />
-          <span>Continue With Facebook</span>
+        <Button
+          asChild
+          className="bg-[#1877F2] shadow w-full flex justify-center items-center space-x-1.5 hover:bg-[#1877F2]/90"
+        >
+          <Link
+            href={`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/facebook`}
+          >
+            <Image
+              src={FacebookIcon}
+              alt="Facebook Icon"
+              width={20}
+              height={20}
+            />
+            <span>Continue With Facebook</span>
+          </Link>
         </Button>
-        <Button className="bg-muted hover:bg-muted/90 shadow text-primary w-full flex justify-center items-center space-x-1.5">
-          <Image src={GoogleIcon} alt="Google Icon" width={20} height={20} />
-          <span>Continue With Google</span>
+        <Button
+          asChild
+          className="bg-muted hover:bg-muted/90 shadow text-primary w-full flex justify-center items-center space-x-1.5"
+        >
+          <Link
+            href={`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/google`}
+          >
+            <Image src={GoogleIcon} alt="Google Icon" width={20} height={20} />
+            <span>Continue With Google</span>
+          </Link>
         </Button>
       </div>
     </div>

@@ -94,7 +94,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
           className="bg-[#1877F2] shadow w-full flex justify-center items-center space-x-1.5 hover:bg-[#1877F2]/90"
         >
           <Link
-            href={`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/facebook`}
+            passHref
+            href={`https://backend.tanzistretto.com/store/auth/facebook`}
           >
             <Image
               src={FacebookIcon}
@@ -110,7 +111,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
           className="bg-muted hover:bg-muted/90 shadow text-primary w-full flex justify-center items-center space-x-1.5"
         >
           <Link
-            href={`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/google`}
+            passHref
+            href={`https://backend.tanzistretto.com/store/auth/google`}
           >
             <Image src={GoogleIcon} alt="Google Icon" width={20} height={20} />
             <span>Continue With Google</span>

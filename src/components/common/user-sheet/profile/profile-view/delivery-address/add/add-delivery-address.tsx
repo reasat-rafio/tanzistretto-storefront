@@ -3,7 +3,7 @@ import { View, Direction } from "../../profile-view";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
-import Form from "./add-delivery-form";
+import AddDeliveryForm from "./add-delivery-form";
 
 interface AddDeliveryAddressProps {
   setView: Dispatch<SetStateAction<View>>;
@@ -35,7 +35,7 @@ const AddDeliveryAddress: React.FC<AddDeliveryAddressProps> = ({
         <span className="text-xl font-medium underline">Add Address</span>
       </div>
 
-      <Form />
+      <AddDeliveryForm setView={setView} setDirection={setDirection} />
     </motion.div>
   );
 };

@@ -4,6 +4,7 @@ import { schemaTypes } from './schemas/index';
 import { AppStructure } from './deskStucture';
 import { PUBLIC_SANITY_PROJECT_ID } from '$env/static/public';
 import { structureTool } from 'sanity/structure';
+import { colorInput } from '@sanity/color-input';
 
 export default defineConfig([
   {
@@ -13,7 +14,11 @@ export default defineConfig([
     basePath: '/studio/production',
     title: 'Production',
     // icon: Logo,
-    plugins: [structureTool({ structure: AppStructure }), visionTool()],
+    plugins: [
+      structureTool({ structure: AppStructure }),
+      visionTool(),
+      colorInput(),
+    ],
     schema: {
       types: schemaTypes,
     },
@@ -25,7 +30,11 @@ export default defineConfig([
     basePath: '/studio/staging',
     title: 'Staging',
     // icon: Logo,
-    plugins: [structureTool({ structure: AppStructure }), visionTool()],
+    plugins: [
+      structureTool({ structure: AppStructure }),
+      visionTool(),
+      colorInput(),
+    ],
     schema: {
       types: schemaTypes,
     },

@@ -6,6 +6,8 @@ import type { IconType } from 'react-icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
 import { TfiAnnouncement } from 'react-icons/tfi';
+import { IoBagHandle } from 'react-icons/io5';
+import { IoIosColorFill, IoIosResize } from 'react-icons/io';
 
 interface ListItem {
   title: string;
@@ -62,6 +64,13 @@ export const AppStructure: StructureResolver = (S, context) =>
               }),
             ]),
         ),
+      orderableDocumentListDeskItem({
+        type: 'promotion',
+        S,
+        context,
+        title: 'Promotions',
+        icon: TfiAnnouncement,
+      }),
       S.divider(),
 
       S.listItem()
@@ -81,11 +90,34 @@ export const AppStructure: StructureResolver = (S, context) =>
         ),
       S.divider(),
 
-      orderableDocumentListDeskItem({
-        type: 'promotion',
-        S,
-        context,
-        title: 'Promotions',
-        icon: TfiAnnouncement,
-      }),
+      S.listItem()
+        .title('Products')
+        .icon(IoBagHandle)
+        .child(
+          S.list()
+            .title('Products')
+            .items([
+              orderableDocumentListDeskItem({
+                type: 'product',
+                S,
+                context,
+                title: 'Products',
+                icon: IoBagHandle,
+              }),
+              orderableDocumentListDeskItem({
+                type: 'size',
+                S,
+                context,
+                title: 'Sizes',
+                icon: IoIosResize,
+              }),
+              orderableDocumentListDeskItem({
+                type: 'colour',
+                S,
+                context,
+                title: 'Colors',
+                icon: IoIosColorFill,
+              }),
+            ]),
+        ),
     ]);

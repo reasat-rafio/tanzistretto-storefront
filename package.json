@@ -10,9 +10,9 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "studio": "drizzle-kit studio --config drizzle.config.ts",
-    "generate": "drizzle-kit generate:pg --config drizzle.config.ts",
-    "migrate": "drizzle-kit push:pg --config drizzle.config.ts"
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "db:generate": "drizzle-kit generate:pg --config drizzle.config.ts",
+    "db:migrate": "drizzle-kit push:pg --config drizzle.config.ts"
   },
   "devDependencies": {
     "@fontsource/metropolis": "^5.0.7",
@@ -70,6 +70,7 @@
   "type": "module",
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@sanity/color-input": "^3.1.1",
     "@sanity/orderable-document-list": "^1.2.1",
     "@sanity/vision": "^3.38.0",
     "arctic": "^1.5.0",

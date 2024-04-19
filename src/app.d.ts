@@ -6,12 +6,7 @@ import type { User } from '$lib/types/common.types';
 declare global {
   namespace App {
     // interface Error {}
-    interface Locals {
-      sid: string;
-      cartid: string;
-      user: any;
-      cart: any;
-    }
+    // interface Locals {}
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}

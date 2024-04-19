@@ -1,26 +1,24 @@
 <script lang="ts">
+  import MegaMenu from '$lib/components/navigation/mega-menu.svelte';
+  import BagSheet from '$lib/components/sheets/bag-sheet/bag-sidebar.svelte';
+  import MobileSheet from '$lib/components/sheets/mobile-sheet/mobile-sheet.svelte';
+  import SearchSheet from '$lib/components/sheets/search-sheet/search-sheet.svelte';
+  import UserSheet from '$lib/components/sheets/user-sheet/user-sheet.svelte';
   import { imgBuilder } from '$lib/sanity/sanity-client';
   import SanityImage from '$lib/sanity/sanity-image/sanity-image.svelte';
   import type { SanityImageWithAlt } from '$lib/types/common.types';
   import type { Nav, SubLinks } from '$lib/types/site.types';
   import { Heart } from 'lucide-svelte';
-  import MobileSidebar from './mobile-sheet/mobile-sheet.svelte';
-  import SearchSheet from './search-sheet/search-sheet.svelte';
   import NavItem from './nav-item.svelte';
-  import DesktopNavItemsDropdown from './desktop-nav-items-dropdown.svelte';
-  import BagSheet from './bag-sheet/bag-sidebar.svelte';
-  import UserSheet from './user-sheet/user-sheet.svelte';
 
   export let logo: SanityImageWithAlt;
   export let nav: Nav;
 
-  let showDesktopNavItemsDropdown = false;
+  let showMegaMenu = false;
   let activeSubLinks: SubLinks[] | undefined = undefined;
 </script>
 
-<nav
-  on:mouseleave={() => (showDesktopNavItemsDropdown = false)}
-  class="z-30 w-full bg-white">
+<nav on:mouseleave={() => (showMegaMenu = false)} class="z-30 w-full bg-white">
   <div class="relative">
     <div class="container flex items-center justify-between">
       <div class="flex items-center gap-x-10">
@@ -36,10 +34,7 @@
         <div class="hidden lg:block">
           <ul class="flex gap-x-5">
             {#each nav.menu as navItem}
-              <NavItem
-                bind:activeSubLinks
-                bind:showDesktopNavItemsDropdown
-                {navItem} />
+              <NavItem bind:activeSubLinks bind:showMegaMenu {navItem} />
             {/each}
           </ul>
         </div>
@@ -53,13 +48,13 @@
           </button>
           <UserSheet />
           <BagSheet />
-          <MobileSidebar {nav} />
+          <MobileSheet {nav} />
         </div>
       </div>
     </div>
 
-    {#if showDesktopNavItemsDropdown}
-      <DesktopNavItemsDropdown {activeSubLinks} />
+    {#if showMegaMenu}
+      <MegaMenu {activeSubLinks} />
     {/if}
   </div>
 </nav>

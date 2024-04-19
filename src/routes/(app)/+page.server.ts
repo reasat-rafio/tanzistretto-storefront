@@ -1,5 +1,5 @@
-import { sanityClient } from '$lib/sanity/sanity-client';
-import { asset } from '$lib/sanity/sanity-image';
+import { sanityClient } from '../../lib/sanity/sanity-client';
+import { asset } from '../../lib/sanity/sanity-image';
 import type { LandingPageProps } from '$lib/types/landing.types';
 import groq from 'groq';
 import type { PageServerLoad } from './$types';

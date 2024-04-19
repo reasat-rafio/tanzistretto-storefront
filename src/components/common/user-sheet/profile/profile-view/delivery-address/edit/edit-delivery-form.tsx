@@ -1,6 +1,5 @@
-import { Input } from "@/components/ui/input";
-import { customerShippingAddress } from "@/lib/validators";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { updateCustomerShippingAddress } from "@/app/actions/user-actions";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,17 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React, { useEffect, useState } from "react";
-import { UseFormReturn, useForm } from "react-hook-form";
-import useFormPersist from "react-hook-form-persist";
-import { z } from "zod";
-import { useFormStatus } from "react-dom";
-import { useFormState } from "react-dom";
-import { useToast } from "@/components/ui/use-toast";
-import { useSessionStorage } from "usehooks-ts";
-import { addCustomerShippingAddress } from "@/app/actions/user-actions";
-import { Button } from "@/components/ui/button";
-import { RotateCw } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -27,51 +16,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { customerShippingAddress } from "@/lib/validators";
 import useUserStore from "@/stores/user-store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Address } from "@medusajs/medusa";
+import { RotateCw } from "lucide-react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { UseFormReturn, useForm } from "react-hook-form";
+import { z } from "zod";
+import { Direction, View } from "../../profile-view";
 
-interface AddFormProps {}
-
+interface EditFormProps {
+  defaultFormValues: Address;
+  setView: Dispatch<SetStateAction<View>>;
+  setDirection: Dispatch<SetStateAction<Direction>>;
+}
 type FormProps = z.infer<typeof customerShippingAddress>;
-type FormResponse = { success: boolean | undefined; error?: string };
-const formKey = "delivery-address-form";
-
-const defaultFormValue: FormProps = {
-  address_1: "",
-  address_2: "",
-  city: "",
-  countryCode: "",
-  phone: "",
-  firstName: "",
-  lastName: "",
-  postalCode: "",
+type FormResponse = {
+  success: boolean | undefined;
+  error?: string;
+  addressId: string;
 };
 
-const AddDeliveryForm: React.FC<AddFormProps> = ({}) => {
+const EditDeliveryForm: React.FC<EditFormProps> = ({
+  defaultFormValues,
+  setView,
+  setDirection,
+}) => {
   const { toast } = useToast();
-  const [value, setValue] = useSessionStorage(formKey, defaultFormValue);
   const [formState, formAction] = useFormState<FormResponse, FormData>(
-    addCustomerShippingAddress,
-    { success: undefined }
+    updateCustomerShippingAddress,
+    {
+      success: undefined,
+      addressId: defaultFormValues.id,
+    }
   );
 
   const form = useForm<FormProps>({
     mode: "onBlur",
     resolver: zodResolver(customerShippingAddress),
     defaultValues: {
-      address_1: value.address_1 ?? "",
-      address_2: value.address_2 ?? "",
-      city: value.city ?? "",
-      countryCode: value.countryCode ?? "",
-      phone: value.phone ?? "",
-      firstName: value.firstName ?? "",
-      lastName: value.lastName ?? "",
-      postalCode: value.postalCode ?? "",
+      address_1: defaultFormValues.address_1 ?? "",
+      address_2: defaultFormValues.address_2 ?? "",
+      city: defaultFormValues.city ?? "",
+      countryCode: defaultFormValues.country_code ?? "",
+      phone: defaultFormValues.phone ?? "",
+      firstName: defaultFormValues.first_name ?? "",
+      lastName: defaultFormValues.last_name ?? "",
+      postalCode: defaultFormValues.postal_code ?? "",
     },
-  });
-
-  useFormPersist(formKey, {
-    watch: form.watch,
-    setValue: form.setValue,
   });
 
   useEffect(() => {
@@ -85,33 +80,36 @@ const AddDeliveryForm: React.FC<AddFormProps> = ({}) => {
       });
     } else {
       form.reset();
-      setValue(defaultFormValue);
-      toast({
-        title: "Address added successfully!",
-      });
+      toast({ title: "Address updated successfully!" });
+      setView("delivery-addresses");
+      setDirection("left");
     }
-  }, [formState, toast, form, setValue]);
+  }, [formState, form, setView, toast, setDirection]);
 
   return (
     <div className="divide-y-2 divide-dashed space-y-3">
       <Form {...form}>
         <form action={formAction} className="space-y-3">
-          <FormFields form={form} />
+          <FormFields
+            form={form}
+            defaultCountryCode={defaultFormValues.country_code}
+          />
         </form>
       </Form>
     </div>
   );
 };
 
-export default AddDeliveryForm;
+export default EditDeliveryForm;
 
 const FormFields: React.FC<{
   form: UseFormReturn<FormProps, any, undefined>;
-}> = ({ form }) => {
+  defaultCountryCode: string | null;
+}> = ({ form, defaultCountryCode }) => {
   const { pending } = useFormStatus();
-  const { region, user } = useUserStore();
+  const { region } = useUserStore();
   const [selectedCountryCode, setSelectedCountryCode] = useState<null | string>(
-    null
+    defaultCountryCode
   );
 
   return (

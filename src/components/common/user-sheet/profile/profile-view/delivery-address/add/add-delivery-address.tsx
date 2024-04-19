@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { View, Direction } from "../profile-view";
+import { View, Direction } from "../../profile-view";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
@@ -15,12 +15,7 @@ const AddDeliveryAddress: React.FC<AddDeliveryAddressProps> = ({
   setDirection,
 }) => {
   return (
-    <motion.div
-      initial={{ x: 30 }}
-      animate={{ x: 0 }}
-      exit={{ x: 30 }}
-      transition={{}}
-    >
+    <motion.div initial={{ x: 30 }} animate={{ x: 0 }} exit={{ x: 30 }}>
       <div className="relative py-3 flex justify-end items-center ">
         <Button
           size="sm"

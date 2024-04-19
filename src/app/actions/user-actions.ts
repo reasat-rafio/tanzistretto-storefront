@@ -1,7 +1,14 @@
 "use server";
 
-import { addShippingAddress, deleteShippingAddress } from "@/lib/medusa/data";
-import { StorePostCustomersCustomerAddressesReq } from "@medusajs/medusa";
+import {
+  addShippingAddress,
+  deleteShippingAddress,
+  updateShippingAddress,
+} from "@/lib/medusa/data";
+import {
+  StorePostCustomersCustomerAddressesAddressReq,
+  StorePostCustomersCustomerAddressesReq,
+} from "@medusajs/medusa";
 import { revalidateTag } from "next/cache";
 
 export async function addCustomerShippingAddress(
@@ -39,5 +46,34 @@ export async function deleteCustomerShippingAddress(addressId: string) {
     return { success: true, error: null };
   } catch (error: any) {
     return { success: false, error: error.toString() };
+  }
+}
+
+export async function updateCustomerShippingAddress(
+  currentState: Record<string, unknown>,
+  formData: FormData
+) {
+  const addressId = currentState.addressId as string;
+
+  const address = {
+    first_name: formData.get("firstName") as string,
+    last_name: formData.get("lastName") as string,
+    address_1: formData.get("address_1") as string,
+    address_2: formData.get("address_2") as string,
+    city: formData.get("city") as string,
+    postal_code: formData.get("postalCode") as string,
+    country_code: formData.get("countryCode") as string,
+    phone: formData.get("phone") as string,
+  } as StorePostCustomersCustomerAddressesAddressReq;
+
+  console.log(address);
+
+  try {
+    await updateShippingAddress(addressId, address).then(() => {
+      revalidateTag("customer");
+    });
+    return { success: true, error: null, addressId };
+  } catch (error: any) {
+    return { success: false, error: error.toString(), addressId };
   }
 }

@@ -24,12 +24,14 @@ interface DeliveryAddressViewProps {
   direction: Direction;
   setView: Dispatch<SetStateAction<View>>;
   setDirection: Dispatch<SetStateAction<Direction>>;
+  setActiveAddressId: Dispatch<SetStateAction<string | null>>;
 }
 
 const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
   direction,
   setView,
   setDirection,
+  setActiveAddressId,
 }) => {
   const user = useUserStore((state) => state.user);
   const [removeAddrLoading, setRemoveAddrLoading] = useState(false);
@@ -45,7 +47,6 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
       initial={{ x: direction === "right" ? 30 : -30 }}
       animate={{ x: 0 }}
       exit={{ x: direction === "right" ? 30 : -30 }}
-      transition={{}}
     >
       <div className="relative py-3 flex justify-end items-center ">
         <Button
@@ -86,13 +87,19 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
             }) => (
               <Card className="relative" key={id}>
                 <div className="absolute right-2 top-2 space-x-2">
-                  <button className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary">
+                  <button
+                    onClick={() => {
+                      setActiveAddressId(id);
+                      setView("edit-delivery-address");
+                    }}
+                    className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-secondary rounded-full hover:shadow-md text-primary"
+                  >
                     <Edit2Icon size={14} />
                   </button>
                   <button
                     disabled={removeAddrLoading}
                     onClick={() => removeAddress(id)}
-                    className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary"
+                    className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-secondary rounded-full hover:shadow-md text-primary"
                   >
                     <Trash2Icon size={16} />
                   </button>

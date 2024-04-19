@@ -37,3 +37,20 @@ export const session = pgTable('session', {
     mode: 'date',
   }).notNull(),
 });
+
+export const address = pgTable('address', {
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id),
+  fullName: text('full_name').notNull(),
+  address1: text('address_1').notNull(),
+  address2: text('address_2'),
+  city: text('city').notNull(),
+  postalCode: text('postal_code').notNull(),
+  country: text('country').notNull(),
+  phoneNumber: text('phone_number').notNull(),
+  isDefault: boolean('is_default').notNull().default(false),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});

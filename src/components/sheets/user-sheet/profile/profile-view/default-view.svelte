@@ -4,7 +4,7 @@
   import type { Direction, View } from '$lib/types/common.types';
   import { MapPin, RotateCw, User2Icon } from 'lucide-svelte';
   import { toast } from 'svelte-sonner';
-  import { fly, slide } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   export let view: View;
   export let direction: Direction;

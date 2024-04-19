@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { View, Direction } from "../profile-view";
 import {
   DeleteIcon,
@@ -18,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { deleteCustomerShippingAddress } from "@/app/actions/user-actions";
 
 interface DeliveryAddressViewProps {
   direction: Direction;
@@ -31,6 +32,13 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
   setDirection,
 }) => {
   const user = useUserStore((state) => state.user);
+  const [removeAddrLoading, setRemoveAddrLoading] = useState(false);
+
+  const removeAddress = async (id: string) => {
+    setRemoveAddrLoading(true);
+    await deleteCustomerShippingAddress(id);
+    setRemoveAddrLoading(false);
+  };
 
   return (
     <motion.div
@@ -81,7 +89,11 @@ const DeliveryAddressView: React.FC<DeliveryAddressViewProps> = ({
                   <button className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary">
                     <Edit2Icon size={14} />
                   </button>
-                  <button className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary">
+                  <button
+                    disabled={removeAddrLoading}
+                    onClick={() => removeAddress(id)}
+                    className="transition-all duration-300 text-gray-500 p-1.5 hover:bg-muted rounded-full hover:shadow-md text-primary"
+                  >
                     <Trash2Icon size={16} />
                   </button>
                 </div>

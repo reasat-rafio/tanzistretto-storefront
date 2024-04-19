@@ -1,8 +1,8 @@
 <script lang="ts">
   import { MetaTags } from 'svelte-meta-tags';
-  import { urlFor } from '../sanity/sanity-client';
   import type { SanityAsset } from '@sanity/image-url/lib/types/types';
   import type { SeoProps } from '$lib/types/common.types';
+  import { urlFor } from '$lib/sanity/sanity-client';
 
   export let seo: SeoProps;
   export let siteOgImg: SanityAsset | undefined = undefined;

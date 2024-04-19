@@ -1,25 +1,49 @@
-import type { Cookies } from '@sveltejs/kit';
-import type { Lucia } from 'lucia';
+import { Lucia } from 'lucia';
+import { dev } from '$app/environment';
+import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
+import { db } from './db/db';
+import { session, user } from './db/schema';
+import { Google, Facebook } from 'arctic';
+import { PUBLIC_BASE_URL } from '$env/static/public';
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 
-export const createAndSetSession = async (
-  lucia: Lucia,
-  userId: string,
-  cookies: Cookies,
-) => {
-  const session = await lucia.createSession(userId, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
+const adapter = new DrizzlePostgreSQLAdapter(db, session, user);
 
-  cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: '.',
-    ...sessionCookie.attributes,
-  });
-};
+const redirectUrl = `${PUBLIC_BASE_URL}/auth/callback/google`;
 
-export const deleteSessionCookie = async (lucia: Lucia, cookies: Cookies) => {
-  const sessionCookie = lucia.createBlankSessionCookie();
+export const google = new Google(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  redirectUrl,
+);
 
-  cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: '.',
-    ...sessionCookie.attributes,
-  });
-};
+export const lucia = new Lucia(adapter, {
+  sessionCookie: {
+    attributes: {
+      secure: !dev,
+    },
+  },
+
+  getUserAttributes: (data) => {
+    return {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      isAdmin: data.isAdmin,
+      email: data.email,
+      image: data.image,
+    };
+  },
+});
+
+declare module 'lucia' {
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: {
+      firstName: string;
+      lastName: string;
+      isAdmin: boolean;
+      email: string;
+      image?: string;
+    };
+  }
+}

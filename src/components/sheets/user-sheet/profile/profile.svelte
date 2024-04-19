@@ -56,7 +56,7 @@
 
     <div class="space-y-3 pt-3">
       <Button
-        asChild
+        href="/auth/login/google"
         class="flex w-full items-center justify-center space-x-1.5 bg-[#1877F2] shadow hover:bg-[#1877F2]/90">
         <img
           src="/icons/facebook.svg"
@@ -66,7 +66,7 @@
         <span>Continue With Facebook</span>
       </Button>
       <Button
-        asChild
+        href="/auth/login/google"
         class="flex w-full items-center justify-center space-x-1.5 bg-muted text-primary shadow hover:bg-muted/90">
         <img src="/icons/google.svg" alt="Google Icon" width={20} height={20} />
         <span>Continue With Google</span>

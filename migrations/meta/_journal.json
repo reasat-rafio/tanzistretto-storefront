@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1713533432587,
+      "tag": "0000_aspiring_overlord",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1713539219881,
+      "tag": "0001_pretty_trish_tilby",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1713539363301,
+      "tag": "0002_lush_scarlet_spider",
+      "breakpoints": true
+    }
+  ]
+}

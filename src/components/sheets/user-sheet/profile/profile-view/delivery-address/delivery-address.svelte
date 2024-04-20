@@ -4,13 +4,31 @@
   import type { View, Direction } from '$lib/types/common.types';
   import { Edit2Icon, MoveLeft, Trash2Icon } from 'lucide-svelte';
   import * as Card from '$components/ui/card/index.js';
-  import { fly, slide } from 'svelte/transition';
+  import { fly, scale } from 'svelte/transition';
   import { Badge } from '$components/ui/badge';
+  import { toast } from 'svelte-sonner';
+  import { invalidateAll } from '$app/navigation';
 
   export let direction: Direction;
   export let view: View;
 
-  const { deliveryAddress } = $userStore;
+  $: ({ deliveryAddress } = $userStore);
+
+  async function deleteAddress(id: string) {
+    try {
+      await fetch('/api/delivery-address/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
+      toast.success('Address deleted successfully');
+      invalidateAll();
+    } catch (error) {
+      toast.error('An error occurred while deleting the address');
+    }
+  }
 </script>
 
 <div in:fly={{ x: direction === 'right' ? 30 : -30 }}>
@@ -38,43 +56,46 @@
 
   {#if deliveryAddress}
     <div class="mt-5 space-y-3">
-      {#each deliveryAddress as { address1, address2, city, fullName, isDefault, phoneNumber, postalCode }}
-        <Card.Root class="relative">
-          <div class="absolute right-2 top-2 space-x-2">
-            <button
-              on:click={() => {
-                view = 'edit-delivery-address';
-              }}
-              class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
-              <Edit2Icon size={14} />
-            </button>
+      {#each deliveryAddress as { address1, address2, city, fullName, isDefault, phoneNumber, postalCode, id } (id)}
+        <div transition:scale>
+          <Card.Root class="relative">
+            <div class="absolute right-2 top-2 space-x-2">
+              <button
+                on:click={() => {
+                  view = 'edit-delivery-address';
+                }}
+                class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
+                <Edit2Icon size={14} />
+              </button>
 
-            <button
-              class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
-              <Trash2Icon size={16} />
-            </button>
-          </div>
+              <button
+                on:click={() => deleteAddress(id)}
+                class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
+                <Trash2Icon size={16} />
+              </button>
+            </div>
 
-          <Card.Header>
-            <Card.Title>
-              {fullName}
-              {#if isDefault}
-                <Badge variant="secondary">Default</Badge>
-              {/if}
-            </Card.Title>
-            <Card.Description>
-              {phoneNumber}
-            </Card.Description>
-          </Card.Header>
-          <Card.Content>
-            <p>{address1}</p>
-            <p>{address2}</p>
-            <p>
-              {city}
-              {postalCode}
-            </p>
-          </Card.Content>
-        </Card.Root>
+            <Card.Header>
+              <Card.Title>
+                {fullName}
+                {#if isDefault}
+                  <Badge variant="secondary">Default</Badge>
+                {/if}
+              </Card.Title>
+              <Card.Description>
+                {phoneNumber}
+              </Card.Description>
+            </Card.Header>
+            <Card.Content>
+              <p>{address1}</p>
+              <p>{address2}</p>
+              <p>
+                {city}
+                {postalCode}
+              </p>
+            </Card.Content>
+          </Card.Root>
+        </div>
       {/each}
     </div>
   {/if}

@@ -31,6 +31,10 @@
   $: userStore.setDeliveryAddress(deliveryAddress);
   $: formStore.setAddDeliveryAddressForm(addDeliveryAddressForm);
   $: formStore.setAddDeliveryAddressForm(updateDeliveryAddressForm);
+
+  $: {
+    console.log({ deliveryAddress });
+  }
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()
     : null;

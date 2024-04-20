@@ -29,7 +29,7 @@
         loading = false;
 
         if (result.type === 'success') {
-          toast.info((result as any).data?.form?.message);
+          toast.success((result as any).data?.form?.message);
           view = 'delivery-addresses';
           invalidateAll();
         } else if (result.type === 'error') {

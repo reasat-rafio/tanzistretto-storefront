@@ -1,13 +1,19 @@
+import { sanityClient } from '$lib/sanity/sanity-client';
 import { alt } from '$studio/lib/alt';
 import { orderRankField } from '@sanity/orderable-document-list';
 import { MdLocalDrink } from 'react-icons/md';
 import { defineType } from 'sanity';
+import ProductPreview from '$studio/components/ProductPreview';
 
 const product = defineType({
   name: 'product',
   title: 'Product',
   type: 'document',
   icon: MdLocalDrink,
+  components: {
+    preview: ProductPreview,
+  },
+
   groups: [
     {
       name: 'seo',
@@ -28,12 +34,32 @@ const product = defineType({
   ],
   fields: [
     orderRankField({ type: 'product' }),
-    { name: 'seo', type: 'seo', group: 'seo' },
+    {
+      name: 'seo',
+      type: 'seo',
+      group: 'seo',
+      options: {
+        collapsable: true,
+        collapsed: true,
+      },
+    },
     {
       name: 'title',
       type: 'string',
       validation: (rule) => rule.required(),
       group: 'content',
+    },
+    {
+      name: 'outOfStock',
+      type: 'boolean',
+      initialValue: false,
+      validation: (rule) => rule.required(),
+    },
+    {
+      name: 'new',
+      type: 'boolean',
+      initialValue: false,
+      validation: (rule) => rule.required(),
     },
     {
       name: 'slug',
@@ -47,7 +73,6 @@ const product = defineType({
       },
     },
     {
-      title: 'Main image',
       name: 'mainImage',
       type: 'image',
       options: { hotspot: true },
@@ -60,6 +85,12 @@ const product = defineType({
       type: 'string',
       group: 'content',
     },
+
+    {
+      name: 'price',
+      type: 'number',
+      validation: (rule) => rule.required(),
+    },
     {
       name: 'body',
       title: 'Body',
@@ -67,6 +98,7 @@ const product = defineType({
       of: [{ type: 'block' }],
       group: 'content',
     },
+
     {
       title: 'Tags',
       name: 'tags',
@@ -80,8 +112,16 @@ const product = defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'size' }] }],
       group: 'variants',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.required().unique(),
     },
+    {
+      name: 'materials',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'material' }] }],
+      group: 'variants',
+      validation: (rule) => rule.required().unique(),
+    },
+
     {
       title: 'Default variant',
       name: 'defaultProductVariant',
@@ -100,27 +140,15 @@ const product = defineType({
         },
       ],
     },
-
-    {
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      group: 'categories',
-      validation: (rule) => rule.required(),
-      of: [
-        {
-          type: 'reference',
-          to: { type: 'category' },
-        },
-      ],
-    },
   ],
 
   preview: {
     select: {
       title: 'title',
-      subtitle: 'slug',
+      subtitle: 'defaultProductVariant.price',
       media: 'defaultProductVariant.images[0]',
+      defaultColor: 'defaultProductVariant.color.name',
+      variants: 'variants',
     },
   },
 });

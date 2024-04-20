@@ -1,7 +1,7 @@
 import { TbHome } from 'react-icons/tb';
 import { GrEdit } from 'react-icons/gr';
 import { FaSitemap } from 'react-icons/fa';
-import { SiCloudflarepages } from 'react-icons/si';
+import { SiCloudflarepages, SiStylelint } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
@@ -9,6 +9,9 @@ import { TfiAnnouncement } from 'react-icons/tfi';
 import { IoBagHandle } from 'react-icons/io5';
 import { IoIosColorFill, IoIosResize } from 'react-icons/io';
 import { BiCategoryAlt } from 'react-icons/bi';
+import { SlChemistry } from 'react-icons/sl';
+import { LuPartyPopper } from 'react-icons/lu';
+import { BsCollectionFill } from 'react-icons/bs';
 
 interface ListItem {
   title: string;
@@ -91,21 +94,20 @@ export const AppStructure: StructureResolver = (S, context) =>
         ),
       S.divider(),
 
-      orderableDocumentListDeskItem({
-        type: 'category',
-        S,
-        context,
-        title: 'Categories',
-        icon: BiCategoryAlt,
-      }),
-
       S.listItem()
-        .title('Products')
+        .title('Sets & Products')
         .icon(IoBagHandle)
         .child(
           S.list()
-            .title('Products')
+            .title('Sets & Products')
             .items([
+              orderableDocumentListDeskItem({
+                type: 'set',
+                S,
+                context,
+                title: 'Sets',
+                icon: BsCollectionFill,
+              }),
               orderableDocumentListDeskItem({
                 type: 'product',
                 S,
@@ -113,6 +115,8 @@ export const AppStructure: StructureResolver = (S, context) =>
                 title: 'Products',
                 icon: IoBagHandle,
               }),
+              S.divider(),
+
               orderableDocumentListDeskItem({
                 type: 'size',
                 S,
@@ -127,6 +131,34 @@ export const AppStructure: StructureResolver = (S, context) =>
                 title: 'Colors',
                 icon: IoIosColorFill,
               }),
+              orderableDocumentListDeskItem({
+                type: 'material',
+                S,
+                context,
+                title: 'Material',
+                icon: SlChemistry,
+              }),
+              orderableDocumentListDeskItem({
+                type: 'style',
+                S,
+                context,
+                title: 'Style',
+                icon: SiStylelint,
+              }),
+              orderableDocumentListDeskItem({
+                type: 'occasion',
+                S,
+                context,
+                title: 'Occasion',
+                icon: LuPartyPopper,
+              }),
             ]),
         ),
+      orderableDocumentListDeskItem({
+        type: 'category',
+        S,
+        context,
+        title: 'Categories',
+        icon: BiCategoryAlt,
+      }),
     ]);

@@ -15,10 +15,20 @@ const productVariant = defineField({
       name: 'sizes',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'size' }] }],
+      validation: (rule) => rule.unique(),
+      description: 'If this is empty it will use the sizes from the product.',
     },
     {
       name: 'price',
       type: 'number',
+      description:
+        'The price of this variant. If this is empty it will use the price from the product.',
+    },
+    {
+      name: 'outOfStock',
+      type: 'boolean',
+      initialValue: false,
+      description: 'If this is empty it will use the stock from the product.',
     },
     {
       title: 'SKU',
@@ -39,6 +49,13 @@ const productVariant = defineField({
       ],
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'color.name',
+      media: 'images[0].asset',
+    },
+  },
 });
 
 export default productVariant;

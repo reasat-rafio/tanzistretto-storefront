@@ -8,6 +8,10 @@ const landingPage = defineType({
     defineField({
       name: 'seo',
       type: 'seo',
+      options: {
+        collapsable: true,
+        collapsed: true,
+      },
     }),
     defineField({
       name: 'sections',

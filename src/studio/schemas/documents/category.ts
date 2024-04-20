@@ -1,12 +1,21 @@
 import { orderRankField } from '@sanity/orderable-document-list';
+import { BiCategoryAlt } from 'react-icons/bi';
 import { defineType } from 'sanity';
 
 const category = defineType({
   name: 'category',
   title: 'Category',
   type: 'document',
+  icon: BiCategoryAlt,
   fields: [
     orderRankField({ type: 'category' }),
+
+    {
+      name: 'commonSoon',
+      type: 'boolean',
+      validation: (rule) => rule.required(),
+      initialValue: false,
+    },
 
     {
       name: 'title',

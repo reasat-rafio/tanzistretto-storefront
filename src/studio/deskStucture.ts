@@ -8,6 +8,7 @@ import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
 import { TfiAnnouncement } from 'react-icons/tfi';
 import { IoBagHandle } from 'react-icons/io5';
 import { IoIosColorFill, IoIosResize } from 'react-icons/io';
+import { BiCategoryAlt } from 'react-icons/bi';
 
 interface ListItem {
   title: string;
@@ -95,7 +96,7 @@ export const AppStructure: StructureResolver = (S, context) =>
         S,
         context,
         title: 'Categories',
-        icon: IoBagHandle,
+        icon: BiCategoryAlt,
       }),
 
       S.listItem()

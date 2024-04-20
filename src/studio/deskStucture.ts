@@ -90,6 +90,14 @@ export const AppStructure: StructureResolver = (S, context) =>
         ),
       S.divider(),
 
+      orderableDocumentListDeskItem({
+        type: 'category',
+        S,
+        context,
+        title: 'Categories',
+        icon: IoBagHandle,
+      }),
+
       S.listItem()
         .title('Products')
         .icon(IoBagHandle)

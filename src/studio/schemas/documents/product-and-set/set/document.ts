@@ -151,8 +151,8 @@ const set = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'defaultProductVariant.price',
-      media: 'defaultProductVariant.images[0]',
+      subtitle: 'price',
+      media: 'defaultSetVariant.images[0]',
     },
   },
 });

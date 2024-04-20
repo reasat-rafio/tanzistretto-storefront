@@ -145,7 +145,7 @@ const product = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'defaultProductVariant.price',
+      subtitle: 'price',
       media: 'defaultProductVariant.images[0]',
       defaultColor: 'defaultProductVariant.color.name',
       variants: 'variants',

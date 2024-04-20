@@ -1,3 +1,4 @@
+import { alt } from '$studio/lib/alt';
 import { defineField } from 'sanity';
 
 const setVariant = defineField({
@@ -17,6 +18,18 @@ const setVariant = defineField({
     },
     { name: 'color', type: 'reference', to: [{ type: 'colour' }] },
     {
+      name: 'images',
+      type: 'array',
+      validation: (rule) => rule.required(),
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [alt()],
+        },
+      ],
+    },
+    {
       name: 'price',
       type: 'number',
       description:
@@ -35,28 +48,31 @@ const setVariant = defineField({
             { name: 'product', type: 'reference', to: [{ type: 'product' }] },
             { name: 'color', type: 'reference', to: [{ type: 'colour' }] },
           ],
+          preview: {
+            select: {
+              title: 'product.title',
+              subtitle: 'color.name',
+              media: 'product.defaultProductVariant.images[0]',
+            },
+            prepare: (props) => ({
+              ...props,
+              subtitle: `variant - ${props.subtitle}`,
+            }),
+          },
         },
       ],
     },
-
-    // {
-    //   name: 'products',
-    //   type: 'array',
-    //   validation: (rule) => rule.required(),
-    //   of: [
-    //     {
-    //       type: 'reference',
-    //       to: [{ type: 'product' }],
-    //     },
-    //   ],
-    // },
   ],
   preview: {
     select: {
       title: 'title',
       subtitle: 'color.name',
-      media: 'products[0].images[0].asset',
+      media: 'images[0].asset',
     },
+    prepare: (props) => ({
+      ...props,
+      subtitle: `variant - ${props.subtitle}`,
+    }),
   },
 });
 

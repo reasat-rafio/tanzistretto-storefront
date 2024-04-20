@@ -10,7 +10,8 @@ type CastPreviewProps = PreviewProps & {
   defaultColor: string;
 };
 
-function ProductPreview(props: CastPreviewProps) {
+function ProductPreview(p: PreviewProps) {
+  const props = p as CastPreviewProps;
   const [colorNames, setColorNames] = useState<string[]>([props?.defaultColor]);
 
   const defaultColors = useMemo(

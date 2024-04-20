@@ -4,19 +4,21 @@ import type { z } from 'zod';
 import type { customerDeliveryAddress } from '$lib/utils/validators';
 
 type CustomerDeliveryAddress = z.infer<typeof customerDeliveryAddress>;
+export type DeliveryAddressForm = SuperValidated<
+  CustomerDeliveryAddress,
+  any,
+  CustomerDeliveryAddress
+>;
 
 interface FormStore {
-  deliveryAddressForm?: SuperValidated<
-    CustomerDeliveryAddress,
-    any,
-    CustomerDeliveryAddress
-  >;
+  addDeliveryAddressForm?: DeliveryAddressForm;
+  updateDeliveryAddressForm?: DeliveryAddressForm;
 }
 
 const createFormStore = () => {
   const { subscribe, update } = writable<FormStore>({});
 
-  function setDeliveryAddressForm(
+  function setAddDeliveryAddressForm(
     props: SuperValidated<
       CustomerDeliveryAddress,
       any,
@@ -24,13 +26,22 @@ const createFormStore = () => {
     >,
   ) {
     update((state) => {
-      return { ...state, deliveryAddressForm: props };
+      return { ...state, addDeliveryAddressForm: props };
     });
   }
 
+function setUpdateDeliveryAddressForm(
+  props: SuperValidated<CustomerDeliveryAddress, any, CustomerDeliveryAddress>,
+) {
+  update((state) => {
+    return { ...state, updateDeliveryAddressForm: props };
+  });
+}
+
   return {
     subscribe,
-    setDeliveryAddressForm,
+    setAddDeliveryAddressForm,
+    setUpdateDeliveryAddressForm,
   };
 };
 

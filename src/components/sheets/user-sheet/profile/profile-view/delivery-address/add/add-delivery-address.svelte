@@ -2,7 +2,8 @@
   import Button from '$components/ui/button/button.svelte';
   import type { Direction, View } from '$lib/types/common.types';
   import { MoveLeft } from 'lucide-svelte';
-  import { slide, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
+  import Form from './form.svelte';
 
   export let view: View;
   export let direction: Direction;
@@ -25,4 +26,6 @@
     </Button>
     <span class="text-xl font-medium underline">Add Addresses</span>
   </div>
+
+  <Form />
 </div>

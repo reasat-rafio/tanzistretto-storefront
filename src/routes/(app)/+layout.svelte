@@ -16,7 +16,8 @@
   export let data: LayoutData;
   $: ({
     user,
-    deliveryAddressForm,
+    addDeliveryAddressForm,
+    updateDeliveryAddressForm,
     site: {
       nav,
       promotions,
@@ -25,7 +26,8 @@
   } = data);
 
   $: authStore.setUser(user);
-  $: formStore.setDeliveryAddressForm(deliveryAddressForm);
+  $: formStore.setAddDeliveryAddressForm(addDeliveryAddressForm);
+  $: formStore.setAddDeliveryAddressForm(updateDeliveryAddressForm);
 
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()

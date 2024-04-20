@@ -3,6 +3,7 @@
   import type { View, Direction } from '$lib/types/common.types';
   import { MoveLeft } from 'lucide-svelte';
   import { fly } from 'svelte/transition';
+  import Form from './form.svelte';
 
   export let direction: Direction;
   export let view: View;
@@ -25,4 +26,5 @@
     </Button>
     <span class="text-xl font-medium underline">Edit Addresses</span>
   </div>
+  <Form />
 </div>

@@ -10,14 +10,19 @@ export const load = async ({ locals: { user, session } }) => {
   const data: SiteDataProps = await sanityClient.fetch(siteQuery);
   if (!data) throw error(404, { message: 'Not found' });
 
-  const deliveryAddressForm = await superValidate(
+  const addDeliveryAddressForm = await superValidate(
     zod(customerDeliveryAddress),
-    { id: 'address' },
+    { id: 'add-address' },
+  );
+  const updateDeliveryAddressForm = await superValidate(
+    zod(customerDeliveryAddress),
+    { id: 'edit-address' },
   );
 
   return {
     user: user,
     site: data,
-    deliveryAddressForm,
+    addDeliveryAddressForm,
+    updateDeliveryAddressForm,
   };
 };

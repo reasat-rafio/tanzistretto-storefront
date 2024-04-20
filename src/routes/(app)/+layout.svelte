@@ -11,10 +11,12 @@
   import '@fontsource/metropolis/800.css';
   import type { LayoutData } from './$types';
   import { authStore } from '$lib/stores/auth-store';
+  import { formStore } from '$lib/stores/form-store';
 
   export let data: LayoutData;
   $: ({
     user,
+    deliveryAddressForm,
     site: {
       nav,
       promotions,
@@ -23,6 +25,7 @@
   } = data);
 
   $: authStore.setUser(user);
+  $: formStore.setDeliveryAddressForm(deliveryAddressForm);
 
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()

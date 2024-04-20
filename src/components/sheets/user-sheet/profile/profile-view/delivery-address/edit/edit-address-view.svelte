@@ -2,13 +2,13 @@
   import Button from '$components/ui/button/button.svelte';
   import type { View, Direction } from '$lib/types/common.types';
   import { MoveLeft } from 'lucide-svelte';
-  import { fly, slide } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   export let direction: Direction;
   export let view: View;
 </script>
 
-<div in:fly={{ x: '100%' }}>
+<div in:fly={{ x: 30 }}>
   <div class="relative flex items-center justify-end py-3">
     <Button
       size="sm"

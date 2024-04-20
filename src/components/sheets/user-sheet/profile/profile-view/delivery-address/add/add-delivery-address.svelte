@@ -8,7 +8,7 @@
   export let direction: Direction;
 </script>
 
-<div in:fly={{ x: '100%' }}>
+<div in:fly={{ x: 30 }}>
   <div class="relative flex items-center justify-end py-3">
     <Button
       size="sm"

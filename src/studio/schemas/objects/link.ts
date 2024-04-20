@@ -1,4 +1,4 @@
-import { pages } from '../../../lib/utils/constant';
+import { pages } from '../$lib/utils/constant';
 import { BsLink45Deg } from 'react-icons/bs';
 import { defineField, defineType } from 'sanity';
 

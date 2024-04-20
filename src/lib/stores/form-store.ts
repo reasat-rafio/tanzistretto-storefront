@@ -1,42 +1,41 @@
 import { writable } from 'svelte/store';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type { z } from 'zod';
-import type { customerDeliveryAddress } from '../utils/validators';
+import type {
+  addCustomerDeliveryAddress,
+  updateCustomerDeliveryAddress,
+} from '../utils/validators';
 
-type CustomerDeliveryAddress = z.infer<typeof customerDeliveryAddress>;
-export type DeliveryAddressForm = SuperValidated<
-  CustomerDeliveryAddress,
+type AddCustomerDeliveryAddress = z.infer<typeof addCustomerDeliveryAddress>;
+type UpdateCustomerDeliveryAddress = z.infer<
+  typeof updateCustomerDeliveryAddress
+>;
+export type AddDeliveryAddressForm = SuperValidated<
+  AddCustomerDeliveryAddress,
   any,
-  CustomerDeliveryAddress
+  AddCustomerDeliveryAddress
+>;
+export type UpdateDeliveryAddressForm = SuperValidated<
+  UpdateCustomerDeliveryAddress,
+  any,
+  UpdateCustomerDeliveryAddress
 >;
 
 interface FormStore {
-  addDeliveryAddressForm?: DeliveryAddressForm;
-  updateDeliveryAddressForm?: DeliveryAddressForm;
+  addDeliveryAddressForm?: AddDeliveryAddressForm;
+  updateDeliveryAddressForm?: UpdateDeliveryAddressForm;
 }
 
 const createFormStore = () => {
   const { subscribe, update } = writable<FormStore>({});
 
-  function setAddDeliveryAddressForm(
-    props: SuperValidated<
-      CustomerDeliveryAddress,
-      any,
-      CustomerDeliveryAddress
-    >,
-  ) {
+  function setAddDeliveryAddressForm(props: AddDeliveryAddressForm) {
     update((state) => {
       return { ...state, addDeliveryAddressForm: props };
     });
   }
 
-  function setUpdateDeliveryAddressForm(
-    props: SuperValidated<
-      CustomerDeliveryAddress,
-      any,
-      CustomerDeliveryAddress
-    >,
-  ) {
+  function setUpdateDeliveryAddressForm(props: UpdateDeliveryAddressForm) {
     update((state) => {
       return { ...state, updateDeliveryAddressForm: props };
     });

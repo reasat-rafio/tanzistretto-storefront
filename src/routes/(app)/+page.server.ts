@@ -1,14 +1,17 @@
-import { sanityClient } from '../../lib/sanity/sanity-client';
-import { asset } from '../../lib/sanity/sanity-image';
-import type { LandingPageProps } from '../../lib/types/landing.types';
+import { sanityClient } from '$lib/sanity/sanity-client';
+import { asset } from '$lib/sanity/sanity-image';
+import type { LandingPageProps } from '$lib/types/landing.types';
 import groq from 'groq';
 import type { PageServerLoad } from './$types';
 import type { Actions } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
-import { customerDeliveryAddress } from '../../lib/utils/validators';
-import { db } from '../../lib/server/db/db';
-import { address } from '../../lib/server/db/schema';
+import {
+  addCustomerDeliveryAddress,
+  updateCustomerDeliveryAddress,
+} from '$lib/utils/validators';
+import { db } from '$lib/server/db/db';
+import { address } from '$lib/server/db/schema';
 import { generateId } from 'lucia';
 import { eq } from 'drizzle-orm';
 
@@ -36,8 +39,8 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-  addDeliveryAddress: async ({ request, locals, cookies }) => {
-    const form = await superValidate(request, zod(customerDeliveryAddress), {
+  addDeliveryAddress: async ({ request, locals }) => {
+    const form = await superValidate(request, zod(addCustomerDeliveryAddress), {
       id: 'add-address',
     });
 
@@ -74,5 +77,49 @@ export const actions: Actions = {
       });
     }
   },
-  editDeliveryAddress: async ({ request, locals, cookies }) => {},
+
+  updateDeliveryAddress: async ({ request, locals }) => {
+    const form = await superValidate(
+      request,
+      zod(updateCustomerDeliveryAddress),
+      {
+        id: 'update-address',
+      },
+    );
+
+    if (!form.valid) {
+      return message(form, 'Something went wrong', { status: 500 }); // this shouldn't happen because of client-side validation
+    }
+
+    if (!locals.user) {
+      return message(form, 'No user session exist', { status: 500 }); // this shouldn't happen because of client-side validation
+    }
+
+    const addressExist = await db.query.address.findFirst({
+      where: eq(address.id, form.data.addr_id),
+    });
+    if (!addressExist) {
+      return message(form, 'Address not found', { status: 404 });
+    }
+
+    try {
+      await db.update(address).set({
+        fullName: form.data.fullName,
+        address1: form.data.address1,
+        address2: form.data.address2,
+        city: form.data.city,
+        postalCode: form.data.postalCode,
+        country: form.data.countryCode,
+        phoneNumber: form.data.phoneNumber,
+      });
+
+      return message(form, 'Address updated successfully');
+    } catch (e) {
+      console.log({ e });
+
+      return message(form, 'Something went wrong, please try again.', {
+        status: 500,
+      });
+    }
+  },
 };

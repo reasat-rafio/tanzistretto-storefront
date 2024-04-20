@@ -30,7 +30,7 @@
   $: userStore.setUser(user);
   $: userStore.setDeliveryAddress(deliveryAddress);
   $: formStore.setAddDeliveryAddressForm(addDeliveryAddressForm);
-  $: formStore.setAddDeliveryAddressForm(updateDeliveryAddressForm);
+  $: formStore.setUpdateDeliveryAddressForm(updateDeliveryAddressForm);
 
   $: {
     console.log({ deliveryAddress });

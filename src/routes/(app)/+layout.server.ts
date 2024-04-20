@@ -1,12 +1,15 @@
 import { error } from '@sveltejs/kit';
-import { sanityClient } from '../../lib/sanity/sanity-client';
-import { siteQuery } from '../../lib/sanity/query';
-import type { SiteDataProps } from '../../lib/types/site.types.js';
+import { sanityClient } from '$lib/sanity/sanity-client';
+import { siteQuery } from '$lib/sanity/query';
+import type { SiteDataProps } from '$lib/types/site.types.js';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { customerDeliveryAddress } from '../../lib/utils/validators.js';
-import { db } from '../../lib/server/db/db.js';
-import { address } from '../../lib/server/db/schema.js';
+import {
+  addCustomerDeliveryAddress,
+  updateCustomerDeliveryAddress,
+} from '$lib/utils/validators.js';
+import { db } from '$lib/server/db/db.js';
+import { address } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
 
 export const load = async ({ locals: { user, session } }) => {
@@ -21,12 +24,12 @@ export const load = async ({ locals: { user, session } }) => {
     });
   }
   const addDeliveryAddressForm = await superValidate(
-    zod(customerDeliveryAddress),
+    zod(addCustomerDeliveryAddress),
     { id: 'add-address' },
   );
   const updateDeliveryAddressForm = await superValidate(
-    zod(customerDeliveryAddress),
-    { id: 'edit-address' },
+    zod(updateCustomerDeliveryAddress),
+    { id: 'update-address' },
   );
 
   return {

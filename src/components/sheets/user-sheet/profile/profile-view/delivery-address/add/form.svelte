@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { formStore, type DeliveryAddressForm } from '$lib/stores/form-store';
-  import { customerDeliveryAddress } from '$lib/utils/validators';
+  import {
+    formStore,
+    type AddDeliveryAddressForm,
+  } from '$lib/stores/form-store';
+  import { addCustomerDeliveryAddress } from '$lib/utils/validators';
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
   import * as Form from '$components/ui/form';
@@ -15,12 +18,12 @@
 
   let loading = false;
   let selectedCountry: { value: string; label: string };
-  const { addDeliveryAddressForm } = $formStore;
+  $: ({ addDeliveryAddressForm } = $formStore);
 
-  const addDeliveryForm = superForm(
-    addDeliveryAddressForm as DeliveryAddressForm,
+  $: addDeliveryForm = superForm(
+    addDeliveryAddressForm as AddDeliveryAddressForm,
     {
-      validators: zodClient(customerDeliveryAddress),
+      validators: zodClient(addCustomerDeliveryAddress),
       invalidateAll: true,
       onSubmit: () => {
         loading = true;
@@ -32,7 +35,7 @@
           toast.success((result as any).data?.form?.message);
           view = 'delivery-addresses';
           invalidateAll();
-        } else if (result.type === 'error') {
+        } else {
           const errorMessage = (result as any).data?.form?.message;
           if (!!errorMessage) toast.error(errorMessage);
         }
@@ -40,7 +43,7 @@
     },
   );
 
-  const { form, enhance } = addDeliveryForm;
+  $: ({ form, enhance } = addDeliveryForm);
 </script>
 
 <form method="POST" action="?/addDeliveryAddress" use:enhance>

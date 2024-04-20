@@ -7,15 +7,16 @@
 
   let view: View = 'default';
   let direction: Direction = 'left';
+  let activeEditingAddressID: string;
 </script>
 
 <div>
   {#if view === 'default'}
     <DefaultView bind:view bind:direction />
   {:else if view === 'delivery-addresses'}
-    <DeliveryAddressView bind:view bind:direction />
+    <DeliveryAddressView bind:view bind:direction bind:activeEditingAddressID />
   {:else if view === 'edit-delivery-address'}
-    <EditAddressView bind:view bind:direction />
+    <EditAddressView bind:view bind:direction {activeEditingAddressID} />
   {:else if view === 'add-delivery-address'}
     <AddDeliveryAddress bind:view bind:direction />
   {/if}

@@ -7,6 +7,7 @@
 
   export let direction: Direction;
   export let view: View;
+  export let activeEditingAddressID: string;
 </script>
 
 <div in:fly={{ x: 30 }}>
@@ -26,5 +27,5 @@
     </Button>
     <span class="text-xl font-medium underline">Edit Addresses</span>
   </div>
-  <Form />
+  <Form bind:view {activeEditingAddressID} />
 </div>

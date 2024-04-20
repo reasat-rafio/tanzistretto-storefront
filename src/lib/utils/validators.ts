@@ -71,7 +71,17 @@ export const resetPostReq = z
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
-export const customerDeliveryAddress = z.object({
+export const addCustomerDeliveryAddress = z.object({
+  fullName: z.string().min(2).max(60),
+  address1: z.string().min(2).max(500),
+  address2: z.string().min(2).max(500),
+  city: z.string().min(2).max(100),
+  postalCode: z.string().min(2).max(20),
+  countryCode: z.string().min(2).max(5),
+  phoneNumber: z.string().regex(phoneRegex, 'Invalid Number!'),
+});
+export const updateCustomerDeliveryAddress = z.object({
+  addr_id: z.string(),
   fullName: z.string().min(2).max(60),
   address1: z.string().min(2).max(500),
   address2: z.string().min(2).max(500),

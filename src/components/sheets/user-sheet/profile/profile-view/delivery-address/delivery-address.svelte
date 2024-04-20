@@ -9,8 +9,9 @@
   import { toast } from 'svelte-sonner';
   import { invalidateAll } from '$app/navigation';
 
-  export let direction: Direction;
   export let view: View;
+  export let direction: Direction;
+  export let activeEditingAddressID: string;
 
   $: ({ deliveryAddress } = $userStore);
 
@@ -59,29 +60,32 @@
       {#each deliveryAddress as { address1, address2, city, fullName, isDefault, phoneNumber, postalCode, id } (id)}
         <div transition:scale>
           <Card.Root class="relative">
-            <div class="absolute right-2 top-2 space-x-2">
-              <button
-                on:click={() => {
-                  view = 'edit-delivery-address';
-                }}
-                class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
-                <Edit2Icon size={14} />
-              </button>
-
-              <button
-                on:click={() => deleteAddress(id)}
-                class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
-                <Trash2Icon size={16} />
-              </button>
-            </div>
-
             <Card.Header>
-              <Card.Title>
-                {fullName}
-                {#if isDefault}
-                  <Badge variant="secondary">Default</Badge>
-                {/if}
-              </Card.Title>
+              <div class="flex justify-between">
+                <Card.Title>
+                  {fullName}
+                  {#if isDefault}
+                    <Badge variant="secondary">Default</Badge>
+                  {/if}
+                </Card.Title>
+
+                <div>
+                  <button
+                    on:click={() => {
+                      activeEditingAddressID = id;
+                      view = 'edit-delivery-address';
+                    }}
+                    class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
+                    <Edit2Icon size={14} />
+                  </button>
+
+                  <button
+                    on:click={() => deleteAddress(id)}
+                    class="rounded-full p-1.5 text-primary transition-all duration-300 hover:bg-secondary hover:shadow-md">
+                    <Trash2Icon size={16} />
+                  </button>
+                </div>
+              </div>
               <Card.Description>
                 {phoneNumber}
               </Card.Description>

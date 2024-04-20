@@ -1,43 +1,82 @@
 <script lang="ts">
-  import { formStore, type DeliveryAddressForm } from '$lib/stores/form-store';
-  import { customerDeliveryAddress } from '$lib/utils/validators';
+  import {
+    formStore,
+    type UpdateDeliveryAddressForm,
+  } from '$lib/stores/form-store';
+  import { updateCustomerDeliveryAddress } from '$lib/utils/validators';
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
   import * as Form from '$components/ui/form';
   import Input from '$components/ui/input/input.svelte';
   import * as Select from '$components/ui/select/index.js';
   import { RotateCw } from 'lucide-svelte';
+  import { userStore } from '$lib/stores/auth-store';
+  import type { address } from '$lib/server/db/schema';
+  import { toast } from 'svelte-sonner';
+  import { invalidateAll } from '$app/navigation';
+  import type { View } from '$lib/types/common.types';
 
-  const { updateDeliveryAddressForm } = $formStore;
-  let selectedCountry = { value: 'bd', label: 'Bangladesh' };
+  export let activeEditingAddressID: string;
+  export let view: View;
+
   let loading = false;
+  $: ({ updateDeliveryAddressForm } = $formStore);
+  let selectedCountry = { value: 'bd', label: 'Bangladesh' };
+  let activeEditingAddress: typeof address.$inferSelect | undefined;
 
-  const updateDeliveryForm = superForm(
-    updateDeliveryAddressForm as DeliveryAddressForm,
+  $: ({ deliveryAddress } = $userStore);
+  $: if (deliveryAddress?.length)
+    activeEditingAddress = deliveryAddress.find(
+      (address) => address.id === activeEditingAddressID,
+    );
+
+  $: updateDeliveryForm = superForm(
+    updateDeliveryAddressForm as UpdateDeliveryAddressForm,
     {
-      validators: zodClient(customerDeliveryAddress),
+      validators: zodClient(updateCustomerDeliveryAddress),
       invalidateAll: true,
+
       onSubmit: () => {
-        //   uiStore.setAuthLoading(true);
+        loading = true;
       },
       onResult: ({ result }) => {
-        //   uiStore.setAuthLoading(false);
+        loading = false;
+        console.log({ result });
 
         if (result.type === 'success') {
-          // handleSignIn();
-          // toast.info((result as any).data?.form?.message);
+          toast.success((result as any).data?.form?.message);
+          view = 'delivery-addresses';
+          invalidateAll();
         } else {
-          // const errorMessage = (result as any).data?.form?.message;
-          // if (!!errorMessage) toast.error(errorMessage);
+          const errorMessage = (result as any).data?.form?.message;
+          if (!!errorMessage)
+            toast.error(errorMessage ?? 'Something went wrong');
         }
       },
     },
   );
 
-  const { form, enhance } = updateDeliveryForm;
+  $: ({ form, enhance } = updateDeliveryForm);
+
+  $: if (activeEditingAddress) {
+    $form.addr_id = activeEditingAddress.id;
+    $form.fullName = activeEditingAddress.fullName;
+    $form.address1 = activeEditingAddress.address1;
+    $form.address2 = activeEditingAddress?.address2 ?? '';
+    $form.postalCode = activeEditingAddress.postalCode;
+    $form.city = activeEditingAddress.city;
+    $form.countryCode = activeEditingAddress.country;
+    $form.phoneNumber = activeEditingAddress.phoneNumber;
+  }
 </script>
 
 <form method="POST" action="?/updateDeliveryAddress" use:enhance>
+  <Form.Field form={updateDeliveryForm} name="addr_id">
+    <Form.Control let:attrs>
+      <input hidden bind:value={$form.addr_id} name={attrs.name} />
+    </Form.Control>
+  </Form.Field>
+
   <Form.Field form={updateDeliveryForm} name="fullName">
     <Form.Control let:attrs>
       <Form.Label>First Name</Form.Label>

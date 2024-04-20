@@ -1,15 +1,16 @@
 <script lang="ts">
   import Button from '$components/ui/button/button.svelte';
-  import { authStore } from '$lib/stores/auth-store';
+  import { userStore } from '$lib/stores/auth-store';
   import type { View, Direction } from '$lib/types/common.types';
   import { Edit2Icon, MoveLeft, Trash2Icon } from 'lucide-svelte';
   import * as Card from '$components/ui/card/index.js';
   import { fly, slide } from 'svelte/transition';
+  import { Badge } from '$components/ui/badge';
 
   export let direction: Direction;
   export let view: View;
 
-  const { user } = $authStore;
+  const { deliveryAddress } = $userStore;
 </script>
 
 <div in:fly={{ x: direction === 'right' ? 30 : -30 }}>
@@ -35,9 +36,9 @@
     Saving your addresses will make them available during checkout.
   </p>
 
-  <!-- {#if !user?.shipping_addresses?.length}
+  {#if deliveryAddress}
     <div class="mt-5 space-y-3">
-      {#each user.shipping_addresses as { first_name, last_name, id, phone, city, postal_code, address_1, address_2 }}
+      {#each deliveryAddress as { address1, address2, city, fullName, isDefault, phoneNumber, postalCode }}
         <Card.Root class="relative">
           <div class="absolute right-2 top-2 space-x-2">
             <button
@@ -55,23 +56,28 @@
           </div>
 
           <Card.Header>
-            <Card.Title>{first_name} {last_name}</Card.Title>
+            <Card.Title>
+              {fullName}
+              {#if isDefault}
+                <Badge variant="secondary">Default</Badge>
+              {/if}
+            </Card.Title>
             <Card.Description>
-              {phone}
+              {phoneNumber}
             </Card.Description>
           </Card.Header>
           <Card.Content>
-            <p>{address_1}</p>
-            <p>{address_2}</p>
+            <p>{address1}</p>
+            <p>{address2}</p>
             <p>
               {city}
-              {postal_code}
+              {postalCode}
             </p>
           </Card.Content>
         </Card.Root>
       {/each}
     </div>
-  {/if} -->
+  {/if}
 
   <Button
     size="lg"

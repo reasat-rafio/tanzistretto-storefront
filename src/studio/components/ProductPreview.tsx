@@ -1,4 +1,4 @@
-import { sanityClient } from '$lib/sanity/sanity-client';
+import { sanityClient } from '../../lib/sanity/sanity-client';
 import type { SanityReference } from '@sanity/image-url/lib/types/types';
 import { Stack } from '@sanity/ui';
 import groq from 'groq';

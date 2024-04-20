@@ -7,10 +7,15 @@
   import Input from '$components/ui/input/input.svelte';
   import * as Select from '$components/ui/select/index.js';
   import { RotateCw } from 'lucide-svelte';
+  import { toast } from 'svelte-sonner';
+  import type { View } from '$lib/types/common.types';
+  import { invalidateAll } from '$app/navigation';
 
-  const { addDeliveryAddressForm } = $formStore;
-  let selectedCountry = { value: 'bd', label: 'Bangladesh' };
+  export let view: View;
+
   let loading = false;
+  let selectedCountry: { value: string; label: string };
+  const { addDeliveryAddressForm } = $formStore;
 
   const addDeliveryForm = superForm(
     addDeliveryAddressForm as DeliveryAddressForm,
@@ -18,17 +23,18 @@
       validators: zodClient(customerDeliveryAddress),
       invalidateAll: true,
       onSubmit: () => {
-        //   uiStore.setAuthLoading(true);
+        loading = true;
       },
       onResult: ({ result }) => {
-        //   uiStore.setAuthLoading(false);
+        loading = false;
 
         if (result.type === 'success') {
-          // handleSignIn();
-          // toast.info((result as any).data?.form?.message);
-        } else {
-          // const errorMessage = (result as any).data?.form?.message;
-          // if (!!errorMessage) toast.error(errorMessage);
+          toast.info((result as any).data?.form?.message);
+          view = 'delivery-addresses';
+          invalidateAll();
+        } else if (result.type === 'error') {
+          const errorMessage = (result as any).data?.form?.message;
+          if (!!errorMessage) toast.error(errorMessage);
         }
       },
     },

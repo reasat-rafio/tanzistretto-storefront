@@ -27,5 +27,5 @@
     <span class="text-xl font-medium underline">Add Addresses</span>
   </div>
 
-  <Form />
+  <Form bind:view />
 </div>

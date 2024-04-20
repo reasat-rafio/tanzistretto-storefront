@@ -1,13 +1,16 @@
 import { writable } from 'svelte/store';
 import type { User } from 'lucia';
+import type { address } from '../server/db/schema';
 
-interface AuthStore {
+interface USerStore {
   user: User | null;
+  deliveryAddress: (typeof address.$inferSelect)[] | null;
 }
 
-const createAuthStore = () => {
-  const { subscribe, update } = writable<AuthStore>({
+const createUserStore = () => {
+  const { subscribe, update } = writable<USerStore>({
     user: null,
+    deliveryAddress: null,
   });
 
   function setUser(props: User | null) {
@@ -16,10 +19,17 @@ const createAuthStore = () => {
     });
   }
 
+  function setDeliveryAddress(props: (typeof address.$inferSelect)[] | null) {
+    update((state) => {
+      return { ...state, deliveryAddress: props };
+    });
+  }
+
   return {
     subscribe,
     setUser,
+    setDeliveryAddress,
   };
 };
 
-export const authStore = createAuthStore();
+export const userStore = createUserStore();

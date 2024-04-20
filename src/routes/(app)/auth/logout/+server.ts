@@ -1,4 +1,4 @@
-import { lucia } from '$lib/server/auth';
+import { lucia } from '../../../../lib/server/auth';
 import { fail, json, redirect } from '@sveltejs/kit';
 
 export const GET = async (event) => {

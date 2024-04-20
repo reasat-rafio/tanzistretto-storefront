@@ -10,12 +10,13 @@
   import '@fontsource/metropolis/700.css';
   import '@fontsource/metropolis/800.css';
   import type { LayoutData } from './$types';
-  import { authStore } from '$lib/stores/auth-store';
+  import { userStore } from '$lib/stores/auth-store';
   import { formStore } from '$lib/stores/form-store';
 
   export let data: LayoutData;
   $: ({
     user,
+    deliveryAddress,
     addDeliveryAddressForm,
     updateDeliveryAddressForm,
     site: {
@@ -24,11 +25,12 @@
       logos: { logo, favicon },
     },
   } = data);
+  userStore;
 
-  $: authStore.setUser(user);
+  $: userStore.setUser(user);
+  $: userStore.setDeliveryAddress(deliveryAddress);
   $: formStore.setAddDeliveryAddressForm(addDeliveryAddressForm);
   $: formStore.setAddDeliveryAddressForm(updateDeliveryAddressForm);
-
   let faviconImage = favicon
     ? urlFor(favicon).size(256, 256).ignoreImageParams().url()
     : null;

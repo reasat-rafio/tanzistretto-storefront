@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { pages } from '$lib/utils/constant';
+import { pages } from '../../../../lib/utils/constant';
 import { alt } from '$studio/lib/alt';
 import { BsLink45Deg } from 'react-icons/bs';
 import { CiImageOn } from 'react-icons/ci';

@@ -12,6 +12,7 @@ import { BiCategoryAlt } from 'react-icons/bi';
 import { SlChemistry } from 'react-icons/sl';
 import { LuPartyPopper } from 'react-icons/lu';
 import { BsCollectionFill } from 'react-icons/bs';
+import { MdCollectionsBookmark } from 'react-icons/md';
 
 interface ListItem {
   title: string;
@@ -95,12 +96,19 @@ export const AppStructure: StructureResolver = (S, context) =>
       S.divider(),
 
       S.listItem()
-        .title('Sets & Products')
+        .title('Collection, Sets & Products')
         .icon(IoBagHandle)
         .child(
           S.list()
-            .title('Sets & Products')
+            .title('Collection, Sets & Products')
             .items([
+              orderableDocumentListDeskItem({
+                type: 'collection',
+                S,
+                context,
+                title: 'Collections',
+                icon: MdCollectionsBookmark,
+              }),
               orderableDocumentListDeskItem({
                 type: 'set',
                 S,

@@ -7,6 +7,7 @@ import size from './size';
 import style from './style';
 import productVariant from './product/product-variant';
 import setVariant from './set/set-variant';
+import collection from './collection/document';
 
 export default [
   set,
@@ -18,4 +19,5 @@ export default [
   setVariant,
   occasion,
   material,
+  collection,
 ];

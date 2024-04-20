@@ -4,7 +4,7 @@ import social from './objects/social';
 import pages from './pages';
 import site from './documents/site';
 import promotion from './documents/promotion';
-import product from './documents/product-and-set';
+import product from './documents/collection-set-product';
 import category from './documents/category';
 
 export const schemaTypes = [

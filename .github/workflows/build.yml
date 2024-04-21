@@ -29,7 +29,7 @@ jobs:
       - name: Deploy on CapRover
         uses: caprover/deploy-from-github@v1.1.2
         with:
-          server: https://edistys.site
-          app: 'sveltekit'
+          server: '${{ secrets.CAPROVER_SERVER }}'
+          app: '${{ secrets.APP_NAME }}'
           token: '${{ secrets.APP_TOKEN }}'
           image: 'ghcr.io/reasat-rafio/sveltekit-selfhost:latest'

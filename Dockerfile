@@ -24,9 +24,6 @@ ENV FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
 ENV FACEBOOK_CLIENT_SECRET=${FACEBOOK_CLIENT_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 
-
-ENV NODE_ENV production
-
 COPY . /usr/src/app
 RUN apk --no-cache add curl tzdata
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

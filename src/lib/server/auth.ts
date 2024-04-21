@@ -3,7 +3,7 @@ import { dev } from '$app/environment';
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 import { db } from './db/db';
 import { session, user } from './db/schema';
-import { Google, Facebook } from 'arctic';
+import { Google } from 'arctic';
 import { PUBLIC_BASE_URL } from '$env/static/public';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 

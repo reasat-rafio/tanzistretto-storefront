@@ -13,14 +13,14 @@ RUN --mount=type=secret,id=PUBLIC_SANITY_PROJECT_ID \
   --mount=type=secret,id=FACEBOOK_CLIENT_ID \
   --mount=type=secret,id=FACEBOOK_CLIENT_SECRET \
   --mount=type=secret,id=DATABASE_URL \
-  export API_ENDPOINT=$(cat /run/secrets/PUBLIC_SANITY_PROJECT_ID) && \
-  export API_ENDPOINT=$(cat /run/secrets/PUBLIC_SANITY_DATASET) && \
-  export API_ENDPOINT=$(cat /run/secrets/PUBLIC_BASE_URL) && \
-  export API_ENDPOINT=$(cat /run/secrets/GOOGLE_CLIENT_SECRET) && \
-  export API_ENDPOINT=$(cat /run/secrets/GOOGLE_CLIENT_ID) && \
-  export API_ENDPOINT=$(cat /run/secrets/FACEBOOK_CLIENT_ID) && \
-  export API_ENDPOINT=$(cat /run/secrets/FACEBOOK_CLIENT_SECRET) && \
-  export API_PASSWORD=$(cat /run/secrets/DATABASE_URL) && \
+  export PUBLIC_SANITY_PROJECT_ID=$(cat /run/secrets/PUBLIC_SANITY_PROJECT_ID) && \
+  export PUBLIC_SANITY_DATASET=$(cat /run/secrets/PUBLIC_SANITY_DATASET) && \
+  export PUBLIC_BASE_URL=$(cat /run/secrets/PUBLIC_BASE_URL) && \
+  export GOOGLE_CLIENT_SECRET=$(cat /run/secrets/GOOGLE_CLIENT_SECRET) && \
+  export GOOGLE_CLIENT_ID=$(cat /run/secrets/GOOGLE_CLIENT_ID) && \
+  export FACEBOOK_CLIENT_ID=$(cat /run/secrets/FACEBOOK_CLIENT_ID) && \
+  export FACEBOOK_CLIENT_SECRET=$(cat /run/secrets/FACEBOOK_CLIENT_SECRET) && \
+  export DATABASE_URL=$(cat /run/secrets/DATABASE_URL) && \
   echo "here i am" && \
   echo $DATABASE_URL
 

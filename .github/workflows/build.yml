@@ -32,6 +32,15 @@ jobs:
       - name: Deploy on CapRover
         uses: caprover/deploy-from-github@v1.1.2
         with:
+          secrets: |
+            "PUBLIC_SANITY_PROJECT_ID=${{ secrets.PUBLIC_SANITY_PROJECT_ID }}"
+            "PUBLIC_SANITY_DATASET=${{ secrets.PUBLIC_SANITY_DATASET }}"
+            "PUBLIC_BASE_URL=${{ secrets.PUBLIC_BASE_URL }}"
+            "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}"
+            "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}"
+            "FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}"
+            "FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}"
+            "DATABASE_URL=${{ secrets.DATABASE_URL }}"
           server: https://tanzistretto.com
           app: 'storefront'
           token: '${{ secrets.APP_TOKEN }}'

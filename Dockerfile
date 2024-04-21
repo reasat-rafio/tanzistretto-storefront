@@ -24,6 +24,7 @@ ENV FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
 ENV FACEBOOK_CLIENT_SECRET=${FACEBOOK_CLIENT_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 
+
 COPY . /usr/src/app
 RUN apk --no-cache add curl tzdata
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -31,7 +32,7 @@ RUN npm install -g pnpm
 RUN pnpm i
 RUN pnpm run build
 
-FROM node:19.7-alpine
+FROM node:21-alpine3.18
 WORKDIR /usr/src/app
 
 ARG TZ=Europe/Stockholm

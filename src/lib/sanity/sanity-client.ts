@@ -1,5 +1,3 @@
-import { PUBLIC_SANITY_DATASET } from '$env/static/public';
-
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';

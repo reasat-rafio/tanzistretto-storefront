@@ -4,16 +4,15 @@ import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 import { db } from './db/db';
 import { session, user } from './db/schema';
 import { Google } from 'arctic';
-import { PUBLIC_BASE_URL } from '$env/static/public';
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
-
+import { env as pubEnv } from '$env/dynamic/public';
+import { env as priEnv } from '$env/dynamic/private';
 const adapter = new DrizzlePostgreSQLAdapter(db, session, user);
 
-const redirectUrl = `${PUBLIC_BASE_URL}/auth/callback/google`;
+const redirectUrl = `${pubEnv.PUBLIC_BASE_URL}/auth/callback/google`;
 
 export const google = new Google(
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
+  priEnv.GOOGLE_CLIENT_ID,
+  priEnv.GOOGLE_CLIENT_SECRET,
   redirectUrl,
 );
 

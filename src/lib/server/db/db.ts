@@ -1,10 +1,11 @@
-import { DATABASE_URL } from '$env/static/private';
+import { env } from '$env/dynamic/private';
+
 import * as schema from './schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 
 const client = new pg.Client({
-  connectionString: DATABASE_URL,
+  connectionString: env.DATABASE_URL,
 });
 
 await client.connect();

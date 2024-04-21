@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 ARG TZ=Europe/Stockholm
 ARG PUBLIC_HELLO
 
+ENV NODE_ENV production
+
 COPY . /usr/src/app
 RUN apk --no-cache add curl tzdata
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

@@ -1,15 +1,12 @@
-import {
-  PUBLIC_SANITY_DATASET,
-  PUBLIC_SANITY_PROJECT_ID,
-} from '$env/static/public';
+import { PUBLIC_SANITY_DATASET } from '$env/static/public';
 
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export const sanityClient = createClient({
-  projectId: PUBLIC_SANITY_PROJECT_ID ?? '12fv2wdd',
-  dataset: PUBLIC_SANITY_DATASET ?? 'production',
+  projectId: '12fv2wdd',
+  dataset: 'production',
   apiVersion: '2021-10-21',
   useCdn: process.env.NODE_ENV === 'production',
 });

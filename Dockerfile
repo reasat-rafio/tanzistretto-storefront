@@ -20,7 +20,9 @@ RUN --mount=type=secret,id=PUBLIC_SANITY_PROJECT_ID \
   export API_ENDPOINT=$(cat /run/secrets/GOOGLE_CLIENT_ID) && \
   export API_ENDPOINT=$(cat /run/secrets/FACEBOOK_CLIENT_ID) && \
   export API_ENDPOINT=$(cat /run/secrets/FACEBOOK_CLIENT_SECRET) && \
-  export API_PASSWORD=$(cat /run/secrets/DATABASE_URL)
+  export API_PASSWORD=$(cat /run/secrets/DATABASE_URL) && \
+  echo "here i am" && \
+  echo $DATABASE_URL
 
 COPY . /usr/src/app
 RUN apk --no-cache add curl tzdata

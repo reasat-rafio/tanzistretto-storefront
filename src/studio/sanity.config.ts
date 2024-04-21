@@ -8,7 +8,7 @@ import { colorInput } from '@sanity/color-input';
 
 export default defineConfig([
   {
-    projectId: PUBLIC_SANITY_PROJECT_ID,
+    projectId: PUBLIC_SANITY_PROJECT_ID ?? '12fv2wdd',
     dataset: 'production',
     name: 'production-workspace',
     basePath: '/studio/production',
@@ -24,7 +24,7 @@ export default defineConfig([
     },
   },
   {
-    projectId: PUBLIC_SANITY_PROJECT_ID,
+    projectId: PUBLIC_SANITY_PROJECT_ID ?? '12fv2wdd',
     dataset: 'staging',
     name: 'staging-workspace',
     basePath: '/studio/staging',

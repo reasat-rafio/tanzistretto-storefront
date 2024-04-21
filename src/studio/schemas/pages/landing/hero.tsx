@@ -1,5 +1,5 @@
+import { alt } from '$studio/lib/alt';
 import { SiHomeadvisor } from 'react-icons/si';
-import { alt } from '../$lib/alt';
 import type { ObjectRule } from 'sanity';
 
 const hero = {

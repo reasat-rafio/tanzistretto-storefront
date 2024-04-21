@@ -1,4 +1,4 @@
-import { sanityClient } from '../../../$lib/sanity/sanity-client';
+import { sanityClient } from '$lib/sanity/sanity-client';
 import { alt } from '$studio/lib/alt';
 import { orderRankField } from '@sanity/orderable-document-list';
 import { MdCollectionsBookmark } from 'react-icons/md';

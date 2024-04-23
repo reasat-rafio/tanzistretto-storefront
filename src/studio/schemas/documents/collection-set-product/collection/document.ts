@@ -43,7 +43,7 @@ const collection = defineType({
       validation: (rule) => rule.required(),
     },
     {
-      name: 'new',
+      name: 'isNew',
       type: 'boolean',
       initialValue: false,
       validation: (rule) => rule.required(),

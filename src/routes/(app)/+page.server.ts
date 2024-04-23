@@ -15,6 +15,20 @@ import { address } from '$lib/server/db/schema';
 import { generateId } from 'lucia';
 import { eq } from 'drizzle-orm';
 
+const productsQuery = groq`
+  price,
+  ${asset('images[0]', { as: 'image' })},
+  color->{
+    name,
+    color,
+    value
+  },
+  products[]->{
+    _id,
+    slug,
+  }
+`;
+
 async function getSanityHomePageData(): Promise<LandingPageProps> {
   const sanityQuery = groq`
 	*[_id == "landingPage"][0]{
@@ -23,6 +37,48 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
 			...,
 			${asset('image')},
 		},
+    "favoriteCollection": *[_type == "collection" && slug.current == "our-favorites"][0]{
+      title,
+      active,
+      slug,
+      isNew,
+      slug,
+       sets[0...10]->{
+        title,
+        slug,
+        active,
+        isNew,
+        outOfStock,
+        price,
+        ${asset('mainImage')},
+        defaultVariant {
+          price,
+          ${asset('images[0]', { as: 'image' })},
+          color->{
+            name,
+            color,
+            value
+          },
+          products[]->{
+            _id,
+            slug,
+          }
+        },
+        variants[]->{
+          price,
+          ${asset('images[0]', { as: 'image' })},
+          color->{
+            name,
+            color,
+            value
+          },
+          products[]->{
+            _id,
+            slug,
+          }
+        },
+      }
+    }
 	}
 `;
 
@@ -30,11 +86,8 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
 }
 
 export const load: PageServerLoad = async () => {
-  // const products = await medusa.getProducts({ limit: 1 });
-
   return {
     page: await getSanityHomePageData(),
-    // products,
   };
 };
 

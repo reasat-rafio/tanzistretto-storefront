@@ -36,49 +36,49 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
 		sections[] {
 			...,
 			${asset('image')},
-		},
-    "favoriteCollection": *[_type == "collection" && slug.current == "our-favorites"][0]{
-      title,
-      active,
-      slug,
-      isNew,
-      slug,
-       sets[0...10]->{
+      collection->{
         title,
-        slug,
         active,
+        slug,
         isNew,
-        outOfStock,
-        price,
-        ${asset('mainImage')},
-        defaultVariant {
+        slug,
+        sets[0...10]->{
+          title,
+          slug,
+          active,
+          isNew,
+          outOfStock,
           price,
-          ${asset('images[0]', { as: 'image' })},
-          color->{
-            name,
-            color,
-            value
+          ${asset('mainImage')},
+          defaultVariant {
+            price,
+            ${asset('images[0]', { as: 'image' })},
+            color->{
+              name,
+              color,
+              value
+            },
+            products[]->{
+              _id,
+              slug,
+            }
           },
-          products[]->{
-            _id,
-            slug,
-          }
-        },
-        variants[]->{
-          price,
-          ${asset('images[0]', { as: 'image' })},
-          color->{
-            name,
-            color,
-            value
+          variants[]->{
+            price,
+            ${asset('images[0]', { as: 'image' })},
+            color->{
+              name,
+              color,
+              value
+            },
+            products[]->{
+              _id,
+              slug,
+            }
           },
-          products[]->{
-            _id,
-            slug,
-          }
-        },
+        }
       }
-    }
+		},
 	}
 `;
 

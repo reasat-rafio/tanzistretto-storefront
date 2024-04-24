@@ -1,33 +1,19 @@
 import { sanityClient } from '$lib/sanity/sanity-client';
 import { asset } from '$lib/sanity/sanity-image';
+import { db } from '$lib/server/db/db';
+import { address } from '$lib/server/db/schema';
 import type { LandingPageProps } from '$lib/types/landing.types';
-import groq from 'groq';
-import type { PageServerLoad } from './$types';
-import type { Actions } from '@sveltejs/kit';
-import { message, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
 import {
   addCustomerDeliveryAddress,
   updateCustomerDeliveryAddress,
 } from '$lib/utils/validators';
-import { db } from '$lib/server/db/db';
-import { address } from '$lib/server/db/schema';
-import { generateId } from 'lucia';
+import type { Actions } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-
-const productsQuery = groq`
-  price,
-  ${asset('images[0]', { as: 'image' })},
-  color->{
-    name,
-    color,
-    value
-  },
-  products[]->{
-    _id,
-    slug,
-  }
-`;
+import groq from 'groq';
+import { generateId } from 'lucia';
+import { zod } from 'sveltekit-superforms/adapters';
+import { message, superValidate } from 'sveltekit-superforms/server';
+import type { PageServerLoad } from './$types';
 
 async function getSanityHomePageData(): Promise<LandingPageProps> {
   const sanityQuery = groq`
@@ -50,7 +36,7 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
           outOfStock,
           price,
           ${asset('mainImage')},
-          defaultVariant {
+          defaultSetVariant {
             price,
             ${asset('images[0]', { as: 'image' })},
             color->{
@@ -58,12 +44,19 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
               color,
               value
             },
-            products[]->{
-              _id,
-              slug,
+            products[] {
+              color->{
+                name,
+                color,
+                value
+              },
+              product-> {
+                _id,
+                slug,
+              }
             }
           },
-          variants[]->{
+          variants[]{
             price,
             ${asset('images[0]', { as: 'image' })},
             color->{
@@ -71,9 +64,16 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
               color,
               value
             },
-            products[]->{
-              _id,
-              slug,
+            products[] {
+              color->{
+                name,
+                color,
+                value
+              },
+              product-> {
+                _id,
+                slug,
+              }
             }
           },
         }

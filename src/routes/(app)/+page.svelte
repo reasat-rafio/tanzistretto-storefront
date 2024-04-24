@@ -10,6 +10,10 @@
       logos: { ogImage },
     },
   } = data);
+
+  $: {
+    console.log(sections);
+  }
 </script>
 
 <Seo {seo} siteOgImg={ogImage} />

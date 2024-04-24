@@ -13,7 +13,7 @@
   export let set: Set;
   export let sizes: Size[];
 
-  $: ({ outOfStock, price, slug, title, variants, isNew } = set);
+  $: ({ _id, outOfStock, price, slug, title, variants, isNew } = set);
 
   let mediaSliderApi: CarouselAPI;
   let activeVariant: Variant;
@@ -33,7 +33,7 @@
     {#if isNew}
       <Badge variant="secondary" class="absolute left-5 top-5 z-10">NEW</Badge>
     {/if}
-    <MakeFavoriteWidget />
+    <MakeFavoriteWidget {_id} />
     <Media bind:mediaSliderApi {title} {slug} {activeVariant} />
     {#if activeVariant?._key}
       <SelectSizeWidget activeVariantId={activeVariant._key} {sizes} />

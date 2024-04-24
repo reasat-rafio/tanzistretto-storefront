@@ -1,4 +1,3 @@
-import { sanityClient } from '$lib/sanity/sanity-client';
 import { alt } from '$studio/lib/alt';
 import { orderRankField } from '@sanity/orderable-document-list';
 import { MdCollectionsBookmark } from 'react-icons/md';
@@ -98,8 +97,8 @@ const collection = defineType({
       title: 'title',
       subtitle: 'price',
       media: 'thumbnail',
-      //   defaultColor: 'defaultProductVariant.color.name',
-      //   variants: 'variants',
+      defaultColor: 'variants[0].color.name',
+      variants: 'variants',
     },
   },
 });

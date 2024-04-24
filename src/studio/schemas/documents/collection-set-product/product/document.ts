@@ -122,16 +122,12 @@ const product = defineType({
     },
 
     {
-      title: 'Default variant',
-      name: 'defaultProductVariant',
-      type: 'productVariant',
-      validation: (rule) => rule.required(),
-      group: 'variants',
-    },
-    {
       name: 'variants',
       type: 'array',
       group: 'variants',
+      validation: (rule) => rule.required().unique(),
+      description: 'The first variant in the list will be the default variant.',
+
       of: [
         {
           title: 'Variant',
@@ -145,8 +141,8 @@ const product = defineType({
     select: {
       title: 'title',
       subtitle: 'price',
-      media: 'defaultProductVariant.images[0]',
-      defaultColor: 'defaultProductVariant.color.name',
+      media: 'variants[0].images[0]',
+      defaultColor: 'variants[0].color.name',
       variants: 'variants',
     },
   },

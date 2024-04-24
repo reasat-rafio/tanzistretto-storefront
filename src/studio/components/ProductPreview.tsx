@@ -22,16 +22,18 @@ function ProductPreview(p: PreviewProps) {
   const VariantColorsRef = useMemo(
     () =>
       props?.variants?.map(
-        ({ color }: { color: SanityReference }) => color._ref,
+        ({ color }: { color: SanityReference }) => color?._ref,
       ),
     [props?.variants],
   );
 
   async function getData(ref: string[]) {
-    const data = await sanityClient.fetch(
-      groq`*[_type == "colour" && _id in $ref][]{name}`,
-      { ref: ref },
-    );
+    let data;
+    if (ref)
+      data = await sanityClient.fetch(
+        groq`*[_type == "colour" && _id in $ref][]{name}`,
+        { ref: ref },
+      );
 
     return data;
   }

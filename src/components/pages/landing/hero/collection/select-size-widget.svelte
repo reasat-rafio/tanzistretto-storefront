@@ -1,30 +1,22 @@
 <script lang="ts">
   import Button from '$components/ui/button/button.svelte';
-
-  interface Size {
-    name: string;
-    code: string;
-    facet: {
-      name: string;
-    };
-  }
+  import type { Size } from '$lib/types/common.types';
 
   export let activeVariantId: string;
   export let sizes: Size[];
   // export let addItemTOBag: (size: Size) => void;
 
   async function addToBag(size: Size) {
-    try {
-      const data = await fetch('/api/add-to-bag', {
-        method: 'POST',
-        body: JSON.stringify({ variantId: activeVariantId, size }),
-      });
-
-      const res = await data.json();
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const data = await fetch('/api/add-to-bag', {
+    //     method: 'POST',
+    //     body: JSON.stringify({ variantId: activeVariantId, size }),
+    //   });
+    //   const res = await data.json();
+    //   console.log(res);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 </script>
 

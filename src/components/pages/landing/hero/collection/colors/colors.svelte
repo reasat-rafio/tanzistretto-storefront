@@ -2,13 +2,11 @@
   import * as Carousel from '$components/ui/carousel/index.js';
   import type { CarouselAPI } from '$components/ui/carousel/context.js';
   import { ChevronLeftIcon, ChevronRight } from 'lucide-svelte';
-  import type { GroupedFavProduct } from '$lib/types/landing.types';
   import Color from './color.svelte';
+  import type { Variant } from '$lib/types/landing.types';
 
-  type Variant = GroupedFavProduct['variants'][0];
+  export let activeVariant: Variant;
   export let variants: Variant[];
-  export let activeVariant: Variant | null;
-  export let reactiveActiveVariant: Variant;
 
   let colorSliderApi: CarouselAPI;
 </script>
@@ -22,9 +20,9 @@
   <div class="flex-1">
     <Carousel.Root bind:api={colorSliderApi} opts={{ watchDrag: false }}>
       <Carousel.Content class="-ml-0 ">
-        {#each variants as variant (variant.id)}
+        {#each variants as variant}
           <Carousel.Item class="flex basis-auto p-1.5">
-            <Color bind:activeVariant {reactiveActiveVariant} {variant} />
+            <Color bind:activeVariant {variant} />
           </Carousel.Item>
         {/each}
       </Carousel.Content>

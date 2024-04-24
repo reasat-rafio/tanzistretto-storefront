@@ -1,6 +1,6 @@
 import { alt } from '$studio/lib/alt';
 import { orderRankField } from '@sanity/orderable-document-list';
-import { toggleMode } from 'mode-watcher';
+// import { toggleMode } from 'mode-watcher';
 import { BsCollection } from 'react-icons/bs';
 import { defineType } from 'sanity';
 
@@ -131,14 +131,10 @@ const set = defineType({
     },
 
     {
-      title: 'Default variant',
-      name: 'defaultSetVariant',
-      type: 'setVariant',
-      validation: (rule) => rule.required(),
-    },
-    {
       name: 'variants',
       type: 'array',
+      validation: (rule) => rule.required().unique(),
+      description: 'The first variant in the list will be the default variant.',
       of: [
         {
           title: 'Variant',

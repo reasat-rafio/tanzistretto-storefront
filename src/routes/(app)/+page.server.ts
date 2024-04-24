@@ -19,6 +19,11 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
   const sanityQuery = groq`
 	*[_id == "landingPage"][0]{
 		...,
+    "sizes" : *[_type == "size"]|order(orderRank)[]{
+      _id,
+      name,
+      value
+    },
 		sections[] {
 			...,
 			${asset('image')},
@@ -29,6 +34,7 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
         isNew,
         slug,
         sets[0...10]->{
+          _id,
           title,
           slug,
           active,
@@ -36,29 +42,10 @@ async function getSanityHomePageData(): Promise<LandingPageProps> {
           outOfStock,
           price,
           ${asset('mainImage')},
-          defaultSetVariant {
-            price,
-            ${asset('images[0]', { as: 'image' })},
-            color->{
-              name,
-              color,
-              value
-            },
-            products[] {
-              color->{
-                name,
-                color,
-                value
-              },
-              product-> {
-                _id,
-                slug,
-              }
-            }
-          },
           variants[]{
+            _key,
             price,
-            ${asset('images[0]', { as: 'image' })},
+            ${asset('images[]', { as: 'images' })},
             color->{
               name,
               color,

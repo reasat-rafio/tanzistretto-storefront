@@ -2,6 +2,7 @@ import type {
   SanityAsset,
   SanityImageObject,
 } from '@sanity/image-url/lib/types/types';
+import type { Slug } from 'sanity';
 
 export interface SeoProps {
   _type: 'seo';
@@ -35,3 +36,9 @@ export type View =
   | 'add-delivery-address'
   | 'edit-delivery-address';
 export type Direction = 'left' | 'right';
+
+export interface Size {
+  _id: string;
+  name: string;
+  value: Slug;
+}

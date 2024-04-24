@@ -54,3 +54,12 @@ export const address = pgTable('address', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
+
+// export const favorite = pgTable('favorite', {
+//   id: text('id').primaryKey(),
+//   userId: text('user_id')
+//     .notNull()
+//     .references(() => user.id),
+//   productId: text('product_id').notNull(),
+//   createdAt: timestamp('created_at').notNull().defaultNow(),
+// });

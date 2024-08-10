@@ -3,7 +3,7 @@ import * as schema from './schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 
-const client = new pg.Client({
+export const client = new pg.Client({
   connectionString: env.DATABASE_URL,
 });
 

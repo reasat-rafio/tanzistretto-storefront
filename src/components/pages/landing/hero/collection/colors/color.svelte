@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Variant } from '$lib/types/landing.types';
-  import { scale } from 'svelte/transition';
+  import { cn } from '$lib/utils/helpers';
 
   export let activeVariant: Variant;
   export let variant: Variant;
@@ -12,13 +12,8 @@
   on:click={() => {
     if (!isActive) activeVariant = variant;
   }}
-  class="relative h-4 w-4 rounded-full"
+  class={cn('relative h-4 w-4 rounded-full transition-all duration-300', {
+    'ring-2 ring-primary/50': isActive,
+  })}
   style="background-color: {variant?.color?.color?.hex};">
-  {#key activeVariant?._key}
-    <div
-      transition:scale
-      class:border={isActive}
-      class="absolute inset-0 h-full w-full scale-125 rounded-full border border-gray-800">
-    </div>
-  {/key}
 </button>

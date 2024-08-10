@@ -11,7 +11,7 @@ export const providerEnum = pgEnum('provider', ['google', 'facebook']);
 export const user = pgTable(
   'user',
   {
-    id: text('id').unique().notNull(),
+    id: text('id').notNull().unique(),
     provider: providerEnum('provider').notNull(),
     providerId: text('provider_id').notNull(),
     firstName: text('first_name').notNull(),
@@ -27,6 +27,7 @@ export const user = pgTable(
   },
 );
 
+// table.provider, table.providerId;
 export const session = pgTable('session', {
   id: text('id').primaryKey(),
   userId: text('user_id')

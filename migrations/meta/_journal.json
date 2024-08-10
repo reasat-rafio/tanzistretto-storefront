@@ -1,40 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1713533432587,
-      "tag": "0000_aspiring_overlord",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1713539219881,
-      "tag": "0001_pretty_trish_tilby",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1713539363301,
-      "tag": "0002_lush_scarlet_spider",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1713628064005,
-      "tag": "0003_volatile_mandroid",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1713986394779,
-      "tag": "0004_curious_onslaught",
+      "version": "7",
+      "when": 1723312370371,
+      "tag": "0000_secret_wild_child",
       "breakpoints": true
     }
   ]
